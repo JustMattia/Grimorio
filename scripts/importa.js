@@ -1,18 +1,18 @@
-import { parse } from 'csv-parse/sync';
-import fs from 'fs';
-import path from 'path';
+import { parse } from "csv-parse/sync";
+import fs from "fs";
+import path from "path";
 
-const INCOMING_DIR = '../incoming';
-const DATA_PATH = '../data/cards.json';
+const INCOMING_DIR = "../incoming";
+const DATA_PATH = "../data/cards.json";
 
 // --- 1. Trova i CSV in attesa di essere importati ---
 
 const fileDaImportare = fs.existsSync(INCOMING_DIR)
-  ? fs.readdirSync(INCOMING_DIR).filter((f) => f.endsWith('.csv'))
+  ? fs.readdirSync(INCOMING_DIR).filter((f) => f.endsWith(".csv"))
   : [];
 
 if (fileDaImportare.length === 0) {
-  console.log('Nessun CSV da importare.');
+  console.log("Nessun CSV da importare.");
   process.exit(0);
 }
 
@@ -22,12 +22,28 @@ if (fileDaImportare.length === 0) {
 
 async function scryfallCollection(scryfallIds) {
   const identifiers = scryfallIds.map((id) => ({ id }));
-  const res = await fetch('https://api.scryfall.com/cards/collection', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ identifiers })
+  const res = await fetch("https://api.scryfall.com/cards/collection", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "User-Agent": "la-dispensa/1.0",
+    },
+    body: JSON.stringify({ identifiers }),
   });
   const data = await res.json();
+  if (!res.ok) {
+    console.error(`Scryfall ha risposto ${res.status}:`, JSON.stringify(data));
+    return [];
+  }
+  if (data.not_found?.length) {
+    console.warn(
+      "Scryfall non ha trovato questi ID:",
+      JSON.stringify(data.not_found),
+    );
+  }
+  console.log(
+    `Scryfall: richiesti ${identifiers.length}, trovati ${data.data?.length || 0}`,
+  );
   return data.data || [];
 }
 
@@ -41,28 +57,46 @@ async function scryfallCollection(scryfallIds) {
 const ctCache = { expansions: null, blueprintsByExpansion: {} };
 
 async function cardtraderRequest(percorso) {
-  const res = await fetch(`https://api.cardtrader.com/api/v2${percorso}`, {
-    headers: { Authorization: `Bearer ${process.env.CARDTRADER_TOKEN}` }
-  });
-  return res.json();
+  if (!process.env.CARDTRADER_TOKEN) {
+    console.warn("CARDTRADER_TOKEN non impostato: salto i prezzi Cardtrader.");
+    return null;
+  }
+  try {
+    const res = await fetch(`https://api.cardtrader.com/api/v2${percorso}`, {
+      headers: { Authorization: `Bearer ${process.env.CARDTRADER_TOKEN}` },
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      console.error(
+        `Cardtrader ha risposto ${res.status} su ${percorso}:`,
+        JSON.stringify(data),
+      );
+      return null;
+    }
+    return data;
+  } catch (e) {
+    console.error(`Errore di rete verso Cardtrader (${percorso}):`, e.message);
+    return null;
+  }
 }
 
 async function findBlueprintId(cardName, setCode) {
-  if (!ctCache.expansions) {
-    ctCache.expansions = await cardtraderRequest('/expansions');
+  if (ctCache.expansions === null) {
+    ctCache.expansions = (await cardtraderRequest("/expansions")) || [];
   }
   const expansion = ctCache.expansions.find(
-    (e) => e.code?.toLowerCase() === setCode.toLowerCase()
+    (e) => e.code?.toLowerCase() === setCode.toLowerCase(),
   );
   if (!expansion) return null;
 
   if (!ctCache.blueprintsByExpansion[expansion.id]) {
-    ctCache.blueprintsByExpansion[expansion.id] = await cardtraderRequest(
-      `/blueprints/export?expansion_id=${expansion.id}`
-    );
+    ctCache.blueprintsByExpansion[expansion.id] =
+      (await cardtraderRequest(
+        `/blueprints/export?expansion_id=${expansion.id}`,
+      )) || [];
   }
   const blueprint = ctCache.blueprintsByExpansion[expansion.id].find(
-    (b) => b.name?.toLowerCase() === cardName.toLowerCase()
+    (b) => b.name?.toLowerCase() === cardName.toLowerCase(),
   );
   return blueprint ? blueprint.id : null;
 }
@@ -71,8 +105,10 @@ async function cardtraderZeroLowPrice(cardName, setCode) {
   const blueprintId = await findBlueprintId(cardName, setCode);
   if (!blueprintId) return null;
 
-  const data = await cardtraderRequest(`/marketplace/products?blueprint_id=${blueprintId}`);
-  const prodotti = data[blueprintId] || [];
+  const data = await cardtraderRequest(
+    `/marketplace/products?blueprint_id=${blueprintId}`,
+  );
+  const prodotti = (data && data[blueprintId]) || [];
   // TODO: sostituisci con il campo reale che identifica i venditori Zero
   const zero = prodotti.filter((p) => p.can_sell_via_hub || p.seller?.zero);
   const lista = zero.length ? zero : prodotti;
@@ -82,14 +118,21 @@ async function cardtraderZeroLowPrice(cardName, setCode) {
 
 // --- 4. Elabora ogni file in incoming/ e aggiorna il database condiviso ---
 
-const esistenti = fs.existsSync(DATA_PATH) ? JSON.parse(fs.readFileSync(DATA_PATH, 'utf8')) : [];
+const esistenti = fs.existsSync(DATA_PATH)
+  ? JSON.parse(fs.readFileSync(DATA_PATH, "utf8"))
+  : [];
 
 for (const nomeFile of fileDaImportare) {
-  const possessore = decodeURIComponent(nomeFile.split('__')[0]).replace(/-/g, ' ');
-  const csvText = fs.readFileSync(path.join(INCOMING_DIR, nomeFile), 'utf8');
+  const possessore = decodeURIComponent(nomeFile.split("__")[0]).replace(
+    /-/g,
+    " ",
+  );
+  const csvText = fs.readFileSync(path.join(INCOMING_DIR, nomeFile), "utf8");
   const rows = parse(csvText, { columns: true, skip_empty_lines: true });
 
-  const scryfallIds = [...new Set(rows.map((r) => r['Scryfall ID']).filter(Boolean))];
+  const scryfallIds = [
+    ...new Set(rows.map((r) => r["Scryfall ID"]).filter(Boolean)),
+  ];
   const cardsById = {};
   for (let i = 0; i < scryfallIds.length; i += 75) {
     const batch = scryfallIds.slice(i, i + 75);
@@ -98,11 +141,18 @@ for (const nomeFile of fileDaImportare) {
     await new Promise((r) => setTimeout(r, 100)); // rispetta il rate limit di Scryfall
   }
 
+  let aggiunte = 0;
   for (const row of rows) {
-    const card = cardsById[row['Scryfall ID']];
-    if (!card) continue;
+    const card = cardsById[row["Scryfall ID"]];
+    if (!card) {
+      console.warn(
+        `Nessuna corrispondenza Scryfall per la riga: ${row["Name"]} (${row["Scryfall ID"]})`,
+      );
+      continue;
+    }
+    aggiunte++;
 
-    const isFoil = row['Foil'] === 'foil';
+    const isFoil = row["Foil"] === "foil";
     const prezzoEur = isFoil ? card.prices?.eur_foil : card.prices?.eur;
     const prezzoCardmarket = prezzoEur ? parseFloat(prezzoEur) : null;
     const prezzoCardtrader = await cardtraderZeroLowPrice(card.name, card.set);
@@ -112,19 +162,24 @@ for (const nomeFile of fileDaImportare) {
       nome: card.name,
       set: card.set,
       numero: card.collector_number,
-      immagine: card.image_uris?.normal || card.card_faces?.[0]?.image_uris?.normal || null,
+      immagine:
+        card.image_uris?.normal ||
+        card.card_faces?.[0]?.image_uris?.normal ||
+        null,
       foil: isFoil,
-      quantita: parseInt(row['Quantity'] || '1', 10),
+      quantita: parseInt(row["Quantity"] || "1", 10),
       possessore,
       prezzoCardmarket,
       prezzoCardtrader,
-      aggiornatoIl: new Date().toISOString()
+      aggiornatoIl: new Date().toISOString(),
     });
   }
 
   fs.rmSync(path.join(INCOMING_DIR, nomeFile));
-  console.log(`Importate ${rows.length} righe per ${possessore} da ${nomeFile}.`);
+  console.log(
+    `${nomeFile}: ${rows.length} righe nel CSV, ${aggiunte} carte aggiunte per ${possessore}.`,
+  );
 }
 
-fs.mkdirSync('../data', { recursive: true });
+fs.mkdirSync("../data", { recursive: true });
 fs.writeFileSync(DATA_PATH, JSON.stringify(esistenti, null, 2));
