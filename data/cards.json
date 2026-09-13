@@ -1,7 +1,10 @@
 [
   {
     "scryfallId": "7d47f27d-5a25-4d2a-b2a2-027b579b881b",
-    "nome": "Tremor",
+    "nome": "Tremore",
+    "nomeIt": "Tremore",
+    "nomeEn": "Tremor",
+    "lingua": "Inglese",
     "set": "8ed",
     "numero": "228",
     "immagine": "https://cards.scryfall.io/normal/front/7/d/7d47f27d-5a25-4d2a-b2a2-027b579b881b.jpg?1783944695",
@@ -22,6 +25,9 @@
   {
     "scryfallId": "358efb1e-0366-4943-9a25-6a356e48773c",
     "nome": "Nausea",
+    "nomeIt": "Nausea",
+    "nomeEn": "Nausea",
+    "lingua": "Inglese",
     "set": "8ed",
     "numero": "148",
     "immagine": "https://cards.scryfall.io/normal/front/3/5/358efb1e-0366-4943-9a25-6a356e48773c.jpg?1783944752",
@@ -41,7 +47,10 @@
   },
   {
     "scryfallId": "513e063c-b328-4e5f-8806-b232c38645f5",
-    "nome": "Urza's Tower",
+    "nome": "Torre di Urza",
+    "nomeIt": "Torre di Urza",
+    "nomeEn": "Urza's Tower",
+    "lingua": "Inglese",
     "set": "9ed",
     "numero": "329",
     "immagine": "https://cards.scryfall.io/normal/front/5/1/513e063c-b328-4e5f-8806-b232c38645f5.jpg?1783943879",

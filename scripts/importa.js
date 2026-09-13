@@ -153,13 +153,30 @@ for (const nomeFile of fileDaImportare) {
     aggiunte++;
 
     const isFoil = row["Foil"] === "foil";
+    const rawLang = row["Language"] || row["language"] || "English";
     const prezzoEur = isFoil ? card.prices?.eur_foil : card.prices?.eur;
     const prezzoCardmarket = prezzoEur ? parseFloat(prezzoEur) : null;
     const prezzoCardtrader = await cardtraderZeroLowPrice(card.name, card.set);
 
+    let nomeItaliano = card.name;
+    try {
+      const resIt = await fetch(`https://api.scryfall.com/cards/${card.set}/${card.collector_number}/it`, {
+        headers: { "User-Agent": "Grimorio/1.0" }
+      });
+      if (resIt.ok) {
+        const itData = await resIt.json();
+        if (itData && itData.printed_name) {
+          nomeItaliano = itData.printed_name;
+        }
+      }
+    } catch (e) {}
+
     esistenti.push({
       scryfallId: card.id,
-      nome: card.name,
+      nome: nomeItaliano,
+      nomeIt: nomeItaliano,
+      nomeEn: card.name,
+      lingua: rawLang,
       set: card.set,
       numero: card.collector_number,
       immagine:
