@@ -5,6 +5,118 @@ import path from "path";
 const INCOMING_DIR = "../incoming";
 const DATA_PATH = "../data/cards.json";
 
+// Dizionario MTG ufficiale inglese -> italiano per tipi e sottotipi
+const DIZIONARIO_TIPI = {
+  "Creature": "Creatura",
+  "Artifact": "Artefatto",
+  "Enchantment": "Incantesimo",
+  "Instant": "Istantaneo",
+  "Sorcery": "Stregoneria",
+  "Land": "Terra",
+  "Planeswalker": "Planeswalker",
+  "Battle": "Battaglia",
+  "Tribal": "Tribale",
+  "Kindred": "Affine",
+  "Legendary": "Leggendario",
+  "Basic": "Base",
+  "Snow": "Neve",
+  "World": "Mondo",
+  "Aura": "Aura",
+  "Equipment": "Equipaggiamento",
+  "Vehicle": "Veicolo",
+  "Saga": "Saga",
+  "Trap": "Trappola",
+  "Siege": "Assedio",
+  "Human": "Umano",
+  "Elf": "Elfo",
+  "Goblin": "Goblin",
+  "Zombie": "Zombie",
+  "Wizard": "Mago",
+  "Warrior": "Guerriero",
+  "Soldier": "Soldato",
+  "Knight": "Cavaliere",
+  "Cleric": "Chierico",
+  "Rogue": "Furfante",
+  "Shaman": "Sciamano",
+  "Druid": "Druido",
+  "Bird": "Uccello",
+  "Insect": "Insetto",
+  "Beast": "Bestia",
+  "Dragon": "Drago",
+  "Angel": "Angelo",
+  "Demon": "Demone",
+  "Vampire": "Vampiro",
+  "Spider": "Ragno",
+  "Snake": "Serpente",
+  "Cat": "Gatto",
+  "Wolf": "Lupo",
+  "Bear": "Orso",
+  "Fish": "Pesce",
+  "Merfolk": "Tritone",
+  "Spirit": "Spirito",
+  "Elemental": "Elementale",
+  "Giant": "Gigante",
+  "Golem": "Golem",
+  "Treefolk": "Silvantropo",
+  "Dwarf": "Nano",
+  "Phyrexian": "Phyrexiano",
+  "Sliver": "Tramutante",
+  "Faerie": "Fata",
+  "Horror": "Orrore",
+  "Nightmare": "Incubo",
+  "Urza's Tower": "Torre di Urza",
+  "Urza's Mine": "Miniera di Urza",
+  "Urza's Power-Plant": "Centrale Energetica di Urza",
+  "Plains": "Pianura",
+  "Island": "Isola",
+  "Swamp": "Palude",
+  "Mountain": "Montagna",
+  "Forest": "Foresta"
+};
+
+function traduciTipo(tipoInglese) {
+  if (!tipoInglese) return "";
+  let str = tipoInglese.trim();
+  const strLow = str.toLowerCase();
+  if (strLow.includes("creatura") || strLow.includes("stregoneria") || strLow.includes("istantaneo") || strLow.includes("incantesimo") || strLow.includes("artefatto") || strLow.includes("terra")) {
+    return str;
+  }
+  const parts = str.split(/\s+[—–-]\s+/);
+  let tradMain = parts[0]
+    .replace(/Legendary Artifact Creature/g, "Creatura Artefatto Leggendaria")
+    .replace(/Legendary Enchantment Creature/g, "Creatura Incantesimo Leggendaria")
+    .replace(/Legendary Creature/g, "Creatura Leggendaria")
+    .replace(/Legendary Artifact/g, "Artefatto Leggendario")
+    .replace(/Legendary Enchantment/g, "Incantesimo Leggendario")
+    .replace(/Legendary Land/g, "Terra Leggendaria")
+    .replace(/Legendary Planeswalker/g, "Planeswalker Leggendario")
+    .replace(/Artifact Creature/g, "Creatura Artefatto")
+    .replace(/Enchantment Creature/g, "Creatura Incantesimo")
+    .replace(/Basic Land/g, "Terra Base")
+    .replace(/Basic Snow Land/g, "Terra Neve Base")
+    .replace(/Snow Land/g, "Terra Neve")
+    .replace(/Tribal Sorcery/g, "Stregoneria Tribale")
+    .replace(/Tribal Instant/g, "Istantaneo Tribale")
+    .replace(/Tribal Enchantment/g, "Incantesimo Tribale")
+    .replace(/Kindred Sorcery/g, "Stregoneria Affine")
+    .replace(/Kindred Instant/g, "Istantaneo Affine")
+    .replace(/Kindred Enchantment/g, "Incantesimo Affine");
+
+  for (const [en, it] of Object.entries(DIZIONARIO_TIPI)) {
+    const regex = new RegExp(`\\b${en}\\b`, "g");
+    tradMain = tradMain.replace(regex, it);
+  }
+
+  if (!parts[1]) return tradMain;
+
+  let tradSub = parts[1];
+  for (const [en, it] of Object.entries(DIZIONARIO_TIPI)) {
+    const regex = new RegExp(`\\b${en}\\b`, "g");
+    tradSub = tradSub.replace(regex, it);
+  }
+  return `${tradMain} — ${tradSub}`;
+}
+
 // --- 1. Trova i CSV in attesa di essere importati ---
 
 const fileDaImportare = fs.existsSync(INCOMING_DIR)
@@ -158,18 +270,43 @@ for (const nomeFile of fileDaImportare) {
     const prezzoCardmarket = prezzoEur ? parseFloat(prezzoEur) : null;
     const prezzoCardtrader = await cardtraderZeroLowPrice(card.name, card.set);
 
+    const tipoOriginale =
+      card.type_line ||
+      card.card_faces?.map((f) => f.type_line).filter(Boolean).join(" // ") ||
+      "";
     let nomeItaliano = card.name;
+    let tipoItaliano = null;
+
     try {
       const resIt = await fetch(`https://api.scryfall.com/cards/${card.set}/${card.collector_number}/it`, {
         headers: { "User-Agent": "Grimorio/1.0" }
       });
       if (resIt.ok) {
         const itData = await resIt.json();
-        if (itData && itData.printed_name) {
-          nomeItaliano = itData.printed_name;
+        if (itData) {
+          if (itData.printed_name) nomeItaliano = itData.printed_name;
+          if (itData.printed_type_line) tipoItaliano = itData.printed_type_line;
+        }
+      } else {
+        // Fallback: se il set specifico non ha edizione italiana (es. Duel Decks), cerca la carta in italiano in altri set
+        const q = encodeURIComponent(`!"${card.name}" lang:it`);
+        const resSearch = await fetch(`https://api.scryfall.com/cards/search?q=${q}`, {
+          headers: { "User-Agent": "Grimorio/1.0" }
+        });
+        if (resSearch.ok) {
+          const searchData = await resSearch.json();
+          const itCard = searchData?.data?.[0];
+          if (itCard) {
+            if (itCard.printed_name) nomeItaliano = itCard.printed_name;
+            if (itCard.printed_type_line) tipoItaliano = itCard.printed_type_line;
+          }
         }
       }
     } catch (e) {}
+
+    if (!tipoItaliano) {
+      tipoItaliano = traduciTipo(tipoOriginale);
+    }
 
     esistenti.push({
       scryfallId: card.id,
@@ -188,10 +325,8 @@ for (const nomeFile of fileDaImportare) {
         card.card_faces?.map((f) => f.mana_cost).filter(Boolean).join(" // ") ||
         "",
       cmc: card.cmc ?? 0,
-      tipo:
-        card.type_line ||
-        card.card_faces?.map((f) => f.type_line).filter(Boolean).join(" // ") ||
-        "",
+      tipo: tipoOriginale,
+      tipoIt: tipoItaliano || tipoOriginale,
       colori:
         card.colors ||
         card.card_faces?.[0]?.colors ||

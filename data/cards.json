@@ -20,7 +20,8 @@
     "colori": [
       "R"
     ],
-    "rarita": "common"
+    "rarita": "common",
+    "tipoIt": "Stregoneria"
   },
   {
     "scryfallId": "513e063c-b328-4e5f-8806-b232c38645f5",
@@ -41,7 +42,8 @@
     "cmc": 0,
     "tipo": "Land — Urza's Tower",
     "colori": [],
-    "rarita": "uncommon"
+    "rarita": "uncommon",
+    "tipoIt": "Terra — Torre di Urza"
   },
   {
     "scryfallId": "58f9eb25-4140-4ecf-bcaa-1b193d884007",
@@ -64,7 +66,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.07,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:21.452Z"
+    "aggiornatoIl": "2026-09-13T12:23:21.452Z",
+    "tipoIt": "Istantaneo"
   },
   {
     "scryfallId": "f94aa774-9036-4016-8880-4bde2710cb90",
@@ -87,7 +90,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.17,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:22.025Z"
+    "aggiornatoIl": "2026-09-13T12:23:22.025Z",
+    "tipoIt": "Istantaneo"
   },
   {
     "scryfallId": "ca363409-cba9-43ed-bf88-3519521e1983",
@@ -110,7 +114,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.05,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:22.826Z"
+    "aggiornatoIl": "2026-09-13T12:23:22.826Z",
+    "tipoIt": "Creatura — Soldato Uccello"
   },
   {
     "scryfallId": "be9299cc-6f21-4185-ac63-2fd92e843faa",
@@ -133,12 +138,13 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.11,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:23.440Z"
+    "aggiornatoIl": "2026-09-13T12:23:23.440Z",
+    "tipoIt": "Creatura — Insetto"
   },
   {
     "scryfallId": "833211c0-3bec-4548-97a0-c9381660cd88",
-    "nome": "Cloudcrown Oak",
-    "nomeIt": "Cloudcrown Oak",
+    "nome": "Quercia Nembochiomata",
+    "nomeIt": "Quercia Nembochiomata",
     "nomeEn": "Cloudcrown Oak",
     "lingua": "it",
     "set": "dds",
@@ -156,7 +162,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.18,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:24.342Z"
+    "aggiornatoIl": "2026-09-13T12:23:24.342Z",
+    "tipoIt": "Creatura — Guerriero Silvantropo"
   },
   {
     "scryfallId": "ee04dfd8-e704-46d7-bdf8-b0b2ee747a49",
@@ -179,7 +186,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.03,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:25.267Z"
+    "aggiornatoIl": "2026-09-13T12:23:25.267Z",
+    "tipoIt": "Creatura — Ragno"
   },
   {
     "scryfallId": "d4f6214f-90cb-4575-b221-3c8d0ed65ffe",
@@ -202,12 +210,13 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.02,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:26.431Z"
+    "aggiornatoIl": "2026-09-13T12:23:26.431Z",
+    "tipoIt": "Creatura — Mago Umano"
   },
   {
     "scryfallId": "109a4596-552a-45dc-88a6-41810d078d66",
-    "nome": "Pitfall Trap",
-    "nomeIt": "Pitfall Trap",
+    "nome": "Trappola a Fossa",
+    "nomeIt": "Trappola a Fossa",
     "nomeEn": "Pitfall Trap",
     "lingua": "it",
     "set": "mm3",
@@ -225,7 +234,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:27.489Z"
+    "aggiornatoIl": "2026-09-13T12:23:27.489Z",
+    "tipoIt": "Istantaneo — Trappola"
   },
   {
     "scryfallId": "64cd3ee0-d893-4346-98b6-7d7896ad7663",
@@ -248,6 +258,7 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.07,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T12:23:28.392Z"
+    "aggiornatoIl": "2026-09-13T12:23:28.392Z",
+    "tipoIt": "Creatura — Spirito"
   }
 ]
