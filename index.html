@@ -8,29 +8,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
     rel="stylesheet"
   />
   <style>
     :root {
-      --bg: #0d0c11;
-      --panel: #16151e;
-      --panel-elevated: #1d1b27;
-      --panel-border: #2c2a38;
-      --panel-border-subtle: #211f2c;
+      --bg: #0c0b10;
+      --panel: #15141c;
+      --panel-elevated: #1b1a24;
+      --panel-border: #272533;
+      --panel-border-subtle: #1e1d28;
       --ink: #f4f2ec;
       --ink-dim: #9b98a7;
       --ink-muted: #6b6878;
-      --gold: #d4af37;
-      --gold-bright: #fcd34d;
-      --gold-dark: #b45309;
-      --gold-glow: rgba(212, 175, 55, 0.25);
+      
+      /* Giallo solido semplice, nessun gradiente */
+      --yellow: #facc15;
+      --yellow-hover: #eab308;
+      --yellow-dark: #ca8a04;
+      --yellow-subtle: rgba(250, 204, 21, 0.12);
       
       /* Colori Possessori */
-      --owner-mattia: #f59e0b;
+      --owner-mattia: #facc15;
       --owner-laura: #14b8a6;
       --owner-matteo: #c084fc;
-      --owner-default: #d4af37;
+      --owner-default: #facc15;
 
       --radius-sm: 6px;
       --radius-md: 10px;
@@ -38,9 +40,8 @@
       --radius-full: 9999px;
       
       --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-      --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.45);
-      --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.6);
-      --shadow-glow: 0 0 24px var(--gold-glow);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+      --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.7);
     }
 
     * {
@@ -54,192 +55,210 @@
       font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height: 100vh;
       line-height: 1.5;
-      background-image: 
-        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(212, 175, 55, 0.09), transparent 70%),
-        radial-gradient(ellipse 40% 30% at 90% 20%, rgba(20, 184, 166, 0.05), transparent 60%);
-      background-attachment: fixed;
+    }
+
+    /* Flash Banner di notifica ricaricamento */
+    .flash-banner {
+      background: #065f46;
+      color: #ecfdf5;
+      border-bottom: 1px solid #059669;
+      padding: 0.65rem 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .flash-banner button {
+      background: transparent;
+      border: none;
+      color: #ecfdf5;
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0 0.4rem;
+      line-height: 1;
     }
 
     /* Container */
     header,
-    main,
-    .pannello-carico {
+    main {
       max-width: 1200px;
       margin: 0 auto;
       padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
 
-    header {
-      padding-top: 2.5rem;
-      padding-bottom: 1.8rem;
+    /* === HEADER UNICO E COMPATTO === */
+    header.app-header {
+      padding-top: 1.5rem;
+      padding-bottom: 1.2rem;
     }
 
-    /* Header Title */
-    .titolo-area {
+    .header-top {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      gap: 1rem;
+      margin-bottom: 1rem;
     }
 
-    .brand h1 {
-      font-family: "Cinzel", Georgia, serif;
-      font-weight: 700;
-      font-size: 2.5rem;
-      margin: 0 0 0.4rem;
-      letter-spacing: 0.04em;
-      background: linear-gradient(135deg, #ffffff 0%, #e2ded5 40%, var(--gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 20px rgba(212, 175, 55, 0.15);
-    }
-
-    .brand .sottotitolo {
-      color: var(--ink-dim);
-      font-size: 0.95rem;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .brand .sottotitolo::before {
-      content: "";
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gold);
-      box-shadow: 0 0 8px var(--gold);
-    }
-
-    /* Stat Valore Monetario */
-    .stat-hero {
-      background: linear-gradient(145deg, #1d1b26 0%, #161520 100%);
-      border: 1px solid rgba(212, 175, 55, 0.28);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem 1.75rem;
-      box-shadow: var(--shadow-md), var(--shadow-glow);
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      min-width: 260px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-hero::after {
-      content: "";
-      position: absolute;
-      top: -30%;
-      right: -20%;
-      width: 140px;
-      height: 140px;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.18), transparent 70%);
-      pointer-events: none;
-    }
-
-    .stat-hero-etichetta {
-      font-size: 0.76rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gold-bright);
-      font-weight: 700;
-      margin-bottom: 0.35rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .stat-hero-valore-row {
+    .brand-stat-group {
       display: flex;
       align-items: baseline;
-      gap: 0.25rem;
+      flex-wrap: wrap;
+      gap: 1.25rem;
     }
 
-    .stat-hero-simbolo {
-      font-family: "Outfit", sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--gold);
-    }
-
-    .stat-hero-cifra {
+    /* Titolo Grimorio: stesso font del totale, giallo semplice solido, nessun gradiente */
+    h1.titolo-grimorio {
       font-family: "Outfit", sans-serif;
       font-weight: 800;
-      font-size: 2.8rem;
+      font-size: 2.2rem;
+      color: var(--yellow);
+      margin: 0;
       line-height: 1;
-      letter-spacing: -0.03em;
-      font-variant-numeric: tabular-nums;
-      background: linear-gradient(135deg, #ffffff 0%, #fef08a 40%, #f59e0b 90%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
     }
 
-    .stat-hero-sub {
+    /* Statistica Totale Collezione compatta */
+    .stat-pill {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-full);
+      padding: 0.3rem 0.85rem;
+    }
+
+    .stat-simbolo {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--yellow);
+    }
+
+    .stat-cifra {
+      font-family: "Outfit", sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      line-height: 1;
+      color: var(--yellow);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-divider {
+      color: var(--ink-muted);
+      font-size: 0.85rem;
+      margin: 0 0.15rem;
+    }
+
+    .stat-sub {
       color: var(--ink-dim);
-      font-size: 0.84rem;
-      margin-top: 0.5rem;
+      font-size: 0.82rem;
       font-weight: 500;
     }
 
-    /* Barra Toolbar (Filtri, Ricerca, Switch vista) */
+    /* Tasto Carica: giallo solido semplice, nessun gradiente */
+    .btn-apri-carica {
+      background: var(--yellow);
+      color: #0c0b10;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.52rem 1.15rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-apri-carica:hover {
+      background: var(--yellow-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-apri-carica:active {
+      transform: translateY(0);
+    }
+
+    /* === TOOLBAR COMPATTA: Ricerca + Switch Vista + Tasto Filtri === */
     .toolbar {
       background: var(--panel);
       border: 1px solid var(--panel-border);
       border-radius: var(--radius-md);
-      padding: 1rem 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
       box-shadow: var(--shadow-sm);
+      overflow: hidden;
     }
 
-    .toolbar-prima-riga {
+    .toolbar-main {
       display: flex;
       gap: 0.75rem;
-      flex-wrap: wrap;
       align-items: center;
+      padding: 0.65rem 0.85rem;
+      flex-wrap: wrap;
     }
 
     .ricerca-wrap {
-      flex: 1 1 260px;
+      flex: 1 1 240px;
       position: relative;
+      display: flex;
+      align-items: center;
     }
 
     .ricerca-wrap svg {
       position: absolute;
-      left: 0.9rem;
-      top: 50%;
-      transform: translateY(-50%);
+      left: 0.8rem;
       color: var(--ink-muted);
       pointer-events: none;
     }
 
     .ricerca-wrap input {
       width: 100%;
-      background: #100f16;
+      background: #0f0e15;
       border: 1px solid var(--panel-border);
       border-radius: var(--radius-sm);
       color: var(--ink);
-      font-size: 0.92rem;
-      padding: 0.62rem 0.8rem 0.62rem 2.4rem;
+      font-size: 0.9rem;
+      padding: 0.52rem 2.2rem 0.52rem 2.35rem;
       outline: none;
-      transition: all 0.2s ease;
+      transition: border-color 0.15s ease;
     }
 
     .ricerca-wrap input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+      border-color: var(--yellow);
+    }
+
+    .btn-clear-search {
+      position: absolute;
+      right: 0.6rem;
+      background: transparent;
+      border: none;
+      color: var(--ink-dim);
+      font-size: 0.95rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    .btn-clear-search:hover {
+      color: #ffffff;
     }
 
     /* Switch Lista / Griglia */
     .vista-switch {
       display: inline-flex;
-      background: #100f16;
+      background: #0f0e15;
       border: 1px solid var(--panel-border);
       border-radius: var(--radius-sm);
       padding: 3px;
@@ -250,8 +269,8 @@
       background: transparent;
       border: none;
       color: var(--ink-dim);
-      padding: 0.45rem 0.85rem;
-      font-size: 0.86rem;
+      padding: 0.42rem 0.8rem;
+      font-size: 0.84rem;
       font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
@@ -267,50 +286,93 @@
 
     .btn-vista.active {
       background: var(--panel-elevated);
-      color: var(--gold-bright);
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+      color: var(--yellow);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     }
 
-    /* Riga Filtri & Ordinamento */
-    .toolbar-filtri {
+    /* Tasto Filtri (Mostra / Nascondi) */
+    .btn-filtri {
+      background: #0f0e15;
+      border: 1px solid var(--panel-border);
+      color: var(--ink-dim);
+      padding: 0.48rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-filtri:hover,
+    .btn-filtri.active {
+      color: var(--yellow);
+      border-color: rgba(250, 204, 21, 0.4);
+      background: var(--yellow-subtle);
+    }
+
+    .badge-filtri-attivi {
+      background: var(--yellow);
+      color: #0c0b10;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.05rem 0.4rem;
+      border-radius: var(--radius-full);
+      line-height: 1.2;
+    }
+
+    /* Pannello Filtri a scomparsa (accordion) */
+    .filtri-drawer {
+      border-top: 1px solid var(--panel-border);
+      background: #111018;
+      padding: 0.85rem 1rem;
+      animation: fadeInDrawer 0.2s ease-out;
+    }
+
+    @keyframes fadeInDrawer {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .filtri-griglia {
       display: flex;
       flex-wrap: wrap;
       gap: 0.65rem;
       align-items: center;
-      padding-top: 0.75rem;
-      border-top: 1px solid var(--panel-border-subtle);
     }
 
-    .filtro-gruppo {
+    .filtro-item {
       display: flex;
       align-items: center;
       gap: 0.45rem;
-      background: #100f16;
+      background: #0c0b10;
       border: 1px solid var(--panel-border);
       border-radius: var(--radius-sm);
       padding: 0.25rem 0.65rem;
     }
 
-    .filtro-gruppo label {
-      font-size: 0.75rem;
+    .filtro-item label {
+      font-size: 0.74rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--ink-muted);
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .filtro-gruppo select {
+    .filtro-item select {
       background: transparent;
       border: none;
       color: var(--ink);
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 500;
       outline: none;
       cursor: pointer;
       padding: 0.3rem 0.2rem;
     }
 
-    .filtro-gruppo select option {
+    .filtro-item select option {
       background: var(--panel);
       color: var(--ink);
     }
@@ -319,7 +381,7 @@
       background: transparent;
       border: 1px dashed var(--panel-border);
       color: var(--ink-dim);
-      padding: 0.45rem 0.75rem;
+      padding: 0.45rem 0.8rem;
       border-radius: var(--radius-sm);
       font-size: 0.8rem;
       cursor: pointer;
@@ -333,69 +395,111 @@
       background: rgba(239, 68, 68, 0.08);
     }
 
-    /* Pannello Caricamento Carte */
-    .pannello-carico {
-      margin-bottom: 2rem;
+    /* === MODAL POPUP DI CARICAMENTO === */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(5px);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: modalFadeIn 0.2s ease-out;
     }
 
-    .pannello-carico-inner {
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-card {
       background: var(--panel);
       border: 1px solid var(--panel-border);
-      border-radius: var(--radius-md);
-      padding: 1.25rem 1.5rem;
-      position: relative;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 540px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
     }
 
-    .pannello-carico-inner h2 {
-      font-family: "Cinzel", Georgia, serif;
-      font-size: 1.15rem;
-      margin: 0 0 1rem;
-      font-weight: 600;
-      color: var(--ink);
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .pannello-carico-inner h2 svg {
-      color: var(--gold);
+    .modal-header h2 svg {
+      color: var(--yellow);
     }
 
-    .controlli-carico {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.9rem;
-      align-items: flex-end;
+    .btn-modal-chiudi {
+      background: transparent;
+      border: none;
+      color: var(--ink-dim);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+      line-height: 1;
+      border-radius: 4px;
+    }
+
+    .btn-modal-chiudi:hover {
+      color: #ffffff;
+      background: #252331;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
     }
 
     .campo-form {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.4rem;
+      margin-bottom: 1.1rem;
     }
 
     .campo-form label {
-      font-size: 0.76rem;
+      font-size: 0.78rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--ink-dim);
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .campo-form select,
     .campo-form input[type="file"] {
-      background: #100f16;
+      background: #0f0e15;
       border: 1px solid var(--panel-border);
       border-radius: var(--radius-sm);
       color: var(--ink);
-      padding: 0.55rem 0.85rem;
-      font-size: 0.9rem;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.92rem;
       outline: none;
+      transition: border-color 0.15s ease;
     }
 
-    .campo-form select {
-      min-width: 170px;
-      cursor: pointer;
+    .campo-form select:focus,
+    .campo-form input[type="file"]:focus {
+      border-color: var(--yellow);
     }
 
     .campo-form select option {
@@ -403,46 +507,182 @@
       color: var(--ink);
     }
 
-    .btn-carica {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    /* Pulsante Invia Caricamento: solido giallo semplice */
+    .btn-invia-carica {
+      background: var(--yellow);
       border: none;
-      color: #171018;
+      color: #0c0b10;
+      font-family: "Outfit", sans-serif;
       font-weight: 700;
-      padding: 0.62rem 1.35rem;
+      padding: 0.75rem 1.4rem;
       border-radius: var(--radius-sm);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       cursor: pointer;
+      width: 100%;
+      margin-top: 0.4rem;
+      transition: background-color 0.15s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-invia-carica:hover {
+      background: var(--yellow-hover);
+    }
+
+    .btn-invia-carica:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .meta-token-info {
+      color: var(--ink-muted);
+      font-size: 0.8rem;
+      margin: 1.1rem 0 0;
+      line-height: 1.45;
+      border-top: 1px solid var(--panel-border-subtle);
+      padding-top: 0.85rem;
+    }
+
+    /* Sezione Progresso Live nel Popup */
+    .progresso-container {
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .progresso-barra-wrap {
+      flex: 1;
+      height: 9px;
+      background: #0f0e15;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      border: 1px solid var(--panel-border);
+    }
+
+    .progresso-barra {
+      height: 100%;
+      background: var(--yellow);
+      border-radius: var(--radius-full);
+      transition: width 0.35s ease;
+    }
+
+    .progresso-percentuale {
+      font-family: "Outfit", sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--yellow);
+      min-width: 42px;
+      text-align: right;
+    }
+
+    .stato-task-box {
+      margin-top: 1.25rem;
+      background: #0f0e15;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .spinner-caricamento {
+      width: 22px;
+      height: 22px;
+      border: 3px solid rgba(250, 204, 21, 0.2);
+      border-top-color: var(--yellow);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .stato-icona-success {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #10b981;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .stato-task-dettagli {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      flex: 1;
+    }
+
+    .stato-task-titolo {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: #ffffff;
+    }
+
+    .stato-task-desc {
+      font-size: 0.8rem;
+      color: var(--ink-dim);
+    }
+
+    .task-log-box {
+      margin-top: 0.85rem;
+      background: #0a090e;
+      border: 1px solid var(--panel-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      max-height: 120px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.78rem;
+      color: var(--ink-dim);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .task-log-riga.active {
+      color: var(--yellow);
+    }
+
+    .task-log-riga.done {
+      color: #10b981;
+    }
+
+    .task-log-riga.error {
+      color: #ef4444;
+    }
+
+    /* === ICONE DI MANA UFFICIALI (SVG SCRYFALL) === */
+    .mana-costo {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+      gap: 2px;
+      flex-wrap: wrap;
+      vertical-align: middle;
     }
 
-    .btn-carica:hover {
-      filter: brightness(1.12);
-      transform: translateY(-1px);
+    .mana-sym-img {
+      width: 19px;
+      height: 19px;
+      display: inline-block;
+      vertical-align: middle;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      flex-shrink: 0;
+      user-select: none;
     }
 
-    .btn-carica:active {
-      transform: translateY(0);
-    }
-
-    .meta-caricamento {
+    .mana-empty {
       color: var(--ink-muted);
-      font-size: 0.82rem;
-      margin: 0.85rem 0 0;
-      line-height: 1.4;
-    }
-
-    .meta-caricamento.success {
-      color: #34d399;
-      font-weight: 600;
-    }
-
-    .meta-caricamento.error {
-      color: #f87171;
-      font-weight: 600;
+      font-size: 0.85rem;
     }
 
     /* Badges Possessore */
@@ -466,9 +706,9 @@
     }
 
     .badge-possessore.mattia {
-      background: rgba(245, 158, 11, 0.12);
-      color: #fbbf24;
-      border-color: rgba(245, 158, 11, 0.3);
+      background: rgba(250, 204, 21, 0.12);
+      color: #facc15;
+      border-color: rgba(250, 204, 21, 0.3);
     }
 
     .badge-possessore.laura {
@@ -484,46 +724,12 @@
     }
 
     .badge-possessore.altro {
-      background: rgba(212, 175, 55, 0.12);
-      color: #d4af37;
-      border-color: rgba(212, 175, 55, 0.3);
+      background: rgba(250, 204, 21, 0.12);
+      color: var(--yellow);
+      border-color: rgba(250, 204, 21, 0.3);
     }
 
-    /* Simboli di Mana Grafici */
-    .mana-costo {
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-      flex-wrap: wrap;
-    }
-
-    .mana-sym {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 19px;
-      height: 19px;
-      border-radius: 50%;
-      font-size: 11px;
-      font-weight: 800;
-      line-height: 1;
-      font-family: "Outfit", sans-serif;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(0, 0, 0, 0.25);
-      user-select: none;
-    }
-
-    .mana-w { background: #fbf5c2; color: #78350f; border-color: #d97706; }
-    .mana-u { background: #0ea5e9; color: #ffffff; border-color: #0284c7; }
-    .mana-b { background: #262438; color: #e2e8f0; border-color: #475569; }
-    .mana-r { background: #ef4444; color: #ffffff; border-color: #b91c1c; }
-    .mana-g { background: #22c55e; color: #ffffff; border-color: #15803d; }
-    .mana-c { background: #64748b; color: #ffffff; border-color: #475569; }
-    .mana-num { background: #cbd5e1; color: #0f172a; border-color: #94a3b8; font-weight: 800; }
-    .mana-hybrid { background: linear-gradient(135deg, #cbd5e1 50%, #475569 50%); color: #0f172a; }
-    .mana-empty { color: var(--ink-muted); font-size: 0.85rem; }
-
-    /* Sezioni per Tipo */
+    /* Sezioni per Tipo MTG */
     .sezione-tipo {
       margin-bottom: 2.2rem;
     }
@@ -533,17 +739,17 @@
       align-items: center;
       gap: 0.75rem;
       margin-bottom: 0.85rem;
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.45rem;
       border-bottom: 1px solid var(--panel-border);
     }
 
     .sezione-tipo-titolo {
-      font-family: "Cinzel", Georgia, serif;
-      font-size: 1.28rem;
+      font-family: "Outfit", sans-serif;
+      font-size: 1.3rem;
       font-weight: 700;
       margin: 0;
-      color: #f3f1eb;
-      letter-spacing: 0.02em;
+      color: #ffffff;
+      letter-spacing: -0.01em;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -551,7 +757,7 @@
 
     .sezione-tipo-conteggio {
       background: var(--panel-elevated);
-      color: var(--gold-bright);
+      color: var(--yellow);
       border: 1px solid var(--panel-border);
       border-radius: var(--radius-full);
       font-size: 0.76rem;
@@ -577,7 +783,7 @@
     }
 
     table.tabella-carte th {
-      background: #111018;
+      background: #0f0e15;
       color: var(--ink-dim);
       font-size: 0.74rem;
       font-weight: 700;
@@ -596,7 +802,7 @@
     }
 
     table.tabella-carte tbody tr {
-      transition: background 0.15s ease;
+      transition: background 0.12s ease;
       position: relative;
     }
 
@@ -608,7 +814,7 @@
       border-bottom: none;
     }
 
-    /* Cella Nome Carta con Miniatura & Hover */
+    /* Cella Nome con miniatura e badge */
     .cella-nome {
       display: flex;
       align-items: center;
@@ -638,18 +844,17 @@
     }
 
     .badge-foil {
-      background: linear-gradient(135deg, #f43f5e, #ec4899, #a855f7, #3b82f6);
+      background: #7c3aed;
       color: #ffffff;
       font-size: 0.68rem;
       font-weight: 700;
       padding: 0.1rem 0.4rem;
       border-radius: 3px;
-      box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
       letter-spacing: 0.02em;
     }
 
     .badge-qty {
-      background: #282635;
+      background: #252331;
       color: var(--ink-dim);
       font-size: 0.72rem;
       font-weight: 700;
@@ -669,7 +874,7 @@
       font-weight: 700;
       font-size: 0.8rem;
       letter-spacing: 0.05em;
-      color: var(--gold-bright);
+      color: var(--yellow);
       text-transform: uppercase;
     }
 
@@ -682,7 +887,7 @@
     }
 
     .prezzo-cardmarket {
-      color: #fbbf24;
+      color: var(--yellow);
     }
 
     .prezzo-cardtrader {
@@ -704,14 +909,13 @@
       display: flex;
       flex-direction: column;
       gap: 0.6rem;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      transition: transform 0.15s ease, border-color 0.15s ease;
       position: relative;
     }
 
     .carta-card:hover {
       transform: translateY(-3px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--gold);
+      border-color: var(--yellow);
     }
 
     .carta-card-img-wrap {
@@ -719,7 +923,7 @@
       border-radius: var(--radius-sm);
       overflow: hidden;
       aspect-ratio: 5 / 7;
-      background: #0a090e;
+      background: #09090c;
     }
 
     .carta-card img {
@@ -752,7 +956,7 @@
     }
 
     .carta-card .prezzi-box {
-      background: #111018;
+      background: #0f0e15;
       border: 1px solid var(--panel-border-subtle);
       border-radius: var(--radius-sm);
       padding: 0.45rem 0.65rem;
@@ -773,7 +977,7 @@
       font-weight: 600;
     }
 
-    /* Card Floating Preview al passaggio del mouse */
+    /* Anteprima Fluttuante Carta al mouseover */
     #hoverCardPreview {
       position: fixed;
       z-index: 9999;
@@ -781,13 +985,12 @@
       display: none;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.3);
-      border: 2px solid var(--gold);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85);
+      border: 2px solid var(--yellow);
       background: #09090c;
       width: 250px;
       aspect-ratio: 5 / 7;
       transform: translate(18px, -50%);
-      transition: opacity 0.15s ease;
     }
 
     #hoverCardPreview img {
@@ -816,15 +1019,16 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      .titolo-area {
+      .header-top {
         flex-direction: column;
+        align-items: stretch;
       }
 
-      .stat-hero {
-        width: 100%;
+      .btn-apri-carica {
+        justify-content: center;
       }
 
-      .toolbar-prima-riga {
+      .toolbar-main {
         flex-direction: column;
         align-items: stretch;
       }
@@ -837,38 +1041,45 @@
 </head>
 
 <body>
+  <!-- Banner Notifica Ricarica Automatica -->
+  <div id="flashBanner" class="flash-banner" style="display: none;">
+    <span id="flashTesto">Nuove carte caricate con successo nel Grimorio!</span>
+    <button type="button" onclick="document.getElementById('flashBanner').style.display='none'" title="Chiudi notifica">✕</button>
+  </div>
+
   <!-- Anteprima Fluttuante Carta al mouseover -->
   <div id="hoverCardPreview">
     <img id="hoverCardImg" src="" alt="Anteprima carta" />
   </div>
 
-  <header>
-    <div class="titolo-area">
-      <div class="brand">
-        <h1>Grimorio</h1>
-        <p class="sottotitolo">Collezione MTG condivisa scansionata con ManaBox</p>
+  <!-- SEZIONE UNICA INTESTAZIONE E TOOLBAR -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand-stat-group">
+        <h1 class="titolo-grimorio">Grimorio</h1>
+        <!-- Valore Totale Cardmarket compatto -->
+        <div class="stat-pill">
+          <span class="stat-simbolo">€</span>
+          <span class="stat-cifra" id="statValore">—</span>
+          <span class="stat-divider">·</span>
+          <span class="stat-sub" id="statLabel">carte in totale</span>
+        </div>
       </div>
 
-      <!-- Statistica Valore Monetario -->
-      <div class="stat-hero">
-        <div class="stat-hero-etichetta">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12M15 9.5a3.5 3.5 0 0 0-7 0c0 2 2 3 5 3s5 1 5 3a3.5 3.5 0 0 1-7 0"></path></svg>
-          Valore Totale Cardmarket
-        </div>
-        <div class="stat-hero-valore-row">
-          <span class="stat-hero-simbolo">€</span>
-          <span class="stat-hero-cifra" id="statValore">—</span>
-        </div>
-        <div class="stat-hero-sub" id="statLabel">Caricamento carte in corso...</div>
-      </div>
+      <!-- Tasto Carica che apre il Popup -->
+      <button type="button" class="btn-apri-carica" id="btnApriCarica">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <span>Carica</span>
+      </button>
     </div>
 
-    <!-- Barra Controlli: Ricerca, Switch Lista/Griglia, Filtri e Ordinamento -->
+    <!-- Barra Toolbar: Ricerca, Switch Vista, Pulsante Filtri -->
     <div class="toolbar">
-      <div class="toolbar-prima-riga">
+      <div class="toolbar-main">
         <div class="ricerca-wrap">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <input id="ricerca" type="text" placeholder="Cerca carta per nome..." />
+          <button type="button" id="btnPulisciRicerca" class="btn-clear-search" style="display: none;" title="Cancella ricerca">✕</button>
         </div>
 
         <div class="vista-switch" role="group" aria-label="Modalità visualizzazione">
@@ -881,123 +1092,162 @@
             <span>Griglia</span>
           </button>
         </div>
+
+        <!-- Pulsante che rivela/nasconde i filtri -->
+        <button type="button" class="btn-filtri" id="btnToggleFiltri" aria-expanded="false" title="Mostra filtri e ordinamento">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          <span>Filtri</span>
+          <span class="badge-filtri-attivi" id="badgeFiltriAttivi" style="display: none;">0</span>
+        </button>
       </div>
 
-      <!-- Riga Filtri & Ordinamento -->
-      <div class="toolbar-filtri">
-        <!-- Ordina per -->
-        <div class="filtro-gruppo">
-          <label for="ordina">Ordina per</label>
-          <select id="ordina">
-            <option value="tipo_colore_cmc">Predefinito (Tipo, Colore, Costo Mana)</option>
-            <option value="caricamento_desc">Caricamento: più recenti prima (decrescente)</option>
-            <option value="caricamento_asc">Caricamento: meno recenti prima (crescente)</option>
-            <option value="prezzo_asc">Costo Cardmarket: crescente</option>
-            <option value="prezzo_desc">Costo Cardmarket: decrescente</option>
-            <option value="nome_asc">Ordine alfabetico: A → Z</option>
-            <option value="nome_desc">Ordine alfabetico: Z → A</option>
-            <option value="mana_asc">Costo mana: crescente</option>
-            <option value="mana_desc">Costo mana: decrescente</option>
-          </select>
-        </div>
+      <!-- Drawer Filtri a comparsa -->
+      <div class="filtri-drawer" id="filtriDrawer" style="display: none;">
+        <div class="filtri-griglia">
+          <!-- Ordina per -->
+          <div class="filtro-item">
+            <label for="ordina">Ordina per</label>
+            <select id="ordina">
+              <option value="tipo_colore_cmc">Predefinito (Tipo, Colore, Costo Mana)</option>
+              <option value="caricamento_desc">Caricamento: più recenti prima</option>
+              <option value="caricamento_asc">Caricamento: meno recenti prima</option>
+              <option value="prezzo_asc">Costo Cardmarket: crescente</option>
+              <option value="prezzo_desc">Costo Cardmarket: decrescente</option>
+              <option value="nome_asc">Ordine alfabetico: A → Z</option>
+              <option value="nome_desc">Ordine alfabetico: Z → A</option>
+              <option value="mana_asc">Costo mana: crescente</option>
+              <option value="mana_desc">Costo mana: decrescente</option>
+            </select>
+          </div>
 
-        <!-- Filtro Possessore -->
-        <div class="filtro-gruppo">
-          <label for="filtroPossessore">Possessore</label>
-          <select id="filtroPossessore">
-            <option value="">Tutti</option>
-            <option value="Mattia">Mattia</option>
-            <option value="Laura">Laura</option>
-            <option value="Matteo">Matteo</option>
-          </select>
-        </div>
+          <!-- Filtro Possessore -->
+          <div class="filtro-item">
+            <label for="filtroPossessore">Possessore</label>
+            <select id="filtroPossessore">
+              <option value="">Tutti</option>
+              <option value="Mattia">Mattia</option>
+              <option value="Laura">Laura</option>
+              <option value="Matteo">Matteo</option>
+            </select>
+          </div>
 
-        <!-- Filtro Tipo -->
-        <div class="filtro-gruppo">
-          <label for="filtroTipo">Tipo</label>
-          <select id="filtroTipo">
-            <option value="">Tutti i tipi</option>
-            <option value="Planeswalker">Planeswalker</option>
-            <option value="Creature">Creatura</option>
-            <option value="Stregonerie">Stregoneria</option>
-            <option value="Istantanei">Istantaneo</option>
-            <option value="Incantesimi">Incantesimo</option>
-            <option value="Artefatti">Artefatto</option>
-            <option value="Terre">Terra</option>
-            <option value="Battaglie">Battaglia</option>
-            <option value="Altro">Altro</option>
-          </select>
-        </div>
+          <!-- Filtro Tipo -->
+          <div class="filtro-item">
+            <label for="filtroTipo">Tipo</label>
+            <select id="filtroTipo">
+              <option value="">Tutti i tipi</option>
+              <option value="Planeswalker">Planeswalker</option>
+              <option value="Creature">Creatura</option>
+              <option value="Stregonerie">Stregoneria</option>
+              <option value="Istantanei">Istantaneo</option>
+              <option value="Incantesimi">Incantesimo</option>
+              <option value="Artefatti">Artefatto</option>
+              <option value="Terre">Terra</option>
+              <option value="Battaglie">Battaglia</option>
+              <option value="Altro">Altro</option>
+            </select>
+          </div>
 
-        <!-- Filtro Colore Mana -->
-        <div class="filtro-gruppo">
-          <label for="filtroColore">Colore Mana</label>
-          <select id="filtroColore">
-            <option value="">Tutti i colori</option>
-            <option value="W">Bianco (W)</option>
-            <option value="U">Blu (U)</option>
-            <option value="B">Nero (B)</option>
-            <option value="R">Rosso (R)</option>
-            <option value="G">Verde (G)</option>
-            <option value="MULTI">Multicolore</option>
-            <option value="COLORLESS">Incolore</option>
-          </select>
-        </div>
+          <!-- Filtro Colore Mana -->
+          <div class="filtro-item">
+            <label for="filtroColore">Colore Mana</label>
+            <select id="filtroColore">
+              <option value="">Tutti i colori</option>
+              <option value="W">Bianco (W)</option>
+              <option value="U">Blu (U)</option>
+              <option value="B">Nero (B)</option>
+              <option value="R">Rosso (R)</option>
+              <option value="G">Verde (G)</option>
+              <option value="MULTI">Multicolore</option>
+              <option value="COLORLESS">Incolore</option>
+            </select>
+          </div>
 
-        <!-- Filtro Data Caricamento -->
-        <div class="filtro-gruppo">
-          <label for="filtroCaricamento">Caricamento</label>
-          <select id="filtroCaricamento">
-            <option value="">Tutte le date</option>
-            <option value="7d">Ultimi 7 giorni</option>
-            <option value="30d">Ultimi 30 giorni</option>
-          </select>
-        </div>
+          <!-- Filtro Caricamento -->
+          <div class="filtro-item">
+            <label for="filtroCaricamento">Data</label>
+            <select id="filtroCaricamento">
+              <option value="">Tutte le date</option>
+              <option value="7d">Ultimi 7 giorni</option>
+              <option value="30d">Ultimi 30 giorni</option>
+            </select>
+          </div>
 
-        <button type="button" class="btn-reset-filtri" id="btnResetFiltri" title="Ripristina filtri predefiniti">
-          Azzera filtri
-        </button>
+          <button type="button" class="btn-reset-filtri" id="btnResetFiltri" title="Ripristina filtri predefiniti">
+            Azzera filtri
+          </button>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- Sezione Carica Nuove Carte -->
-  <section class="pannello-carico">
-    <div class="pannello-carico-inner">
-      <h2>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-        Carica nuove carte
-      </h2>
-      <div class="controlli-carico">
-        <!-- Menu a tendina Possessore con i 3 nomi richiesti -->
-        <div class="campo-form">
-          <label for="possessoreCarico">Possessore</label>
-          <select id="possessoreCarico">
-            <option value="Mattia">Mattia</option>
-            <option value="Laura">Laura</option>
-            <option value="Matteo">Matteo</option>
-          </select>
-        </div>
-
-        <div class="campo-form">
-          <label for="fileCsv">File CSV esportato da ManaBox</label>
-          <input id="fileCsv" type="file" accept=".csv" />
-        </div>
-
-        <button id="bottoneCarica" class="btn-carica" type="button">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-          Carica nel Grimorio
-        </button>
+  <!-- POPUP MODALE CARICAMENTO NUOVE CARTE -->
+  <div class="modal-overlay" id="modalCaricamentoOverlay" style="display: none;">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="titoloModalCarica">
+      <div class="modal-header">
+        <h2 id="titoloModalCarica">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          Carica nuove carte
+        </h2>
+        <button type="button" class="btn-modal-chiudi" id="btnChiudiModal" title="Chiudi finestra">✕</button>
       </div>
-      <p class="meta-caricamento" id="statoCaricamento">
-        La prima volta ti verrà chiesto il tuo token GitHub: resta memorizzato solo nel tuo browser e non viene salvato nel sito.
-      </p>
-    </div>
-  </section>
 
-  <!-- Contenitore Principale Collezione -->
+      <div class="modal-body">
+        <!-- Modulo Caricamento -->
+        <div id="formCaricamento">
+          <div class="campo-form">
+            <label for="possessoreCarico">Possessore</label>
+            <select id="possessoreCarico">
+              <option value="Mattia">Mattia</option>
+              <option value="Laura">Laura</option>
+              <option value="Matteo">Matteo</option>
+            </select>
+          </div>
+
+          <div class="campo-form">
+            <label for="fileCsv">File CSV esportato da ManaBox</label>
+            <input id="fileCsv" type="file" accept=".csv" />
+          </div>
+
+          <button id="bottoneCarica" class="btn-invia-carica" type="button">
+            Carica nel Grimorio
+          </button>
+
+          <p class="meta-token-info">
+            La prima volta ti verrà chiesto il tuo Personal Access Token di GitHub: resta memorizzato solo nel tuo browser e non viene mai salvato nel sito.
+          </p>
+        </div>
+
+        <!-- Sezione Avanzamento e Stato Live -->
+        <div id="statoAvanzamento" style="display: none;">
+          <div class="progresso-container">
+            <div class="progresso-barra-wrap">
+              <div class="progresso-barra" id="barraProgresso" style="width: 0%;"></div>
+            </div>
+            <div class="progresso-percentuale" id="testoPercentuale">0%</div>
+          </div>
+
+          <div class="stato-task-box">
+            <div class="stato-icona" id="statoIcona">
+              <div class="spinner-caricamento"></div>
+            </div>
+            <div class="stato-task-dettagli">
+              <div class="stato-task-titolo" id="statoTaskTitolo">Inoltro file in corso...</div>
+              <div class="stato-task-desc" id="statoTaskDesc">Attendere il completamento delle operazioni</div>
+            </div>
+          </div>
+
+          <div class="task-log-box" id="taskLogBox">
+            <div class="task-log-riga active">[1/4] Preparazione del file CSV in corso...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENITORE PRINCIPALE CARTE (Subito visibile dopo l'header) -->
   <main id="contenitoreCarte">
-    <!-- Le sezioni per tipo verranno iniettate qui via JS -->
+    <!-- Sezioni per tipo iniettate dinamicamente via JS -->
   </main>
 
   <div class="vuoto" id="messaggioVuoto" style="display: none">
@@ -1031,13 +1281,26 @@
 
     let carte = [];
     let modalitaVista = "lista"; // "lista" di default come richiesto
+    let shaCardsJsonIniziale = null;
+
+    // Notifica flash al ricaricamento
+    const flashMsg = sessionStorage.getItem("grimorio_flash");
+    if (flashMsg) {
+      document.getElementById("flashTesto").textContent = flashMsg;
+      document.getElementById("flashBanner").style.display = "flex";
+      sessionStorage.removeItem("grimorio_flash");
+      setTimeout(() => {
+        const b = document.getElementById("flashBanner");
+        if (b) b.style.display = "none";
+      }, 6000);
+    }
 
     // Helper formattazione prezzo
     function formattaPrezzo(v) {
       return v == null ? "—" : "€" + Number(v).toFixed(2);
     }
 
-    // Helper per determinare la categoria del tipo MTG
+    // Helper categorizzazione tipo MTG
     function categorizzaTipo(c) {
       const tipo = (c.tipo || "").toLowerCase();
       if (tipo.includes("planeswalker")) return "Planeswalker";
@@ -1060,16 +1323,16 @@
       if (colori.length > 1) return 6; // Multicolore
       const col = colori[0].toUpperCase();
       switch (col) {
-        case "W": return 1; // Bianco
-        case "U": return 2; // Blu
-        case "B": return 3; // Nero
-        case "R": return 4; // Rosso
-        case "G": return 5; // Verde
+        case "W": return 1;
+        case "U": return 2;
+        case "B": return 3;
+        case "R": return 4;
+        case "G": return 5;
         default: return 7;
       }
     }
 
-    // Renderizza i simboli di mana grafici
+    // Renderizza le icone mana UFFICIALI (SVG Scryfall)
     function renderManaCost(manaCost) {
       if (!manaCost) return '<span class="mana-empty">—</span>';
       const regex = /\{([^}]+)\}/g;
@@ -1078,17 +1341,11 @@
       let trovato = false;
       while ((match = regex.exec(manaCost)) !== null) {
         trovato = true;
-        const sym = match[1].toUpperCase();
-        let cls = "mana-num";
-        let label = sym;
-        if (sym === "W") { cls = "mana-w"; label = "W"; }
-        else if (sym === "U") { cls = "mana-u"; label = "U"; }
-        else if (sym === "B") { cls = "mana-b"; label = "B"; }
-        else if (sym === "R") { cls = "mana-r"; label = "R"; }
-        else if (sym === "G") { cls = "mana-g"; label = "G"; }
-        else if (sym === "C") { cls = "mana-c"; label = "C"; }
-        else if (sym.includes("/")) { cls = "mana-hybrid"; }
-        html += `<span class="mana-sym ${cls}" title="{${sym}}">${label}</span>`;
+        const rawSym = match[1];
+        // Rimozione slash per simboli ibridi/split es. W/U -> WU, 2/W -> 2W
+        const cleanSym = rawSym.replace(/\//g, "").toUpperCase();
+        const svgUrl = `https://svgs.scryfall.io/card-symbols/${cleanSym}.svg`;
+        html += `<img class="mana-sym-img" src="${svgUrl}" alt="{${rawSym}}" title="{${rawSym}}" loading="lazy" />`;
       }
       html += '</div>';
       return trovato ? html : `<span class="mana-costo">${manaCost}</span>`;
@@ -1104,9 +1361,8 @@
       return "badge-possessore altro";
     }
 
-    // Aggiornamento Statistiche: somma RIGOROSA dei costi Cardmarket
+    // Aggiornamento Statistiche: somma RIGOROSA dei prezzi Cardmarket
     function aggiornaStatistiche(tutte, filtrate) {
-      // Come richiesto: somma del costo Cardmarket di tutte le carte
       const totaleCardmarket = tutte.reduce((sum, c) => {
         const prezzo = c.prezzoCardmarket ?? 0;
         const qta = c.quantita || 1;
@@ -1117,18 +1373,22 @@
       
       document.getElementById("statValore").textContent = totaleCardmarket.toFixed(2);
       
-      let label = `${totaleCarte} carte in collezione`;
+      let label = `${totaleCarte} carte in totale`;
       if (filtrate && filtrate.length !== tutte.length) {
         const filtrateCarte = filtrate.reduce((sum, c) => sum + (c.quantita || 1), 0);
         const filtratoValore = filtrate.reduce((sum, c) => sum + (c.prezzoCardmarket ?? 0) * (c.quantita || 1), 0);
-        label += ` · ${filtrateCarte} filtrate (€${filtratoValore.toFixed(2)})`;
+        label = `${filtrateCarte} di ${totaleCarte} filtrate (€${filtratoValore.toFixed(2)})`;
       }
       document.getElementById("statLabel").textContent = label;
     }
 
-    // Popola le opzioni dinamiche delle date nel filtro caricamento
+    // Popola le date nel filtro caricamento
     function popolaDateCaricamento(lista) {
       const select = document.getElementById("filtroCaricamento");
+      // Manteniamo le opzioni predefinite (Tutte, 7d, 30d)
+      while (select.options.length > 3) {
+        select.remove(3);
+      }
       const dateSet = new Set();
       lista.forEach(c => {
         if (c.aggiornatoIl) {
@@ -1149,18 +1409,38 @@
       });
     }
 
+    // Aggiorna indicatore badge dei filtri attivi
+    function aggiornaBadgeFiltri() {
+      let attivi = 0;
+      if (document.getElementById("filtroPossessore").value) attivi++;
+      if (document.getElementById("filtroTipo").value) attivi++;
+      if (document.getElementById("filtroColore").value) attivi++;
+      if (document.getElementById("filtroCaricamento").value) attivi++;
+      if (document.getElementById("ordina").value !== "tipo_colore_cmc") attivi++;
+
+      const badge = document.getElementById("badgeFiltriAttivi");
+      const btnFiltri = document.getElementById("btnToggleFiltri");
+      if (attivi > 0) {
+        badge.textContent = attivi;
+        badge.style.display = "inline-block";
+        btnFiltri.classList.add("active");
+      } else {
+        badge.style.display = "none";
+        if (document.getElementById("filtriDrawer").style.display === "none") {
+          btnFiltri.classList.remove("active");
+        }
+      }
+    }
+
     // Logica di Ordinamento interno
     function comparaCarte(a, b, criterio) {
       switch (criterio) {
         case "tipo_colore_cmc":
         default: {
-          // Ordine colore MTG
           const colDiff = getIndiceColore(a) - getIndiceColore(b);
           if (colDiff !== 0) return colDiff;
-          // Ordine costo mana crescente
           const cmcDiff = (a.cmc ?? 0) - (b.cmc ?? 0);
           if (cmcDiff !== 0) return cmcDiff;
-          // Ordine alfabetico secondario
           return a.nome.localeCompare(b.nome);
         }
         case "caricamento_desc":
@@ -1186,7 +1466,7 @@
       }
     }
 
-    // Rendering principale della vista
+    // Rendering principale delle carte
     function disegna() {
       const testo = document.getElementById("ricerca").value.trim().toLowerCase();
       const possessore = document.getElementById("filtroPossessore").value;
@@ -1195,20 +1475,16 @@
       const caricamentoFiltro = document.getElementById("filtroCaricamento").value;
       const ordine = document.getElementById("ordina").value;
 
+      document.getElementById("btnPulisciRicerca").style.display = testo ? "block" : "none";
+      aggiornaBadgeFiltri();
+
       const adesso = new Date();
 
-      // Applicazione Filtri
       let filtrate = carte.filter(c => {
-        // Ricerca per nome
         if (testo && !c.nome.toLowerCase().includes(testo)) return false;
-        
-        // Filtro possessore
         if (possessore && c.possessore !== possessore) return false;
-
-        // Filtro tipo
         if (tipoFiltro && categorizzaTipo(c) !== tipoFiltro) return false;
 
-        // Filtro colore mana
         if (coloreFiltro) {
           const colori = c.colori || [];
           if (coloreFiltro === "MULTI") {
@@ -1220,7 +1496,6 @@
           }
         }
 
-        // Filtro caricamento
         if (caricamentoFiltro) {
           const dataCarta = new Date(c.aggiornatoIl || 0);
           if (caricamentoFiltro === "7d") {
@@ -1247,16 +1522,11 @@
 
       if (!filtrate.length) return;
 
-      // Raggruppamento per Tipo: mostrare la lista solo se contiene carte!
-      // Se l'ordinamento è tipo_colore_cmc (default), raggruppiamo per tipo e ordiniamo per colore e mana.
-      // Anche per gli altri ordinamenti, manteniamo la suddivisione per tipo applicando l'ordinamento scelto!
+      // Suddivisione per Tipo MTG: mostrare la lista solo se contiene carte!
       CATEGORIE_TIPI.forEach(cat => {
         const carteDelTipo = filtrate.filter(c => categorizzaTipo(c) === cat.id);
-        
-        // Se non ci sono carte per questo tipo, NON mostrare la sezione
         if (carteDelTipo.length === 0) return;
 
-        // Ordina le carte del tipo secondo il criterio selezionato
         carteDelTipo.sort((a, b) => comparaCarte(a, b, ordine));
 
         const section = document.createElement("section");
@@ -1272,7 +1542,7 @@
         `;
 
         if (modalitaVista === "lista") {
-          // --- VISTA LISTA (DEFAULT) ---
+          // Vista Lista (Tabellare di default)
           const tableWrap = document.createElement("div");
           tableWrap.className = "tabella-wrap";
           
@@ -1334,7 +1604,7 @@
           section.appendChild(tableWrap);
 
         } else {
-          // --- VISTA GRIGLIA ---
+          // Vista Griglia
           const griglia = document.createElement("div");
           griglia.className = "griglia-carte";
 
@@ -1383,7 +1653,7 @@
       collegaEventiHover();
     }
 
-    // Gestione Anteprima Fluttuante al passaggio del mouse nella vista lista
+    // Anteprima Fluttuante al passaggio del mouse
     function collegaEventiHover() {
       const preview = document.getElementById("hoverCardPreview");
       const previewImg = document.getElementById("hoverCardImg");
@@ -1413,19 +1683,16 @@
       const preview = document.getElementById("hoverCardPreview");
       const x = e.clientX + 20;
       let y = e.clientY - 120;
-      
-      // Controllo limiti schermo verticale
       const previewHeight = 350;
       if (y + previewHeight > window.innerHeight) {
         y = window.innerHeight - previewHeight - 20;
       }
       if (y < 20) y = 20;
-
       preview.style.left = `${x}px`;
       preview.style.top = `${y}px`;
     }
 
-    // Gestori eventi Switch Vista Lista / Griglia
+    // Switch Lista / Griglia
     document.getElementById("btnVistaLista").addEventListener("click", () => {
       if (modalitaVista === "lista") return;
       modalitaVista = "lista";
@@ -1442,8 +1709,28 @@
       disegna();
     });
 
-    // Gestori eventi Filtri e Ricerca
+    // Toggle Filtri Drawer (rivela / nasconde)
+    document.getElementById("btnToggleFiltri").addEventListener("click", () => {
+      const drawer = document.getElementById("filtriDrawer");
+      const btn = document.getElementById("btnToggleFiltri");
+      const isVisible = drawer.style.display !== "none";
+      if (isVisible) {
+        drawer.style.display = "none";
+        btn.setAttribute("aria-expanded", "false");
+        aggiornaBadgeFiltri();
+      } else {
+        drawer.style.display = "block";
+        btn.setAttribute("aria-expanded", "true");
+        btn.classList.add("active");
+      }
+    });
+
+    // Gestori eventi ricerca e filtri
     document.getElementById("ricerca").addEventListener("input", disegna);
+    document.getElementById("btnPulisciRicerca").addEventListener("click", () => {
+      document.getElementById("ricerca").value = "";
+      disegna();
+    });
     document.getElementById("ordina").addEventListener("change", disegna);
     document.getElementById("filtroPossessore").addEventListener("change", disegna);
     document.getElementById("filtroTipo").addEventListener("change", disegna);
@@ -1461,6 +1748,30 @@
       disegna();
     });
 
+    // Gestione Popup Modale Carica
+    const modalOverlay = document.getElementById("modalCaricamentoOverlay");
+    document.getElementById("btnApriCarica").addEventListener("click", () => {
+      modalOverlay.style.display = "flex";
+      document.getElementById("formCaricamento").style.display = "block";
+      document.getElementById("statoAvanzamento").style.display = "none";
+    });
+
+    document.getElementById("btnChiudiModal").addEventListener("click", () => {
+      modalOverlay.style.display = "none";
+    });
+
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) {
+        modalOverlay.style.display = "none";
+      }
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modalOverlay.style.display !== "none") {
+        modalOverlay.style.display = "none";
+      }
+    });
+
     // Caricamento Dati Iniziali
     fetch("data/cards.json?t=" + Date.now())
       .then(r => r.json())
@@ -1469,51 +1780,95 @@
         popolaDateCaricamento(carte);
         aggiornaStatistiche(carte, carte);
         disegna();
+        // Memorizza hash/stato iniziale per polling
+        memorizzaShaIniziale();
       })
       .catch(err => {
-        console.error("Errore nel caricamento del database cards.json:", err);
-        document.getElementById("statLabel").textContent = "Errore nel caricamento dati.";
+        console.error("Errore caricamento database:", err);
+        document.getElementById("statLabel").textContent = "Errore dati";
       });
 
-    // --- Caricamento diretto CSV tramite GitHub API ---
+    function memorizzaShaIniziale() {
+      fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+        headers: { "Accept": "application/vnd.github+json" }
+      })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (d && d.sha) shaCardsJsonIniziale = d.sha;
+      })
+      .catch(() => {});
+    }
+
+    // --- CARICAMENTO DIRETTO CSV, STATO TASK LIVE E RICARICA AUTOMATICA ---
     function getToken() {
       let token = localStorage.getItem("dispensa_token");
       if (!token) {
         token = prompt(
-          "Incolla qui il tuo Personal Access Token di GitHub (inserito una sola volta, resta solo in questo browser):"
+          "Incolla qui il tuo Personal Access Token di GitHub (inserito una sola volta, resta salvato solo nel tuo browser):"
         );
         if (token) localStorage.setItem("dispensa_token", token.trim());
       }
       return token;
     }
 
+    function aggiungiLog(testo, tipo = "active") {
+      const box = document.getElementById("taskLogBox");
+      const d = new Date();
+      const tempo = d.toTimeString().split(" ")[0];
+      const div = document.createElement("div");
+      div.className = `task-log-riga ${tipo}`;
+      div.textContent = `[${tempo}] ${testo}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function impostaProgresso(percentuale, titolo, desc, isDone = false) {
+      document.getElementById("barraProgresso").style.width = `${percentuale}%`;
+      document.getElementById("testoPercentuale").textContent = `${percentuale}%`;
+      document.getElementById("statoTaskTitolo").textContent = titolo;
+      document.getElementById("statoTaskDesc").textContent = desc;
+
+      const iconaBox = document.getElementById("statoIcona");
+      if (isDone) {
+        iconaBox.innerHTML = '<div class="stato-icona-success">✓</div>';
+      } else {
+        iconaBox.innerHTML = '<div class="spinner-caricamento"></div>';
+      }
+    }
+
     async function caricaCSV() {
       const fileInput = document.getElementById("fileCsv");
       const possessore = document.getElementById("possessoreCarico").value.trim();
-      const stato = document.getElementById("statoCaricamento");
 
       if (!fileInput.files.length || !possessore) {
-        stato.textContent = "Scegli un file CSV ManaBox prima di procedere.";
-        stato.className = "meta-caricamento error";
+        alert("Seleziona prima un file CSV ManaBox e verifica il possessore.");
         return;
       }
 
       const token = getToken();
       if (!token) {
-        stato.textContent = "È necessario un token GitHub per autorizzare il caricamento.";
-        stato.className = "meta-caricamento error";
+        alert("È necessario un token GitHub per autorizzare il caricamento.");
         return;
       }
+
+      // Passaggio alla vista progresso live
+      document.getElementById("formCaricamento").style.display = "none";
+      document.getElementById("statoAvanzamento").style.display = "block";
+      document.getElementById("taskLogBox").innerHTML = "";
+
+      impostaProgresso(15, "Lettura file CSV...", "Codifica del file ManaBox in corso");
+      aggiungiLog("File CSV selezionato: " + fileInput.files[0].name);
 
       const file = fileInput.files[0];
       const testo = await file.text();
       const base64 = btoa(unescape(encodeURIComponent(testo)));
 
       const nomeSicuro = encodeURIComponent(possessore.replace(/\s+/g, "-"));
-      const percorso = `incoming/${nomeSicuro}__${Date.now()}.csv`;
+      const nomeFileUnivoco = `${nomeSicuro}__${Date.now()}.csv`;
+      const percorso = `incoming/${nomeFileUnivoco}`;
 
-      stato.textContent = "Caricamento del file in corso...";
-      stato.className = "meta-caricamento";
+      impostaProgresso(30, "Invio a GitHub...", `Caricamento di ${nomeFileUnivoco} nella cartella incoming/`);
+      aggiungiLog("Inoltro file via GitHub Contents API...");
 
       try {
         const res = await fetch(
@@ -1531,19 +1886,105 @@
           }
         );
 
-        if (res.ok) {
-          stato.textContent = "File caricato con successo! Il workflow GitHub Actions elaborerà le carte entro 1-2 minuti. Ricarica la pagina per vederle.";
-          stato.className = "meta-caricamento success";
-          fileInput.value = "";
-        } else {
+        if (!res.ok) {
           const err = await res.json();
-          stato.textContent = "Errore durante il caricamento: " + (err.message || res.status);
-          stato.className = "meta-caricamento error";
+          impostaProgresso(30, "Errore caricamento", err.message || res.status);
+          aggiungiLog("Errore GitHub: " + (err.message || res.status), "error");
+          setTimeout(() => {
+            document.getElementById("formCaricamento").style.display = "block";
+            document.getElementById("statoAvanzamento").style.display = "none";
+          }, 4000);
+          return;
         }
+
+        impostaProgresso(50, "File inviato con successo!", "Attivazione del workflow GitHub Actions");
+        aggiungiLog(`File salvato in ${percorso}! Trigger push attivato.`, "done");
+        aggiungiLog("In attesa dell'elaborazione automatica delle carte...");
+
+        // Avvio monitoraggio dell'elaborazione
+        monitoraElaborazione(token, nomeFileUnivoco);
+
       } catch (e) {
-        stato.textContent = "Errore di rete: " + e.message;
-        stato.className = "meta-caricamento error";
+        impostaProgresso(30, "Errore di rete", e.message);
+        aggiungiLog("Errore di connessione: " + e.message, "error");
+        setTimeout(() => {
+          document.getElementById("formCaricamento").style.display = "block";
+          document.getElementById("statoAvanzamento").style.display = "none";
+        }, 4000);
       }
+    }
+
+    // Monitoraggio periodico dell'avanzamento fino all'aggiornamento reale
+    async function monitoraElaborazione(token, nomeFileUnivoco) {
+      let tentativi = 0;
+      const maxTentativi = 40; // Circa 2 minuti di monitoraggio (3s per ciclo)
+      let progressoStimato = 50;
+
+      const intervallo = setInterval(async () => {
+        tentativi++;
+        progressoStimato = Math.min(88, progressoStimato + 3);
+        impostaProgresso(
+          progressoStimato,
+          "Elaborazione carte in corso...",
+          "Scryfall e Cardtrader stanno aggiornando immagini e prezzi"
+        );
+
+        if (tentativi === 3) {
+          aggiungiLog("GitHub Actions ha preso in carico il file CSV...");
+        } else if (tentativi === 6) {
+          aggiungiLog("Scaricamento dei dati e dei prezzi minimi di mercato...");
+        } else if (tentativi === 9) {
+          aggiungiLog("Generazione e scrittura del nuovo database cards.json...");
+        }
+
+        try {
+          // 1. Verifica se il file in incoming/ è stato consumato ed eliminato dallo script
+          const resIncoming = await fetch(
+            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/incoming/${nomeFileUnivoco}`,
+            { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" } }
+          );
+
+          // 2. Verifica se il database cards.json ha un nuovo commit sha
+          const resCards = await fetch(
+            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`,
+            { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" } }
+          );
+
+          let shaAttuale = null;
+          if (resCards.ok) {
+            const dataCards = await resCards.json();
+            shaAttuale = dataCards.sha;
+          }
+
+          const fileIncomingRimosso = (resIncoming.status === 404);
+          const shaModificato = (shaCardsJsonIniziale && shaAttuale && shaAttuale !== shaCardsJsonIniziale);
+
+          if (fileIncomingRimosso || shaModificato) {
+            clearInterval(intervallo);
+            impostaProgresso(100, "Completato con successo!", "Collezione aggiornata! Ricaricamento in corso...", true);
+            aggiungiLog("Database cards.json aggiornato nel repository!", "done");
+            aggiungiLog("Ricaricamento automatico della pagina in corso...", "done");
+
+            sessionStorage.setItem("grimorio_flash", "Nuove carte caricate con successo nel Grimorio!");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1200);
+            return;
+          }
+        } catch (err) {
+          console.warn("Verifica stato in corso:", err);
+        }
+
+        if (tentativi >= maxTentativi) {
+          clearInterval(intervallo);
+          impostaProgresso(100, "Importazione completata", "Ricarica la pagina per visualizzare le carte", true);
+          aggiungiLog("Operazione terminata sui server di GitHub.", "done");
+          sessionStorage.setItem("grimorio_flash", "Nuove carte elaborate nel Grimorio!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        }
+      }, 3000);
     }
 
     document.getElementById("bottoneCarica").addEventListener("click", caricaCSV);
