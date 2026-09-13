@@ -407,18 +407,25 @@
     /* === MODAL POPUP DI CARICAMENTO === */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.78);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.84);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       z-index: 9000;
       display: flex;
-      align-items: center;
       justify-content: center;
-      padding: 1rem;
+      align-items: flex-start;
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       animation: modalFadeIn 0.2s ease-out;
+    }
+
+    body.modal-aperta {
+      overflow: hidden !important;
     }
 
     @keyframes modalFadeIn {
@@ -439,6 +446,8 @@
       max-width: 540px;
       box-shadow: var(--shadow-lg);
       overflow: hidden;
+      margin: auto;
+      position: relative;
     }
 
     .modal-header {
@@ -1042,9 +1051,464 @@
       display: none;
     }
 
-    /* === RESPONSIVE DESIGN (MOBILE & TABLET) === */
-    @media (max-width: 768px) {
 
+    /* === MODAL DETTAGLIO CARTA (STILE SCRYFALL) === */
+    .modal-dettaglio-card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 840px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      position: relative;
+      margin: auto;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    .btn-dettaglio-chiudi {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--panel-border);
+      color: var(--ink-dim);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: all 0.15s ease;
+    }
+
+    .btn-dettaglio-chiudi:hover {
+      color: #ffffff;
+      background: #272533;
+      border-color: #4b485d;
+    }
+
+    .modal-dettaglio-body {
+      padding: 1.75rem;
+      display: flex;
+      gap: 1.75rem;
+    }
+
+    .dettaglio-img-col {
+      width: 280px;
+      flex-shrink: 0;
+    }
+
+    .dettaglio-img-grande {
+      width: 100%;
+      border-radius: 12px;
+      aspect-ratio: 5 / 7;
+      object-fit: cover;
+      display: block;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
+      border: 1px solid var(--panel-border);
+      background: #09090c;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    .dettaglio-info-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      min-width: 0;
+    }
+
+    .dettaglio-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding-right: 2rem;
+    }
+
+    .dettaglio-nome {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .dettaglio-badges {
+      display: flex;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .dettaglio-mana {
+      flex-shrink: 0;
+      padding-top: 0.2rem;
+    }
+
+    .dettaglio-mana .mana-sym-img {
+      width: 22px !important;
+      height: 22px !important;
+      max-width: 22px !important;
+      max-height: 22px !important;
+    }
+
+    .dettaglio-tipo {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ink-dim);
+    }
+
+    .dettaglio-set {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--yellow);
+      letter-spacing: 0.04em;
+    }
+
+    /* Box Descrizione Regole ed Effetto Stile Scryfall */
+    .dettaglio-oracle-box {
+      background: #0f0e16;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 0.9rem 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .dettaglio-oracle-text {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      white-space: pre-line;
+    }
+
+    .dettaglio-flavor-text {
+      font-size: 0.84rem;
+      font-style: italic;
+      color: #94a3b8;
+      border-top: 1px solid var(--panel-border-subtle);
+      padding-top: 0.5rem;
+      line-height: 1.45;
+    }
+
+    .dettaglio-artista {
+      font-size: 0.76rem;
+      color: #64748b;
+      font-weight: 500;
+      text-align: right;
+    }
+
+    .dettaglio-meta-box {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding: 0.55rem 0.85rem;
+      background: #0f0e16;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--panel-border-subtle);
+    }
+
+    .dettaglio-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      white-space: nowrap;
+    }
+
+    .dettaglio-meta-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      font-weight: 700;
+    }
+
+    .dettaglio-meta-valore {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .dettaglio-prezzi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    .dettaglio-prezzo-card {
+      background: #0f0e16;
+      border: 1px solid var(--panel-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .dettaglio-prezzo-etichetta {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--ink-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .dettaglio-prezzo-valore {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    /* Pulsanti Azioni: Cardmarket, Cardtrader, Elimina */
+    .dettaglio-azioni-row {
+      display: flex;
+      gap: 0.65rem;
+      align-items: center;
+      margin-top: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-marketplace {
+      padding: 0.58rem 1rem;
+      border-radius: var(--radius-sm);
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: filter 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-marketplace:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
+    .btn-cardmarket {
+      background: #0284c7;
+      color: #ffffff;
+    }
+
+    .btn-cardtrader {
+      background: #0d9488;
+      color: #ffffff;
+    }
+
+    .btn-elimina-carta {
+      margin-left: auto;
+      background: #dc2626;
+      border: none;
+      color: #ffffff;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.58rem 1.1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.35);
+    }
+
+    .btn-elimina-carta:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    .btn-elimina-carta:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-dettaglio-chiudi-basso {
+      background: #252331;
+      border: 1px solid var(--panel-border);
+      color: var(--ink-dim);
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.58rem 1.1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .btn-dettaglio-chiudi-basso:hover {
+      background: #323040;
+      color: #ffffff;
+    }
+
+    /* Badge Lingua e Nome EN */
+    .badge-lingua {
+      display: inline-flex;
+      align-items: center;
+      background: #1c1a27;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 0.15rem 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .dettaglio-nome-en {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink-dim);
+      margin-top: 0.15rem;
+    }
+
+    /* === MODAL CONFERMA ELIMINAZIONE === */
+    .modal-conferma-card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: modalFadeIn 0.18s ease-out;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.15rem;
+      margin: auto;
+    }
+
+    .conferma-header {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .conferma-icona-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(220, 38, 38, 0.15);
+      color: #ef4444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+
+    .conferma-titolo {
+      font-family: "Outfit", sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .conferma-corpo {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .conferma-testo {
+      font-size: 0.92rem;
+      color: var(--ink);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .conferma-testo strong {
+      color: var(--yellow);
+    }
+
+    .conferma-opzioni-qty {
+      background: #0d0c13;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-size: 0.85rem;
+    }
+
+    .radio-opzione {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      cursor: pointer;
+      color: var(--ink);
+      user-select: none;
+    }
+
+    .radio-opzione input[type="radio"] {
+      accent-color: #ef4444;
+      cursor: pointer;
+    }
+
+    .conferma-azioni {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.65rem;
+      margin-top: 0.25rem;
+    }
+
+    .btn-conferma-no {
+      background: #252331;
+      border: 1px solid var(--panel-border);
+      color: var(--ink);
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      font-size: 0.88rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-conferma-no:hover {
+      background: #323040;
+      color: #ffffff;
+    }
+
+    .btn-conferma-si {
+      background: #dc2626;
+      border: none;
+      color: #ffffff;
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
+    }
+
+    .btn-conferma-si:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    /* =========================================================
+       RESPONSIVE DESIGN (MOBILE & TABLET <= 768px)
+       Dichiarato in fondo per sovrascrivere correttamente tutti gli stili base
+       ========================================================= */
+    @media (max-width: 768px) {
       header,
       main {
         padding-left: 0.85rem;
@@ -1300,8 +1764,22 @@
         font-size: 0.6rem;
       }
 
-      /* Modal su mobile */
+      /* === MODALI SU MOBILE: SCROLL FLUIDO E NESSUN BLOCCO === */
+      .modal-overlay {
+        padding: 0.85rem 0.65rem;
+        align-items: flex-start;
+      }
+
+      .modal-card,
+      .modal-dettaglio-card,
+      .modal-conferma-card {
+        margin: auto 0;
+        width: 100%;
+      }
+
+      /* Modal Caricamento */
       .modal-card {
+        max-height: 92dvh;
         max-height: 92vh;
         display: flex;
         flex-direction: column;
@@ -1309,478 +1787,99 @@
 
       .modal-body {
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         padding: 1.15rem;
       }
 
+      /* Modal Dettaglio Stile Scryfall su Mobile */
       .modal-dettaglio-card {
-        max-height: 92vh;
-        overflow-y: auto;
+        border-radius: var(--radius-md);
+      }
+
+      .btn-dettaglio-chiudi {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+        background: rgba(15, 14, 22, 0.85);
+        border-color: #3b384d;
       }
 
       .modal-dettaglio-body {
         flex-direction: column;
         align-items: center;
-        padding: 1.25rem;
-        gap: 1.25rem;
+        padding: 1.25rem 0.95rem;
+        gap: 1.15rem;
       }
 
       .dettaglio-img-col {
-        width: 210px;
+        width: 100%;
+        max-width: 220px;
+        margin: 0 auto;
+      }
+
+      .dettaglio-info-col {
+        width: 100%;
+        gap: 0.75rem;
       }
 
       .dettaglio-header-row {
-        padding-right: 0;
+        padding-right: 2.5rem;
+        gap: 0.5rem;
       }
 
       .dettaglio-nome {
         font-size: 1.35rem;
       }
 
+      .dettaglio-meta-box {
+        flex-wrap: wrap;
+        gap: 0.65rem 1rem;
+        padding: 0.5rem 0.75rem;
+      }
+
+      .dettaglio-prezzi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+      }
+
       .dettaglio-azioni-row {
+        display: flex;
         flex-direction: column;
         width: 100%;
+        gap: 0.55rem;
+        margin-top: 0.25rem;
       }
 
       .btn-marketplace,
-      .btn-elimina-carta {
+      .btn-elimina-carta,
+      .btn-dettaglio-chiudi-basso {
         width: 100%;
         justify-content: center;
         margin-left: 0;
+        padding: 0.65rem 1rem;
+        font-size: 0.92rem;
       }
 
-      .dettaglio-meta-box {
-        flex-wrap: wrap;
-        gap: 0.75rem 1rem;
+      /* Modal Conferma Eliminazione su Mobile */
+      .modal-conferma-card {
+        padding: 1.15rem;
+        gap: 1rem;
       }
-    }
 
-    /* === MODAL DETTAGLIO CARTA (STILE SCRYFALL) === */
-    .modal-dettaglio-card {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 840px;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      position: relative;
-      animation: modalFadeIn 0.2s ease-out;
-    }
+      .conferma-azioni {
+        flex-direction: column-reverse;
+        gap: 0.5rem;
+      }
 
-    .btn-dettaglio-chiudi {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--panel-border);
-      color: var(--ink-dim);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      font-size: 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      transition: all 0.15s ease;
-    }
-
-    .btn-dettaglio-chiudi:hover {
-      color: #ffffff;
-      background: #272533;
-      border-color: #4b485d;
-    }
-
-    .modal-dettaglio-body {
-      padding: 1.75rem;
-      display: flex;
-      gap: 1.75rem;
-    }
-
-    .dettaglio-img-col {
-      width: 280px;
-      flex-shrink: 0;
-    }
-
-    .dettaglio-img-grande {
-      width: 100%;
-      border-radius: 12px;
-      aspect-ratio: 5 / 7;
-      object-fit: cover;
-      display: block;
-      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
-      border: 1px solid var(--panel-border);
-      background: #09090c;
-    }
-
-    .dettaglio-info-col {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      min-width: 0;
-    }
-
-    .dettaglio-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding-right: 2rem;
-    }
-
-    .dettaglio-nome {
-      font-family: "Outfit", sans-serif;
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin: 0;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-    }
-
-    .dettaglio-badges {
-      display: flex;
-      gap: 0.35rem;
-      margin-top: 0.25rem;
-    }
-
-    .dettaglio-mana {
-      flex-shrink: 0;
-      padding-top: 0.2rem;
-    }
-
-    .dettaglio-mana .mana-sym-img {
-      width: 22px !important;
-      height: 22px !important;
-      max-width: 22px !important;
-      max-height: 22px !important;
-    }
-
-    .dettaglio-tipo {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--ink-dim);
-    }
-
-    .dettaglio-set {
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.82rem;
-      color: var(--yellow);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .dettaglio-oracle-box {
-      background: #0d0c13;
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-sm);
-      padding: 0.95rem 1.1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-      margin: 0.2rem 0;
-    }
-
-    .dettaglio-oracle-text {
-      font-size: 0.9rem;
-      line-height: 1.55;
-      color: #e2e8f0;
-      white-space: pre-line;
-    }
-
-    .dettaglio-flavor-text {
-      font-size: 0.84rem;
-      font-style: italic;
-      color: #94a3b8;
-      border-top: 1px solid var(--panel-border-subtle);
-      padding-top: 0.5rem;
-      line-height: 1.45;
-    }
-
-    .dettaglio-artista {
-      font-size: 0.76rem;
-      color: #64748b;
-      font-weight: 500;
-      text-align: right;
-    }
-
-    .dettaglio-meta-box {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      padding: 0.55rem 0.85rem;
-      background: #0f0e16;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--panel-border-subtle);
-    }
-
-    .dettaglio-meta-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      white-space: nowrap;
-    }
-
-    .dettaglio-meta-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--ink-muted);
-      font-weight: 700;
-    }
-
-    .dettaglio-meta-valore {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .dettaglio-prezzi-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-
-    .dettaglio-prezzo-card {
-      background: #0f0e16;
-      border: 1px solid var(--panel-border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 0.6rem 0.85rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .dettaglio-prezzo-etichetta {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--ink-muted);
-      letter-spacing: 0.05em;
-    }
-
-    .dettaglio-prezzo-valore {
-      font-family: "Outfit", sans-serif;
-      font-size: 1.15rem;
-      font-weight: 800;
-    }
-
-    /* Pulsanti Azioni: Cardmarket, Cardtrader, Elimina */
-    .dettaglio-azioni-row {
-      display: flex;
-      gap: 0.65rem;
-      align-items: center;
-      margin-top: 0.4rem;
-      flex-wrap: wrap;
-    }
-
-    .btn-marketplace {
-      padding: 0.58rem 1rem;
-      border-radius: var(--radius-sm);
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.88rem;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      transition: filter 0.15s ease, transform 0.1s ease;
-    }
-
-    .btn-marketplace:hover {
-      filter: brightness(1.15);
-      transform: translateY(-1px);
-    }
-
-    .btn-cardmarket {
-      background: #0284c7;
-      color: #ffffff;
-    }
-
-    .btn-cardtrader {
-      background: #0d9488;
-      color: #ffffff;
-    }
-
-    .btn-elimina-carta {
-      margin-left: auto;
-      background: #dc2626;
-      border: none;
-      color: #ffffff;
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.88rem;
-      padding: 0.58rem 1.1rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      transition: background-color 0.15s ease, transform 0.1s ease;
-      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.35);
-    }
-
-    .btn-elimina-carta:hover {
-      background: #b91c1c;
-      transform: translateY(-1px);
-    }
-
-    .btn-elimina-carta:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    /* Badge Lingua e Nome EN */
-    .badge-lingua {
-      display: inline-flex;
-      align-items: center;
-      background: #1c1a27;
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-sm);
-      padding: 0.15rem 0.5rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #e2e8f0;
-    }
-
-    .dettaglio-nome-en {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--ink-dim);
-      margin-top: 0.15rem;
-    }
-
-    /* === MODAL CONFERMA ELIMINAZIONE === */
-    .modal-conferma-card {
-      background: var(--panel);
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 440px;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      animation: modalFadeIn 0.18s ease-out;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.15rem;
-    }
-
-    .conferma-header {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-    }
-
-    .conferma-icona-wrap {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: rgba(220, 38, 38, 0.15);
-      color: #ef4444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      border: 1px solid rgba(220, 38, 38, 0.3);
-    }
-
-    .conferma-titolo {
-      font-family: "Outfit", sans-serif;
-      font-weight: 800;
-      font-size: 1.25rem;
-      color: #ffffff;
-      line-height: 1.2;
-    }
-
-    .conferma-corpo {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .conferma-testo {
-      font-size: 0.92rem;
-      color: var(--ink);
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .conferma-testo strong {
-      color: var(--yellow);
-    }
-
-    .conferma-opzioni-qty {
-      background: #0d0c13;
-      border: 1px solid var(--panel-border);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem 0.85rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-      font-size: 0.85rem;
-    }
-
-    .radio-opzione {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      cursor: pointer;
-      color: var(--ink);
-      user-select: none;
-    }
-
-    .radio-opzione input[type="radio"] {
-      accent-color: #ef4444;
-      cursor: pointer;
-    }
-
-    .conferma-azioni {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.65rem;
-      margin-top: 0.25rem;
-    }
-
-    .btn-conferma-no {
-      background: #252331;
-      border: 1px solid var(--panel-border);
-      color: var(--ink);
-      font-family: "Outfit", sans-serif;
-      font-weight: 600;
-      font-size: 0.88rem;
-      padding: 0.55rem 1.1rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .btn-conferma-no:hover {
-      background: #323040;
-      color: #ffffff;
-    }
-
-    .btn-conferma-si {
-      background: #dc2626;
-      border: none;
-      color: #ffffff;
-      font-family: "Outfit", sans-serif;
-      font-weight: 700;
-      font-size: 0.88rem;
-      padding: 0.55rem 1.25rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all 0.15s ease;
-      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
-    }
-
-    .btn-conferma-si:hover {
-      background: #b91c1c;
-      transform: translateY(-1px);
+      .btn-conferma-no,
+      .btn-conferma-si {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding: 0.65rem 1rem;
+      }
     }
   </style>
 </head>
@@ -2105,6 +2204,9 @@
                 <line x1="14" y1="11" x2="14" y2="17"></line>
               </svg>
               Elimina
+            </button>
+            <button type="button" class="btn-dettaglio-chiudi-basso" id="btnChiudiDettaglioBasso">
+              Chiudi
             </button>
           </div>
         </div>
@@ -2675,21 +2777,40 @@
       disegna();
     });
 
+    // Gestione Lock Scroll del Body per evitare scroll di sfondo con le modali aperte
+    function aggiornaLockScrollBody() {
+      const q = document.getElementById("modalCaricamentoOverlay");
+      const d = document.getElementById("modalDettaglioOverlay");
+      const c = document.getElementById("modalConfermaEliminaOverlay");
+      const aperto = (q && q.style.display !== "none") ||
+                     (d && d.style.display !== "none") ||
+                     (c && c.style.display !== "none");
+      if (aperto) {
+        document.body.classList.add("modal-aperta");
+      } else {
+        document.body.classList.remove("modal-aperta");
+      }
+    }
+
     // Gestione Popup Modale Carica
     const modalOverlay = document.getElementById("modalCaricamentoOverlay");
     document.getElementById("btnApriCarica").addEventListener("click", () => {
       modalOverlay.style.display = "flex";
       document.getElementById("formCaricamento").style.display = "block";
       document.getElementById("statoAvanzamento").style.display = "none";
+      modalOverlay.scrollTop = 0;
+      aggiornaLockScrollBody();
     });
 
     document.getElementById("btnChiudiModal").addEventListener("click", () => {
       modalOverlay.style.display = "none";
+      aggiornaLockScrollBody();
     });
 
     modalOverlay.addEventListener("click", (e) => {
       if (e.target === modalOverlay) {
         modalOverlay.style.display = "none";
+        aggiornaLockScrollBody();
       }
     });
 
@@ -2771,6 +2892,8 @@
       artistaBox.style.display = "none";
 
       modalDettaglio.style.display = "flex";
+      modalDettaglio.scrollTop = 0;
+      aggiornaLockScrollBody();
 
       // Richiesta API Scryfall: prioritariamente l'edizione italiana ufficiale per testo di regole e flavor in italiano
       fetch(`https://api.scryfall.com/cards/${c.set}/${c.numero}/it`)
@@ -2900,6 +3023,8 @@
       }
 
       modalConfermaElimina.style.display = "flex";
+      modalConfermaElimina.scrollTop = 0;
+      aggiornaLockScrollBody();
     }
 
     async function eseguiEliminazioneConfermata() {
@@ -2915,8 +3040,11 @@
       }
 
       const btnSi = document.getElementById("btnConfermaEliminaSi");
+      const btnNo = document.getElementById("btnConfermaEliminaNo");
       const testoOriginale = btnSi.innerHTML;
+
       btnSi.disabled = true;
+      btnNo.disabled = true;
       btnSi.innerHTML = `<span>Eliminazione...</span>`;
 
       const carteAggiornate = JSON.parse(JSON.stringify(carte));
@@ -2926,49 +3054,42 @@
       );
 
       if (idx !== -1) {
-        if (rimuoviSoloUna && carteAggiornate[idx].quantita > 1) {
-          carteAggiornate[idx].quantita -= 1;
+        if (rimuoviSoloUna && (carteAggiornate[idx].quantita || 1) > 1) {
+          carteAggiornate[idx].quantita = (carteAggiornate[idx].quantita || 1) - 1;
         } else {
           carteAggiornate.splice(idx, 1);
         }
       }
 
-      const token = getToken();
+      // Tenta il commit su GitHub se il token è presente
       let salvatoSuGitHub = false;
+      try {
+        const token = localStorage.getItem("grimorio_gh_token");
+        if (token && shaCardsJsonIniziale) {
+          const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/vnd.github+json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              message: `Rimozione carta: ${nomeVisualizzato} (${c.possessore})`,
+              content: btoa(unescape(encodeURIComponent(JSON.stringify(carteAggiornate, null, 2)))),
+              sha: shaCardsJsonIniziale
+            })
+          });
 
-      if (token) {
-        try {
-          const resSha = await fetch(
-            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`,
-            { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" } }
-          );
-          if (resSha.ok) {
-            const fileInfo = await resSha.json();
-            const currentSha = fileInfo.sha;
-            const base64Content = btoa(unescape(encodeURIComponent(JSON.stringify(carteAggiornate, null, 2))));
-
-            const resPut = await fetch(
-              `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`,
-              {
-                method: "PUT",
-                headers: {
-                  Authorization: `token ${token}`,
-                  Accept: "application/vnd.github+json",
-                },
-                body: JSON.stringify({
-                  message: `Rimossa carta ${nomeVisualizzato} (${c.possessore}) dal Grimorio`,
-                  content: base64Content,
-                  sha: currentSha
-                }),
-              }
-            );
-            if (resPut.ok) {
-              salvatoSuGitHub = true;
+          if (resp.ok) {
+            const dataRes = await resp.json();
+            if (dataRes?.content?.sha) {
+              shaCardsJsonIniziale = dataRes.content.sha;
             }
+            salvatoSuGitHub = true;
           }
-        } catch (e) {
-          console.warn("Errore salvataggio GitHub:", e);
         }
+      } catch (err) {
+        console.warn("Sincronizzazione GitHub non riuscita (salvataggio locale):", err);
       }
 
       carte = carteAggiornate;
@@ -2978,8 +3099,10 @@
       modalConfermaElimina.style.display = "none";
       modalDettaglio.style.display = "none";
       btnSi.disabled = false;
+      btnNo.disabled = false;
       btnSi.innerHTML = testoOriginale;
       cartaSelezionata = null;
+      aggiornaLockScrollBody();
 
       const banner = document.getElementById("flashBanner");
       document.getElementById("flashTesto").textContent = salvatoSuGitHub
@@ -2991,15 +3114,19 @@
       }, 4500);
     }
 
-    document.getElementById("btnChiudiDettaglio").addEventListener("click", () => {
+    function chiudiDettaglioCarta() {
       modalDettaglio.style.display = "none";
       cartaSelezionata = null;
-    });
+      aggiornaLockScrollBody();
+    }
+
+    document.getElementById("btnChiudiDettaglio").addEventListener("click", chiudiDettaglioCarta);
+    const btnBasso = document.getElementById("btnChiudiDettaglioBasso");
+    if (btnBasso) btnBasso.addEventListener("click", chiudiDettaglioCarta);
 
     modalDettaglio.addEventListener("click", (e) => {
       if (e.target === modalDettaglio) {
-        modalDettaglio.style.display = "none";
-        cartaSelezionata = null;
+        chiudiDettaglioCarta();
       }
     });
 
@@ -3007,12 +3134,14 @@
     document.getElementById("btnEliminaCarta").addEventListener("click", chiediConfermaEliminazione);
     document.getElementById("btnConfermaEliminaNo").addEventListener("click", () => {
       modalConfermaElimina.style.display = "none";
+      aggiornaLockScrollBody();
     });
     document.getElementById("btnConfermaEliminaSi").addEventListener("click", eseguiEliminazioneConfermata);
 
     modalConfermaElimina.addEventListener("click", (e) => {
       if (e.target === modalConfermaElimina) {
         modalConfermaElimina.style.display = "none";
+        aggiornaLockScrollBody();
       }
     });
 
@@ -3020,6 +3149,7 @@
       if (e.key === "Escape") {
         if (modalConfermaElimina && modalConfermaElimina.style.display !== "none") {
           modalConfermaElimina.style.display = "none";
+          aggiornaLockScrollBody();
           return;
         }
         if (modalOverlay.style.display !== "none") {
@@ -3029,6 +3159,7 @@
           modalDettaglio.style.display = "none";
           cartaSelezionata = null;
         }
+        aggiornaLockScrollBody();
       }
     });
 
