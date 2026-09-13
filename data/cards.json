@@ -23,29 +23,6 @@
     "rarita": "common"
   },
   {
-    "scryfallId": "358efb1e-0366-4943-9a25-6a356e48773c",
-    "nome": "Nausea",
-    "nomeIt": "Nausea",
-    "nomeEn": "Nausea",
-    "lingua": "Inglese",
-    "set": "8ed",
-    "numero": "148",
-    "immagine": "https://cards.scryfall.io/normal/front/3/5/358efb1e-0366-4943-9a25-6a356e48773c.jpg?1783944752",
-    "foil": false,
-    "quantita": 1,
-    "possessore": "Mattia",
-    "prezzoCardmarket": 0.14,
-    "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T10:25:18.478Z",
-    "manaCost": "{1}{B}",
-    "cmc": 2,
-    "tipo": "Sorcery",
-    "colori": [
-      "B"
-    ],
-    "rarita": "common"
-  },
-  {
     "scryfallId": "513e063c-b328-4e5f-8806-b232c38645f5",
     "nome": "Torre di Urza",
     "nomeIt": "Torre di Urza",
