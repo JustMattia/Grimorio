@@ -3000,8 +3000,11 @@
 
       const btnCM = document.getElementById("btnLinkCardmarket");
       const btnCT = document.getElementById("btnLinkCardtrader");
-      btnCM.href = `https://www.cardmarket.com/en/Magic/Products/Search?searchString=${encodeURIComponent(c.nomeEn || c.nome)}`;
-      btnCT.href = `https://www.cardtrader.com/en/cards?name=${encodeURIComponent(c.nomeEn || c.nome)}`;
+      const nomeCartaRicerca = c.nomeEn || c.nome || "";
+      btnCM.href = `https://www.cardmarket.com/en/Magic/Products/Search?searchString=${encodeURIComponent(nomeCartaRicerca)}`;
+      // CardTrader usa il percorso /en/search/{nome}. Sostituiamo eventuali slash (es. carte split o bifronte "Wear // Tear") con spazi per evitare errori 404 dovuti a caratteri separatori nell'URL.
+      const nomeCardtrader = nomeCartaRicerca.replace(/\s*\/\/\s*/g, " ").replace(/\//g, " ").trim();
+      btnCT.href = `https://www.cardtrader.com/en/search/${encodeURIComponent(nomeCardtrader)}`;
 
       const oracleBox = document.getElementById("dettaglioOracleText");
       const flavorBox = document.getElementById("dettaglioFlavorText");
