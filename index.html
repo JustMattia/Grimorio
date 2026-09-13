@@ -1017,24 +1017,291 @@
       margin-bottom: 0.85rem;
     }
 
-    /* Responsive */
+    /* Elementi ausiliari mobile nascosti su desktop */
+    .toolbar-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .mobile-subinfo,
+    .mobile-mana,
+    .mobile-prezzi {
+      display: none;
+    }
+
+    /* === RESPONSIVE DESIGN (MOBILE & TABLET) === */
     @media (max-width: 768px) {
+      header,
+      main {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+      }
+
+      header.app-header {
+        padding-top: 1rem;
+        padding-bottom: 0.85rem;
+      }
+
       .header-top {
-        flex-direction: column;
-        align-items: stretch;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.65rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .brand-stat-group {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        flex-wrap: wrap;
+      }
+
+      h1.titolo-grimorio {
+        font-size: 1.75rem;
+      }
+
+      .stat-pill {
+        padding: 0.22rem 0.6rem;
+      }
+
+      .stat-simbolo {
+        font-size: 1rem;
+      }
+
+      .stat-cifra {
+        font-size: 1.15rem;
+      }
+
+      .stat-sub {
+        font-size: 0.78rem;
       }
 
       .btn-apri-carica {
-        justify-content: center;
+        padding: 0.45rem 0.85rem;
+        font-size: 0.86rem;
       }
 
+      /* Toolbar Mobile */
       .toolbar-main {
+        display: flex;
         flex-direction: column;
-        align-items: stretch;
+        gap: 0.5rem;
+        padding: 0.65rem;
+      }
+
+      .ricerca-wrap {
+        width: 100%;
+        flex: none;
+      }
+
+      .toolbar-actions-group {
+        display: flex;
+        width: 100%;
+        gap: 0.5rem;
       }
 
       .vista-switch {
-        align-self: flex-start;
+        flex: 1;
+        display: flex;
+      }
+
+      .btn-vista {
+        flex: 1;
+        justify-content: center;
+        padding: 0.45rem 0.5rem;
+      }
+
+      .btn-filtri {
+        flex: 1;
+        justify-content: center;
+        padding: 0.45rem 0.5rem;
+      }
+
+      /* Drawer Filtri su Mobile */
+      .filtri-griglia {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .filtro-item {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0.4rem 0.65rem;
+      }
+
+      .filtro-item select {
+        flex: 1;
+        text-align: right;
+        max-width: 60%;
+      }
+
+      .btn-reset-filtri {
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+        padding: 0.55rem;
+      }
+
+      /* Disabilita anteprima hover su touch/mobile */
+      #hoverCardPreview {
+        display: none !important;
+      }
+
+      /* LISTA CARTE SU MOBILE: Convertita in eleganti card a riga */
+      .tabella-wrap {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        overflow-x: visible;
+      }
+
+      table.tabella-carte {
+        display: block;
+        width: 100%;
+      }
+
+      table.tabella-carte thead {
+        display: none !important;
+      }
+
+      table.tabella-carte tbody {
+        display: flex;
+        flex-direction: column;
+        gap: 0.55rem;
+        width: 100%;
+      }
+
+      table.tabella-carte tbody tr.riga-carta {
+        display: flex;
+        flex-direction: column;
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: var(--radius-md);
+        padding: 0.75rem 0.85rem;
+        gap: 0.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      table.tabella-carte tbody tr.riga-carta:hover {
+        background: var(--panel);
+      }
+
+      /* Nascondi colonne tabellari ridondanti su mobile */
+      .desktop-only {
+        display: none !important;
+      }
+
+      /* Riga Principale della carta (Nome, Miniatura, Dettagli e Mana a destra) */
+      .col-main {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 0 !important;
+        border: none !important;
+      }
+
+      .cella-nome {
+        flex: 1;
+        gap: 0.65rem;
+      }
+
+      .thumb-carta {
+        width: 38px;
+        height: 52px;
+      }
+
+      .nome-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .nome-testo {
+        font-size: 0.92rem;
+      }
+
+      .mobile-subinfo {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        font-size: 0.76rem;
+        color: var(--ink-dim);
+      }
+
+      .mobile-divider {
+        color: var(--ink-muted);
+      }
+
+      .mobile-mana {
+        display: flex;
+        align-items: center;
+        margin-left: 0.5rem;
+        flex-shrink: 0;
+      }
+
+      /* Riga Inferiore della carta (Possessore a sinistra, Prezzi a destra) */
+      .col-footer {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 0.45rem 0 0 0 !important;
+        border: none !important;
+        border-top: 1px solid var(--panel-border-subtle) !important;
+      }
+
+      .mobile-prezzi {
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+      }
+
+      .sigla-prezzo {
+        font-size: 0.65rem;
+        font-weight: 700;
+        color: var(--ink-muted);
+        text-transform: uppercase;
+        margin-right: 0.15rem;
+      }
+
+      /* VISTA GRIGLIA SU MOBILE (2 colonne armoniose) */
+      .griglia-carte {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.65rem !important;
+      }
+
+      .carta-card {
+        padding: 0.55rem;
+        gap: 0.45rem;
+      }
+
+      .carta-card .nome {
+        font-size: 0.82rem;
+      }
+
+      .carta-card .prezzi-box {
+        padding: 0.35rem 0.5rem;
+        font-size: 0.74rem;
+      }
+
+      .carta-card .prezzi-box span {
+        font-size: 0.6rem;
+      }
+
+      /* Modal su mobile */
+      .modal-card {
+        max-height: 92vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .modal-body {
+        overflow-y: auto;
+        padding: 1.15rem;
       }
     }
   </style>
@@ -1082,23 +1349,25 @@
           <button type="button" id="btnPulisciRicerca" class="btn-clear-search" style="display: none;" title="Cancella ricerca">✕</button>
         </div>
 
-        <div class="vista-switch" role="group" aria-label="Modalità visualizzazione">
-          <button type="button" class="btn-vista active" id="btnVistaLista" title="Visualizza come elenco dettagliato">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
-            <span>Lista</span>
-          </button>
-          <button type="button" class="btn-vista" id="btnVistaGriglia" title="Visualizza come griglia di carte">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-            <span>Griglia</span>
+        <div class="toolbar-actions-group">
+          <div class="vista-switch" role="group" aria-label="Modalità visualizzazione">
+            <button type="button" class="btn-vista active" id="btnVistaLista" title="Visualizza come elenco dettagliato">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <span>Lista</span>
+            </button>
+            <button type="button" class="btn-vista" id="btnVistaGriglia" title="Visualizza come griglia di carte">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <span>Griglia</span>
+            </button>
+          </div>
+
+          <!-- Pulsante che rivela/nasconde i filtri -->
+          <button type="button" class="btn-filtri" id="btnToggleFiltri" aria-expanded="false" title="Mostra filtri e ordinamento">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+            <span>Filtri</span>
+            <span class="badge-filtri-attivi" id="badgeFiltriAttivi" style="display: none;">0</span>
           </button>
         </div>
-
-        <!-- Pulsante che rivela/nasconde i filtri -->
-        <button type="button" class="btn-filtri" id="btnToggleFiltri" aria-expanded="false" title="Mostra filtri e ordinamento">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
-          <span>Filtri</span>
-          <span class="badge-filtri-attivi" id="badgeFiltriAttivi" style="display: none;">0</span>
-        </button>
       </div>
 
       <!-- Drawer Filtri a comparsa -->
@@ -1553,7 +1822,7 @@
               <thead>
                 <tr>
                   <th style="min-width: 240px; width: 32%;">Nome Carta</th>
-                  <th style="min-width: 105px; width: 12%;">Costo Mana</th>
+                  <th style="min-width: 105px; width: 12%;">${isTerre ? '' : 'Costo Mana'}</th>
                   <th style="min-width: 140px; width: 18%;">Tipo</th>
                   <th style="min-width: 80px; width: 10%;">Edizione</th>
                   <th style="min-width: 110px; width: 12%;">Possessore</th>
@@ -1573,27 +1842,41 @@
 
             tableHtml += `
               <tr class="riga-carta" data-img="${c.immagine || ''}">
-                <td>
+                <td class="col-main">
                   <div class="cella-nome">
                     ${c.immagine ? `<img class="thumb-carta" src="${c.immagine}" alt="${c.nome}" loading="lazy" />` : ''}
-                    <div class="nome-testo">
-                      <span>${c.nome}</span>
-                      ${foilBadge}
-                      ${qtyBadge}
+                    <div class="nome-info">
+                      <div class="nome-testo">
+                        <span>${c.nome}</span>
+                        ${foilBadge}
+                        ${qtyBadge}
+                      </div>
+                      <div class="mobile-subinfo">
+                        <span class="cella-set">${setLabel}</span>
+                        <span class="mobile-divider">·</span>
+                        <span class="cella-tipo">${tipoLabel}</span>
+                      </div>
                     </div>
                   </div>
+                  <div class="mobile-mana">${isTerre ? '' : manaHtml}</div>
                 </td>
-                <td>${isTerre ? '' : manaHtml}</td>
-                <td class="cella-tipo">${tipoLabel}</td>
-                <td class="cella-set">${setLabel}</td>
-                <td>
-                  <span class="${classePossessore(c.possessore)}">
-                    <span class="dot"></span>
-                    ${c.possessore || 'Sconosciuto'}
-                  </span>
+                <td class="col-mana desktop-only">${isTerre ? '' : manaHtml}</td>
+                <td class="col-tipo desktop-only cella-tipo">${tipoLabel}</td>
+                <td class="col-set desktop-only cella-set">${setLabel}</td>
+                <td class="col-footer">
+                  <div class="footer-possessore">
+                    <span class="${classePossessore(c.possessore)}">
+                      <span class="dot"></span>
+                      ${c.possessore || 'Sconosciuto'}
+                    </span>
+                  </div>
+                  <div class="mobile-prezzi">
+                    <span class="cella-prezzo prezzo-cardmarket"><span class="sigla-prezzo">CM</span> ${formattaPrezzo(c.prezzoCardmarket)}</span>
+                    <span class="cella-prezzo prezzo-cardtrader"><span class="sigla-prezzo">CT</span> ${formattaPrezzo(c.prezzoCardtrader)}</span>
+                  </div>
                 </td>
-                <td class="cella-prezzo prezzo-cardmarket">${formattaPrezzo(c.prezzoCardmarket)}</td>
-                <td class="cella-prezzo prezzo-cardtrader">${formattaPrezzo(c.prezzoCardtrader)}</td>
+                <td class="col-cardmarket desktop-only cella-prezzo prezzo-cardmarket">${formattaPrezzo(c.prezzoCardmarket)}</td>
+                <td class="col-cardtrader desktop-only cella-prezzo prezzo-cardtrader">${formattaPrezzo(c.prezzoCardtrader)}</td>
               </tr>
             `;
           });
