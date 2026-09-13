@@ -4,13 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grimorio — Collezione MTG Condivisa</title>
+  <title>Grimorio</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
   <style>
     :root {
       --bg: #0c0b10;
@@ -21,13 +23,13 @@
       --ink: #f4f2ec;
       --ink-dim: #9b98a7;
       --ink-muted: #6b6878;
-      
+
       /* Giallo solido semplice, nessun gradiente */
       --yellow: #facc15;
       --yellow-hover: #eab308;
       --yellow-dark: #ca8a04;
       --yellow-subtle: rgba(250, 204, 21, 0.12);
-      
+
       /* Colori Possessori */
       --owner-mattia: #facc15;
       --owner-laura: #14b8a6;
@@ -38,7 +40,7 @@
       --radius-md: 10px;
       --radius-lg: 14px;
       --radius-full: 9999px;
-      
+
       --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
       --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
       --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.7);
@@ -332,8 +334,15 @@
     }
 
     @keyframes fadeInDrawer {
-      from { opacity: 0; transform: translateY(-4px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .filtri-griglia {
@@ -413,8 +422,13 @@
     }
 
     @keyframes modalFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     .modal-card {
@@ -597,7 +611,9 @@
     }
 
     @keyframes spin {
-      to { transform: rotate(360deg); }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .stato-icona-success {
@@ -1028,6 +1044,7 @@
 
     /* === RESPONSIVE DESIGN (MOBILE & TABLET) === */
     @media (max-width: 768px) {
+
       header,
       main {
         padding-left: 0.85rem;
@@ -1772,7 +1789,8 @@
   <!-- Banner Notifica Ricarica Automatica -->
   <div id="flashBanner" class="flash-banner" style="display: none;">
     <span id="flashTesto">Nuove carte caricate con successo nel Grimorio!</span>
-    <button type="button" onclick="document.getElementById('flashBanner').style.display='none'" title="Chiudi notifica">✕</button>
+    <button type="button" onclick="document.getElementById('flashBanner').style.display='none'"
+      title="Chiudi notifica">✕</button>
   </div>
 
   <!-- SEZIONE UNICA INTESTAZIONE E TOOLBAR -->
@@ -1791,7 +1809,11 @@
 
       <!-- Tasto Carica che apre il Popup -->
       <button type="button" class="btn-apri-carica" id="btnApriCarica">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
         <span>Carica</span>
       </button>
     </div>
@@ -1800,26 +1822,46 @@
     <div class="toolbar">
       <div class="toolbar-main">
         <div class="ricerca-wrap">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
           <input id="ricerca" type="text" placeholder="Cerca carta per nome..." />
-          <button type="button" id="btnPulisciRicerca" class="btn-clear-search" style="display: none;" title="Cancella ricerca">✕</button>
+          <button type="button" id="btnPulisciRicerca" class="btn-clear-search" style="display: none;"
+            title="Cancella ricerca">✕</button>
         </div>
 
         <div class="toolbar-actions-group">
           <div class="vista-switch" role="group" aria-label="Modalità visualizzazione">
-            <button type="button" class="btn-vista active" id="btnVistaLista" title="Visualizza come elenco dettagliato">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <button type="button" class="btn-vista active" id="btnVistaLista"
+              title="Visualizza come elenco dettagliato">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"></line>
+                <line x1="8" y1="12" x2="21" y2="12"></line>
+                <line x1="8" y1="18" x2="21" y2="18"></line>
+                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+              </svg>
               <span>Lista</span>
             </button>
             <button type="button" class="btn-vista" id="btnVistaGriglia" title="Visualizza come griglia di carte">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
               <span>Griglia</span>
             </button>
           </div>
 
           <!-- Pulsante che rivela/nasconde i filtri -->
-          <button type="button" class="btn-filtri" id="btnToggleFiltri" aria-expanded="false" title="Mostra filtri e ordinamento">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          <button type="button" class="btn-filtri" id="btnToggleFiltri" aria-expanded="false"
+            title="Mostra filtri e ordinamento">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
             <span>Filtri</span>
             <span class="badge-filtri-attivi" id="badgeFiltriAttivi" style="display: none;">0</span>
           </button>
@@ -1911,7 +1953,11 @@
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="titoloModalCarica">
       <div class="modal-header">
         <h2 id="titoloModalCarica">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
           Carica nuove carte
         </h2>
         <button type="button" class="btn-modal-chiudi" id="btnChiudiModal" title="Chiudi finestra">✕</button>
@@ -1939,7 +1985,8 @@
           </button>
 
           <p class="meta-token-info">
-            La prima volta ti verrà chiesto il tuo Personal Access Token di GitHub: resta memorizzato solo nel tuo browser e non viene mai salvato nel sito.
+            La prima volta ti verrà chiesto il tuo Personal Access Token di GitHub: resta memorizzato solo nel tuo
+            browser e non viene mai salvato nel sito.
           </p>
         </div>
 
@@ -1974,7 +2021,7 @@
   <div class="modal-overlay" id="modalDettaglioOverlay" style="display: none;">
     <div class="modal-dettaglio-card" role="dialog" aria-modal="true" aria-labelledby="dettaglioNome">
       <button type="button" class="btn-dettaglio-chiudi" id="btnChiudiDettaglio" title="Chiudi finestra">✕</button>
-      
+
       <div class="modal-dettaglio-body">
         <!-- Colonna Sinistra: Immagine Carta Grande -->
         <div class="dettaglio-img-col">
@@ -2032,16 +2079,31 @@
 
           <!-- Tasti Azione: Cardmarket, Cardtrader, Elimina -->
           <div class="dettaglio-azioni-row">
-            <a id="btnLinkCardmarket" class="btn-marketplace btn-cardmarket" href="#" target="_blank" rel="noopener noreferrer">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <a id="btnLinkCardmarket" class="btn-marketplace btn-cardmarket" href="#" target="_blank"
+              rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
               Cardmarket
             </a>
-            <a id="btnLinkCardtrader" class="btn-marketplace btn-cardtrader" href="#" target="_blank" rel="noopener noreferrer">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <a id="btnLinkCardtrader" class="btn-marketplace btn-cardtrader" href="#" target="_blank"
+              rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
               Cardtrader
             </a>
             <button type="button" class="btn-elimina-carta" id="btnEliminaCarta">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
               Elimina
             </button>
           </div>
@@ -2092,7 +2154,10 @@
   </main>
 
   <div class="vuoto" id="messaggioVuoto" style="display: none">
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
     <div>Nessuna carta corrisponde ai criteri di ricerca o ai filtri selezionati.</div>
   </div>
 
@@ -2211,9 +2276,9 @@
       }, 0);
 
       const totaleCarte = tutte.reduce((sum, c) => sum + (c.quantita || 1), 0);
-      
+
       document.getElementById("statValore").textContent = totaleCardmarket.toFixed(2);
-      
+
       let label = `${totaleCarte} carte in totale`;
       if (filtrate && filtrate.length !== tutte.length) {
         const filtrateCarte = filtrate.reduce((sum, c) => sum + (c.quantita || 1), 0);
@@ -2353,11 +2418,11 @@
           const linguaStr = (c.lingua || "").toLowerCase();
 
           const match = nIt.includes(q) ||
-                        nEn.includes(q) ||
-                        nOrig.includes(q) ||
-                        setCod.includes(q) ||
-                        tipoStr.includes(q) ||
-                        linguaStr.includes(q);
+            nEn.includes(q) ||
+            nOrig.includes(q) ||
+            setCod.includes(q) ||
+            tipoStr.includes(q) ||
+            linguaStr.includes(q);
           if (!match) return false;
         }
         if (possessore && c.possessore !== possessore) return false;
@@ -2425,7 +2490,7 @@
           // Vista Lista (Tabellare di default)
           const tableWrap = document.createElement("div");
           tableWrap.className = "tabella-wrap";
-          
+
           let tableHtml = `
             <table class="tabella-carte">
               <thead>
@@ -2663,7 +2728,7 @@
       document.getElementById("dettaglioMana").innerHTML = renderManaCost(c.manaCost, isTerra);
       document.getElementById("dettaglioTipo").textContent = c.tipo || categorizzaTipo(c);
       document.getElementById("dettaglioSet").textContent = `${(c.set || "").toUpperCase()}${c.numero ? ` #${c.numero}` : ""}${c.rarita ? ` · ${c.rarita.toUpperCase()}` : ""}`;
-      
+
       const badgesBox = document.getElementById("dettaglioBadges");
       badgesBox.innerHTML = c.foil ? '<span class="badge-foil">✦ Foil</span>' : '';
 
@@ -2855,7 +2920,7 @@
       btnSi.innerHTML = `<span>Eliminazione...</span>`;
 
       const carteAggiornate = JSON.parse(JSON.stringify(carte));
-      const idx = carteAggiornate.findIndex(item => 
+      const idx = carteAggiornate.findIndex(item =>
         (item.scryfallId && item.scryfallId === c.scryfallId && item.possessore === c.possessore) ||
         ((item.nomeIt || item.nome) === nomeVisualizzato && item.set === c.set && item.numero === c.numero && item.possessore === c.possessore)
       );
@@ -2972,7 +3037,7 @@
       let cacheIt = {};
       try {
         cacheIt = JSON.parse(localStorage.getItem("grimorio_it_cache") || "{}");
-      } catch (e) {}
+      } catch (e) { }
 
       let needsRedraw = false;
 
@@ -2992,11 +3057,11 @@
                 cacheIt[key] = { nome: itData.printed_name, testo: itData.printed_text };
                 try {
                   localStorage.setItem("grimorio_it_cache", JSON.stringify(cacheIt));
-                } catch (e) {}
+                } catch (e) { }
                 disegna();
               }
             })
-            .catch(() => {});
+            .catch(() => { });
         }
       });
 
@@ -3099,11 +3164,11 @@
       fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
         headers: { "Accept": "application/vnd.github+json" }
       })
-      .then(r => r.ok ? r.json() : null)
-      .then(d => {
-        if (d && d.sha) shaCardsJsonIniziale = d.sha;
-      })
-      .catch(() => {});
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (d && d.sha) shaCardsJsonIniziale = d.sha;
+        })
+        .catch(() => { });
     }
 
     // --- CARICAMENTO DIRETTO CSV, STATO TASK LIVE E RICARICA AUTOMATICA ---
