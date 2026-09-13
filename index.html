@@ -1333,8 +1333,8 @@
     }
 
     // Renderizza le icone mana UFFICIALI (SVG Scryfall)
-    function renderManaCost(manaCost) {
-      if (!manaCost) return '<span class="mana-empty">—</span>';
+    function renderManaCost(manaCost, isTerra = false) {
+      if (isTerra || !manaCost) return "";
       const regex = /\{([^}]+)\}/g;
       let match;
       let html = '<div class="mana-costo">';
@@ -1541,6 +1541,8 @@
           </div>
         `;
 
+        const isTerre = (cat.id === "Terre");
+
         if (modalitaVista === "lista") {
           // Vista Lista (Tabellare di default)
           const tableWrap = document.createElement("div");
@@ -1550,13 +1552,13 @@
             <table class="tabella-carte">
               <thead>
                 <tr>
-                  <th style="min-width: 240px;">Nome Carta</th>
-                  <th style="min-width: 100px;">Costo Mana</th>
-                  <th style="min-width: 140px;">Tipo</th>
-                  <th style="min-width: 80px;">Edizione</th>
-                  <th style="min-width: 110px;">Possessore</th>
-                  <th style="min-width: 110px;">Cardmarket</th>
-                  <th style="min-width: 110px;">Cardtrader</th>
+                  <th style="min-width: 240px; width: 32%;">Nome Carta</th>
+                  <th style="min-width: 105px; width: 12%;">Costo Mana</th>
+                  <th style="min-width: 140px; width: 18%;">Tipo</th>
+                  <th style="min-width: 80px; width: 10%;">Edizione</th>
+                  <th style="min-width: 110px; width: 12%;">Possessore</th>
+                  <th style="min-width: 110px; width: 8%;">Cardmarket</th>
+                  <th style="min-width: 110px; width: 8%;">Cardtrader</th>
                 </tr>
               </thead>
               <tbody>
@@ -1565,7 +1567,7 @@
           carteDelTipo.forEach(c => {
             const foilBadge = c.foil ? '<span class="badge-foil">✦ Foil</span>' : '';
             const qtyBadge = (c.quantita && c.quantita > 1) ? `<span class="badge-qty">×${c.quantita}</span>` : '';
-            const manaHtml = renderManaCost(c.manaCost);
+            const manaHtml = renderManaCost(c.manaCost, isTerre);
             const tipoLabel = c.tipo || cat.nome;
             const setLabel = (c.set || "").toUpperCase() + (c.numero ? ` #${c.numero}` : "");
 
@@ -1581,7 +1583,7 @@
                     </div>
                   </div>
                 </td>
-                <td>${manaHtml}</td>
+                <td>${isTerre ? '' : manaHtml}</td>
                 <td class="cella-tipo">${tipoLabel}</td>
                 <td class="cella-set">${setLabel}</td>
                 <td>
@@ -1613,7 +1615,7 @@
             cardEl.className = "carta-card";
             const foilBadge = c.foil ? '<span class="badge-foil">✦ Foil</span>' : '';
             const qtyBadge = (c.quantita && c.quantita > 1) ? `<span class="badge-qty">×${c.quantita}</span>` : '';
-            const manaHtml = renderManaCost(c.manaCost);
+            const manaHtml = renderManaCost(c.manaCost, isTerre);
 
             cardEl.innerHTML = `
               <div class="carta-card-img-wrap">
@@ -1621,7 +1623,7 @@
               </div>
               <div class="nome-row">
                 <div class="nome">${c.nome} ${qtyBadge} ${foilBadge}</div>
-                <div>${manaHtml}</div>
+                ${(isTerre || !manaHtml) ? '' : `<div>${manaHtml}</div>`}
               </div>
               <div class="meta-riga">
                 <span class="cella-set">${(c.set || "").toUpperCase()} #${c.numero || ''}</span>
