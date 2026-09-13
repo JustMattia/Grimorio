@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "scryfallId": "7d47f27d-5a25-4d2a-b2a2-027b579b881b",
+    "nome": "Tremor",
+    "set": "8ed",
+    "numero": "228",
+    "immagine": "https://cards.scryfall.io/normal/front/7/d/7d47f27d-5a25-4d2a-b2a2-027b579b881b.jpg?1783944695",
+    "foil": false,
+    "quantita": 1,
+    "possessore": "Mattia",
+    "prezzoCardmarket": 0.12,
+    "prezzoCardtrader": 0.11,
+    "aggiornatoIl": "2026-09-13T10:25:18.014Z"
+  },
+  {
+    "scryfallId": "358efb1e-0366-4943-9a25-6a356e48773c",
+    "nome": "Nausea",
+    "set": "8ed",
+    "numero": "148",
+    "immagine": "https://cards.scryfall.io/normal/front/3/5/358efb1e-0366-4943-9a25-6a356e48773c.jpg?1783944752",
+    "foil": false,
+    "quantita": 1,
+    "possessore": "Mattia",
+    "prezzoCardmarket": 0.14,
+    "prezzoCardtrader": 0.11,
+    "aggiornatoIl": "2026-09-13T10:25:18.478Z"
+  },
+  {
+    "scryfallId": "513e063c-b328-4e5f-8806-b232c38645f5",
+    "nome": "Urza's Tower",
+    "set": "9ed",
+    "numero": "329",
+    "immagine": "https://cards.scryfall.io/normal/front/5/1/513e063c-b328-4e5f-8806-b232c38645f5.jpg?1783943879",
+    "foil": false,
+    "quantita": 1,
+    "possessore": "Mattia",
+    "prezzoCardmarket": 0.72,
+    "prezzoCardtrader": 0.24,
+    "aggiornatoIl": "2026-09-13T10:25:19.093Z"
+  }
+]
