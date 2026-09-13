@@ -2029,15 +2029,6 @@
             </select>
           </div>
 
-          <!-- Filtro Caricamento -->
-          <div class="filtro-item">
-            <label for="filtroCaricamento">Data</label>
-            <select id="filtroCaricamento">
-              <option value="">Tutte le date</option>
-              <option value="7d">Ultimi 7 giorni</option>
-              <option value="30d">Ultimi 30 giorni</option>
-            </select>
-          </div>
 
           <button type="button" class="btn-reset-filtri" id="btnResetFiltri" title="Ripristina filtri predefiniti">
             Azzera filtri
@@ -2569,32 +2560,6 @@
       document.getElementById("statLabel").textContent = label;
     }
 
-    // Popola le date nel filtro caricamento
-    function popolaDateCaricamento(lista) {
-      const select = document.getElementById("filtroCaricamento");
-      // Manteniamo le opzioni predefinite (Tutte, 7d, 30d)
-      while (select.options.length > 3) {
-        select.remove(3);
-      }
-      const dateSet = new Set();
-      lista.forEach(c => {
-        if (c.aggiornatoIl) {
-          const d = new Date(c.aggiornatoIl);
-          if (!isNaN(d.getTime())) {
-            const dataStr = d.toISOString().split("T")[0];
-            dateSet.add(dataStr);
-          }
-        }
-      });
-      const dateOrdinate = Array.from(dateSet).sort().reverse();
-      dateOrdinate.forEach(dataIso => {
-        const opt = document.createElement("option");
-        opt.value = "date:" + dataIso;
-        const [yyyy, mm, dd] = dataIso.split("-");
-        opt.textContent = `Caricate il ${dd}/${mm}/${yyyy}`;
-        select.appendChild(opt);
-      });
-    }
 
     // Aggiorna indicatore badge dei filtri attivi
     function aggiornaBadgeFiltri() {
@@ -2602,7 +2567,6 @@
       if (document.getElementById("filtroPossessore").value) attivi++;
       if (document.getElementById("filtroTipo").value) attivi++;
       if (document.getElementById("filtroColore").value) attivi++;
-      if (document.getElementById("filtroCaricamento").value) attivi++;
       if (document.getElementById("ordina").value !== "tipo_colore_cmc") attivi++;
 
       const badge = document.getElementById("badgeFiltriAttivi");
@@ -2679,13 +2643,10 @@
       const possessore = document.getElementById("filtroPossessore").value;
       const tipoFiltro = document.getElementById("filtroTipo").value;
       const coloreFiltro = document.getElementById("filtroColore").value;
-      const caricamentoFiltro = document.getElementById("filtroCaricamento").value;
       const ordine = document.getElementById("ordina").value;
 
       document.getElementById("btnPulisciRicerca").style.display = testo ? "block" : "none";
       aggiornaBadgeFiltri();
-
-      const adesso = new Date();
 
       let filtrate = carte.filter(c => {
         // Ricerca universale multilingua: trova la carta in qualsiasi lingua cercata (italiano o inglese)
@@ -2719,21 +2680,6 @@
             if (colori.length > 0) return false;
           } else {
             if (!colori.includes(coloreFiltro)) return false;
-          }
-        }
-
-        if (caricamentoFiltro) {
-          const dataCarta = new Date(c.aggiornatoIl || 0);
-          if (caricamentoFiltro === "7d") {
-            const diffG = (adesso - dataCarta) / (1000 * 60 * 60 * 24);
-            if (diffG > 7) return false;
-          } else if (caricamentoFiltro === "30d") {
-            const diffG = (adesso - dataCarta) / (1000 * 60 * 60 * 24);
-            if (diffG > 30) return false;
-          } else if (caricamentoFiltro.startsWith("date:")) {
-            const targetIso = caricamentoFiltro.replace("date:", "");
-            const dataIso = dataCarta.toISOString().split("T")[0];
-            if (dataIso !== targetIso) return false;
           }
         }
 
@@ -2945,7 +2891,6 @@
     document.getElementById("filtroPossessore").addEventListener("change", disegna);
     document.getElementById("filtroTipo").addEventListener("change", disegna);
     document.getElementById("filtroColore").addEventListener("change", disegna);
-    document.getElementById("filtroCaricamento").addEventListener("change", disegna);
 
     // Reset Filtri
     document.getElementById("btnResetFiltri").addEventListener("click", () => {
@@ -2954,7 +2899,6 @@
       document.getElementById("filtroPossessore").value = "";
       document.getElementById("filtroTipo").value = "";
       document.getElementById("filtroColore").value = "";
-      document.getElementById("filtroCaricamento").value = "";
       disegna();
     });
 
@@ -3456,7 +3400,6 @@
           if (!c.tipoIt && c.tipo) c.tipoIt = traduciTipo(c.tipo);
           if (!c.lingua) c.lingua = "Inglese";
         });
-        popolaDateCaricamento(carte);
         aggiornaStatistiche(carte, carte);
         disegna();
         risolviNomiItalianiMancanti(carte);
@@ -3534,7 +3477,6 @@
             rarita: "uncommon"
           }
         ];
-        popolaDateCaricamento(carte);
         aggiornaStatistiche(carte, carte);
         disegna();
       });
