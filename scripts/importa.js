@@ -166,6 +166,20 @@ for (const nomeFile of fileDaImportare) {
         card.image_uris?.normal ||
         card.card_faces?.[0]?.image_uris?.normal ||
         null,
+      manaCost:
+        card.mana_cost ||
+        card.card_faces?.map((f) => f.mana_cost).filter(Boolean).join(" // ") ||
+        "",
+      cmc: card.cmc ?? 0,
+      tipo:
+        card.type_line ||
+        card.card_faces?.map((f) => f.type_line).filter(Boolean).join(" // ") ||
+        "",
+      colori:
+        card.colors ||
+        card.card_faces?.[0]?.colors ||
+        [],
+      rarita: card.rarity || "",
       foil: isFoil,
       quantita: parseInt(row["Quantity"] || "1", 10),
       possessore,

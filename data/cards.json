@@ -10,7 +10,14 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.12,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T10:25:18.014Z"
+    "aggiornatoIl": "2026-09-13T10:25:18.014Z",
+    "manaCost": "{R}",
+    "cmc": 1,
+    "tipo": "Sorcery",
+    "colori": [
+      "R"
+    ],
+    "rarita": "common"
   },
   {
     "scryfallId": "358efb1e-0366-4943-9a25-6a356e48773c",
@@ -23,7 +30,14 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.14,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-13T10:25:18.478Z"
+    "aggiornatoIl": "2026-09-13T10:25:18.478Z",
+    "manaCost": "{1}{B}",
+    "cmc": 2,
+    "tipo": "Sorcery",
+    "colori": [
+      "B"
+    ],
+    "rarita": "common"
   },
   {
     "scryfallId": "513e063c-b328-4e5f-8806-b232c38645f5",
@@ -36,6 +50,11 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.72,
     "prezzoCardtrader": 0.24,
-    "aggiornatoIl": "2026-09-13T10:25:19.093Z"
+    "aggiornatoIl": "2026-09-13T10:25:19.093Z",
+    "manaCost": "",
+    "cmc": 0,
+    "tipo": "Land — Urza's Tower",
+    "colori": [],
+    "rarita": "uncommon"
   }
 ]

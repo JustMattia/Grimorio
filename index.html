@@ -1,431 +1,1553 @@
 <!doctype html>
 <html lang="it">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La dispensa</title>
-    <style>
-      :root {
-        --bg: #17161c;
-        --panel: #1f1e26;
-        --panel-border: #34323d;
-        --ink: #ece8df;
-        --ink-dim: #9d9aa6;
-        --gold: #c9a227;
-        --teal: #4f8f86;
-        --owner-1: #c9a227;
-        --owner-2: #4f8f86;
-        --owner-3: #a2618f;
-      }
 
-      * {
-        box-sizing: border-box;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grimorio — Collezione MTG Condivisa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --bg: #0d0c11;
+      --panel: #16151e;
+      --panel-elevated: #1d1b27;
+      --panel-border: #2c2a38;
+      --panel-border-subtle: #211f2c;
+      --ink: #f4f2ec;
+      --ink-dim: #9b98a7;
+      --ink-muted: #6b6878;
+      --gold: #d4af37;
+      --gold-bright: #fcd34d;
+      --gold-dark: #b45309;
+      --gold-glow: rgba(212, 175, 55, 0.25);
+      
+      /* Colori Possessori */
+      --owner-mattia: #f59e0b;
+      --owner-laura: #14b8a6;
+      --owner-matteo: #c084fc;
+      --owner-default: #d4af37;
 
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--ink);
-        font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
-        min-height: 100vh;
-      }
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.6);
+      --shadow-glow: 0 0 24px var(--gold-glow);
+    }
 
-      header,
-      main {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-      }
+    * {
+      box-sizing: border-box;
+    }
 
-      header {
-        padding-top: 2.5rem;
-        padding-bottom: 1.5rem;
-      }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(ellipse 60% 40% at 50% -10%, rgba(212, 175, 55, 0.09), transparent 70%),
+        radial-gradient(ellipse 40% 30% at 90% 20%, rgba(20, 184, 166, 0.05), transparent 60%);
+      background-attachment: fixed;
+    }
 
-      h1 {
-        font-family:
-          Iowan Old Style,
-          Palatino,
-          Georgia,
-          serif;
-        font-weight: 600;
-        font-size: 2.1rem;
-        margin: 0 0 0.35rem;
-        letter-spacing: 0.01em;
-      }
+    /* Container */
+    header,
+    main,
+    .pannello-carico {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
 
-      h2 {
-        font-family:
-          Iowan Old Style,
-          Palatino,
-          Georgia,
-          serif;
-        font-size: 1.25rem;
-        margin: 0 0 0.8rem;
-        font-weight: 600;
-      }
+    header {
+      padding-top: 2.5rem;
+      padding-bottom: 1.8rem;
+    }
 
-      .sottotitolo {
-        color: var(--ink-dim);
-        font-size: 0.95rem;
-        margin: 0 0 1.6rem;
-      }
+    /* Header Title */
+    .titolo-area {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
 
-      .stat {
-        font-family:
-          Iowan Old Style,
-          Palatino,
-          Georgia,
-          serif;
-        font-size: 2.6rem;
-        color: var(--gold);
-        line-height: 1;
-      }
+    .brand h1 {
+      font-family: "Cinzel", Georgia, serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      margin: 0 0 0.4rem;
+      letter-spacing: 0.04em;
+      background: linear-gradient(135deg, #ffffff 0%, #e2ded5 40%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 20px rgba(212, 175, 55, 0.15);
+    }
 
-      .stat-label {
-        color: var(--ink-dim);
-        font-size: 0.85rem;
-        margin-top: 0.35rem;
-      }
+    .brand .sottotitolo {
+      color: var(--ink-dim);
+      font-size: 0.95rem;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-      .controlli {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem;
-        margin-top: 1.8rem;
-      }
+    .brand .sottotitolo::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px var(--gold);
+    }
 
-      .controlli input,
-      .controlli select {
-        background: var(--panel);
-        border: 1px solid var(--panel-border);
-        color: var(--ink);
-        padding: 0.55rem 0.8rem;
-        border-radius: 4px;
-        font-size: 0.9rem;
-      }
+    /* Stat Valore Monetario */
+    .stat-hero {
+      background: linear-gradient(145deg, #1d1b26 0%, #161520 100%);
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem 1.75rem;
+      box-shadow: var(--shadow-md), var(--shadow-glow);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 260px;
+      position: relative;
+      overflow: hidden;
+    }
 
-      .controlli input {
-        flex: 1 1 220px;
-      }
+    .stat-hero::after {
+      content: "";
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.18), transparent 70%);
+      pointer-events: none;
+    }
 
-      button {
-        background: var(--gold);
-        border: none;
-        color: #171018;
-        font-weight: 600;
-        padding: 0.55rem 1.1rem;
-        border-radius: 4px;
-        font-size: 0.9rem;
-        cursor: pointer;
-      }
+    .stat-hero-etichetta {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold-bright);
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
 
-      button:hover {
-        filter: brightness(1.08);
-      }
+    .stat-hero-valore-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.25rem;
+    }
 
-      .pannello-carico {
-        background: var(--panel);
-        border: 1px solid var(--panel-border);
-        border-radius: 6px;
-        padding: 1.2rem 1.4rem;
-        margin: 0 auto 2.2rem;
-        max-width: 1100px;
-      }
+    .stat-hero-simbolo {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
 
-      .meta-caricamento {
-        color: var(--ink-dim);
-        font-size: 0.85rem;
-        margin: 0.7rem 0 0;
-        min-height: 1.2em;
-      }
+    .stat-hero-cifra {
+      font-family: "Outfit", sans-serif;
+      font-weight: 800;
+      font-size: 2.8rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      background: linear-gradient(135deg, #ffffff 0%, #fef08a 40%, #f59e0b 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-      #griglia {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 0.9rem;
-        padding-bottom: 3rem;
-      }
+    .stat-hero-sub {
+      color: var(--ink-dim);
+      font-size: 0.84rem;
+      margin-top: 0.5rem;
+      font-weight: 500;
+    }
 
-      .carta {
-        background: var(--panel);
-        border: 1px solid var(--panel-border);
-        border-left: 3px solid var(--owner-1);
-        border-radius: 4px;
-        padding: 0.7rem;
-        display: flex;
+    /* Barra Toolbar (Filtri, Ricerca, Switch vista) */
+    .toolbar {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .toolbar-prima-riga {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .ricerca-wrap {
+      flex: 1 1 260px;
+      position: relative;
+    }
+
+    .ricerca-wrap svg {
+      position: absolute;
+      left: 0.9rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-muted);
+      pointer-events: none;
+    }
+
+    .ricerca-wrap input {
+      width: 100%;
+      background: #100f16;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      font-size: 0.92rem;
+      padding: 0.62rem 0.8rem 0.62rem 2.4rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .ricerca-wrap input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    }
+
+    /* Switch Lista / Griglia */
+    .vista-switch {
+      display: inline-flex;
+      background: #100f16;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .btn-vista {
+      background: transparent;
+      border: none;
+      color: var(--ink-dim);
+      padding: 0.45rem 0.85rem;
+      font-size: 0.86rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-vista:hover {
+      color: var(--ink);
+    }
+
+    .btn-vista.active {
+      background: var(--panel-elevated);
+      color: var(--gold-bright);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Riga Filtri & Ordinamento */
+    .toolbar-filtri {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--panel-border-subtle);
+    }
+
+    .filtro-gruppo {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #100f16;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 0.25rem 0.65rem;
+    }
+
+    .filtro-gruppo label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    .filtro-gruppo select {
+      background: transparent;
+      border: none;
+      color: var(--ink);
+      font-size: 0.86rem;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+      padding: 0.3rem 0.2rem;
+    }
+
+    .filtro-gruppo select option {
+      background: var(--panel);
+      color: var(--ink);
+    }
+
+    .btn-reset-filtri {
+      background: transparent;
+      border: 1px dashed var(--panel-border);
+      color: var(--ink-dim);
+      padding: 0.45rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-left: auto;
+    }
+
+    .btn-reset-filtri:hover {
+      color: #ef4444;
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    /* Pannello Caricamento Carte */
+    .pannello-carico {
+      margin-bottom: 2rem;
+    }
+
+    .pannello-carico-inner {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 1.25rem 1.5rem;
+      position: relative;
+    }
+
+    .pannello-carico-inner h2 {
+      font-family: "Cinzel", Georgia, serif;
+      font-size: 1.15rem;
+      margin: 0 0 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .pannello-carico-inner h2 svg {
+      color: var(--gold);
+    }
+
+    .controlli-carico {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: flex-end;
+    }
+
+    .campo-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .campo-form label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-dim);
+      font-weight: 600;
+    }
+
+    .campo-form select,
+    .campo-form input[type="file"] {
+      background: #100f16;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      padding: 0.55rem 0.85rem;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .campo-form select {
+      min-width: 170px;
+      cursor: pointer;
+    }
+
+    .campo-form select option {
+      background: var(--panel);
+      color: var(--ink);
+    }
+
+    .btn-carica {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border: none;
+      color: #171018;
+      font-weight: 700;
+      padding: 0.62rem 1.35rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+    }
+
+    .btn-carica:hover {
+      filter: brightness(1.12);
+      transform: translateY(-1px);
+    }
+
+    .btn-carica:active {
+      transform: translateY(0);
+    }
+
+    .meta-caricamento {
+      color: var(--ink-muted);
+      font-size: 0.82rem;
+      margin: 0.85rem 0 0;
+      line-height: 1.4;
+    }
+
+    .meta-caricamento.success {
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    .meta-caricamento.error {
+      color: #f87171;
+      font-weight: 600;
+    }
+
+    /* Badges Possessore */
+    .badge-possessore {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 600;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .badge-possessore .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .badge-possessore.mattia {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-possessore.laura {
+      background: rgba(20, 184, 166, 0.12);
+      color: #2dd4bf;
+      border-color: rgba(20, 184, 166, 0.3);
+    }
+
+    .badge-possessore.matteo {
+      background: rgba(192, 132, 252, 0.12);
+      color: #d8b4fe;
+      border-color: rgba(192, 132, 252, 0.3);
+    }
+
+    .badge-possessore.altro {
+      background: rgba(212, 175, 55, 0.12);
+      color: #d4af37;
+      border-color: rgba(212, 175, 55, 0.3);
+    }
+
+    /* Simboli di Mana Grafici */
+    .mana-costo {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+
+    .mana-sym {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1;
+      font-family: "Outfit", sans-serif;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      user-select: none;
+    }
+
+    .mana-w { background: #fbf5c2; color: #78350f; border-color: #d97706; }
+    .mana-u { background: #0ea5e9; color: #ffffff; border-color: #0284c7; }
+    .mana-b { background: #262438; color: #e2e8f0; border-color: #475569; }
+    .mana-r { background: #ef4444; color: #ffffff; border-color: #b91c1c; }
+    .mana-g { background: #22c55e; color: #ffffff; border-color: #15803d; }
+    .mana-c { background: #64748b; color: #ffffff; border-color: #475569; }
+    .mana-num { background: #cbd5e1; color: #0f172a; border-color: #94a3b8; font-weight: 800; }
+    .mana-hybrid { background: linear-gradient(135deg, #cbd5e1 50%, #475569 50%); color: #0f172a; }
+    .mana-empty { color: var(--ink-muted); font-size: 0.85rem; }
+
+    /* Sezioni per Tipo */
+    .sezione-tipo {
+      margin-bottom: 2.2rem;
+    }
+
+    .sezione-tipo-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--panel-border);
+    }
+
+    .sezione-tipo-titolo {
+      font-family: "Cinzel", Georgia, serif;
+      font-size: 1.28rem;
+      font-weight: 700;
+      margin: 0;
+      color: #f3f1eb;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sezione-tipo-conteggio {
+      background: var(--panel-elevated);
+      color: var(--gold-bright);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-full);
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.15rem 0.55rem;
+      font-family: "Outfit", sans-serif;
+    }
+
+    /* === VISTA LISTA (TABELLARE) === */
+    .tabella-wrap {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      box-shadow: var(--shadow-sm);
+    }
+
+    table.tabella-carte {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    table.tabella-carte th {
+      background: #111018;
+      color: var(--ink-dim);
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--panel-border);
+      white-space: nowrap;
+    }
+
+    table.tabella-carte td {
+      padding: 0.65rem 1rem;
+      border-bottom: 1px solid var(--panel-border-subtle);
+      vertical-align: middle;
+      color: var(--ink);
+    }
+
+    table.tabella-carte tbody tr {
+      transition: background 0.15s ease;
+      position: relative;
+    }
+
+    table.tabella-carte tbody tr:hover {
+      background: var(--panel-elevated);
+    }
+
+    table.tabella-carte tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Cella Nome Carta con Miniatura & Hover */
+    .cella-nome {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+
+    .thumb-carta {
+      width: 32px;
+      height: 44px;
+      border-radius: 3px;
+      background: #09090c;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--panel-border);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .nome-testo {
+      font-weight: 600;
+      font-size: 0.94rem;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .badge-foil {
+      background: linear-gradient(135deg, #f43f5e, #ec4899, #a855f7, #3b82f6);
+      color: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      box-shadow: 0 0 8px rgba(236, 72, 153, 0.4);
+      letter-spacing: 0.02em;
+    }
+
+    .badge-qty {
+      background: #282635;
+      color: var(--ink-dim);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      border: 1px solid var(--panel-border);
+    }
+
+    .cella-tipo {
+      color: var(--ink-dim);
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    .cella-set {
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      color: var(--gold-bright);
+      text-transform: uppercase;
+    }
+
+    .cella-prezzo {
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .prezzo-cardmarket {
+      color: #fbbf24;
+    }
+
+    .prezzo-cardtrader {
+      color: #2dd4bf;
+    }
+
+    /* === VISTA GRIGLIA === */
+    .griglia-carte {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .carta-card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      position: relative;
+    }
+
+    .carta-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold);
+    }
+
+    .carta-card-img-wrap {
+      position: relative;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      aspect-ratio: 5 / 7;
+      background: #0a090e;
+    }
+
+    .carta-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .carta-card .nome-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .carta-card .nome {
+      font-weight: 700;
+      font-size: 0.94rem;
+      line-height: 1.25;
+      color: #ffffff;
+    }
+
+    .carta-card .meta-riga {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--ink-dim);
+    }
+
+    .carta-card .prezzi-box {
+      background: #111018;
+      border: 1px solid var(--panel-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.45rem 0.65rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .carta-card .prezzi-box div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carta-card .prezzi-box span {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    /* Card Floating Preview al passaggio del mouse */
+    #hoverCardPreview {
+      position: fixed;
+      z-index: 9999;
+      pointer-events: none;
+      display: none;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.3);
+      border: 2px solid var(--gold);
+      background: #09090c;
+      width: 250px;
+      aspect-ratio: 5 / 7;
+      transform: translate(18px, -50%);
+      transition: opacity 0.15s ease;
+    }
+
+    #hoverCardPreview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Stato Vuoto */
+    .vuoto {
+      color: var(--ink-dim);
+      text-align: center;
+      padding: 4rem 1rem;
+      font-size: 1.05rem;
+      background: var(--panel);
+      border: 1px dashed var(--panel-border);
+      border-radius: var(--radius-md);
+      margin-bottom: 3rem;
+    }
+
+    .vuoto svg {
+      color: var(--ink-muted);
+      margin-bottom: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .titolo-area {
         flex-direction: column;
-        gap: 0.5rem;
       }
 
-      .carta img {
+      .stat-hero {
         width: 100%;
-        border-radius: 3px;
-        display: block;
-        background: #0f0e13;
       }
 
-      .carta .nome {
-        font-weight: 600;
-        font-size: 0.92rem;
-        line-height: 1.25;
+      .toolbar-prima-riga {
+        flex-direction: column;
+        align-items: stretch;
       }
 
-      .carta .meta {
-        color: var(--ink-dim);
-        font-size: 0.78rem;
+      .vista-switch {
+        align-self: flex-start;
       }
+    }
+  </style>
+</head>
 
-      .carta .prezzi {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.82rem;
-        margin-top: 0.1rem;
-        border-top: 1px solid var(--panel-border);
-        padding-top: 0.5rem;
-      }
+<body>
+  <!-- Anteprima Fluttuante Carta al mouseover -->
+  <div id="hoverCardPreview">
+    <img id="hoverCardImg" src="" alt="Anteprima carta" />
+  </div>
 
-      .carta .prezzi span b {
-        color: var(--ink);
-        font-weight: 600;
-      }
-
-      .vuoto {
-        color: var(--ink-dim);
-        text-align: center;
-        padding: 3rem 1rem;
-        font-size: 0.95rem;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>La dispensa</h1>
-      <p class="sottotitolo">
-        La collezione condivisa, scansionata con ManaBox.
-      </p>
-
-      <div class="stat" id="statValore">—</div>
-      <div class="stat-label" id="statLabel">carte in totale</div>
-
-      <div class="controlli">
-        <input id="ricerca" type="text" placeholder="Cerca una carta..." />
-        <select id="filtroPossessore">
-          <option value="">Tutti i possessori</option>
-        </select>
-        <select id="ordina">
-          <option value="nome">Ordina per nome</option>
-          <option value="cardmarket">Prezzo Cardmarket</option>
-          <option value="cardtrader">Prezzo Cardtrader</option>
-        </select>
+  <header>
+    <div class="titolo-area">
+      <div class="brand">
+        <h1>Grimorio</h1>
+        <p class="sottotitolo">Collezione MTG condivisa scansionata con ManaBox</p>
       </div>
-    </header>
 
-    <section class="pannello-carico">
-      <h2>Carica nuove carte</h2>
-      <div class="controlli">
-        <input id="possessoreCarico" type="text" placeholder="Il tuo nome" />
-        <input id="fileCsv" type="file" accept=".csv" />
-        <button id="bottoneCarica">Carica</button>
+      <!-- Statistica Valore Monetario -->
+      <div class="stat-hero">
+        <div class="stat-hero-etichetta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v12M15 9.5a3.5 3.5 0 0 0-7 0c0 2 2 3 5 3s5 1 5 3a3.5 3.5 0 0 1-7 0"></path></svg>
+          Valore Totale Cardmarket
+        </div>
+        <div class="stat-hero-valore-row">
+          <span class="stat-hero-simbolo">€</span>
+          <span class="stat-hero-cifra" id="statValore">—</span>
+        </div>
+        <div class="stat-hero-sub" id="statLabel">Caricamento carte in corso...</div>
+      </div>
+    </div>
+
+    <!-- Barra Controlli: Ricerca, Switch Lista/Griglia, Filtri e Ordinamento -->
+    <div class="toolbar">
+      <div class="toolbar-prima-riga">
+        <div class="ricerca-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="ricerca" type="text" placeholder="Cerca carta per nome..." />
+        </div>
+
+        <div class="vista-switch" role="group" aria-label="Modalità visualizzazione">
+          <button type="button" class="btn-vista active" id="btnVistaLista" title="Visualizza come elenco dettagliato">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            <span>Lista</span>
+          </button>
+          <button type="button" class="btn-vista" id="btnVistaGriglia" title="Visualizza come griglia di carte">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>Griglia</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Riga Filtri & Ordinamento -->
+      <div class="toolbar-filtri">
+        <!-- Ordina per -->
+        <div class="filtro-gruppo">
+          <label for="ordina">Ordina per</label>
+          <select id="ordina">
+            <option value="tipo_colore_cmc">Predefinito (Tipo, Colore, Costo Mana)</option>
+            <option value="caricamento_desc">Caricamento: più recenti prima (decrescente)</option>
+            <option value="caricamento_asc">Caricamento: meno recenti prima (crescente)</option>
+            <option value="prezzo_asc">Costo Cardmarket: crescente</option>
+            <option value="prezzo_desc">Costo Cardmarket: decrescente</option>
+            <option value="nome_asc">Ordine alfabetico: A → Z</option>
+            <option value="nome_desc">Ordine alfabetico: Z → A</option>
+            <option value="mana_asc">Costo mana: crescente</option>
+            <option value="mana_desc">Costo mana: decrescente</option>
+          </select>
+        </div>
+
+        <!-- Filtro Possessore -->
+        <div class="filtro-gruppo">
+          <label for="filtroPossessore">Possessore</label>
+          <select id="filtroPossessore">
+            <option value="">Tutti</option>
+            <option value="Mattia">Mattia</option>
+            <option value="Laura">Laura</option>
+            <option value="Matteo">Matteo</option>
+          </select>
+        </div>
+
+        <!-- Filtro Tipo -->
+        <div class="filtro-gruppo">
+          <label for="filtroTipo">Tipo</label>
+          <select id="filtroTipo">
+            <option value="">Tutti i tipi</option>
+            <option value="Planeswalker">Planeswalker</option>
+            <option value="Creature">Creatura</option>
+            <option value="Stregonerie">Stregoneria</option>
+            <option value="Istantanei">Istantaneo</option>
+            <option value="Incantesimi">Incantesimo</option>
+            <option value="Artefatti">Artefatto</option>
+            <option value="Terre">Terra</option>
+            <option value="Battaglie">Battaglia</option>
+            <option value="Altro">Altro</option>
+          </select>
+        </div>
+
+        <!-- Filtro Colore Mana -->
+        <div class="filtro-gruppo">
+          <label for="filtroColore">Colore Mana</label>
+          <select id="filtroColore">
+            <option value="">Tutti i colori</option>
+            <option value="W">Bianco (W)</option>
+            <option value="U">Blu (U)</option>
+            <option value="B">Nero (B)</option>
+            <option value="R">Rosso (R)</option>
+            <option value="G">Verde (G)</option>
+            <option value="MULTI">Multicolore</option>
+            <option value="COLORLESS">Incolore</option>
+          </select>
+        </div>
+
+        <!-- Filtro Data Caricamento -->
+        <div class="filtro-gruppo">
+          <label for="filtroCaricamento">Caricamento</label>
+          <select id="filtroCaricamento">
+            <option value="">Tutte le date</option>
+            <option value="7d">Ultimi 7 giorni</option>
+            <option value="30d">Ultimi 30 giorni</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-reset-filtri" id="btnResetFiltri" title="Ripristina filtri predefiniti">
+          Azzera filtri
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sezione Carica Nuove Carte -->
+  <section class="pannello-carico">
+    <div class="pannello-carico-inner">
+      <h2>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        Carica nuove carte
+      </h2>
+      <div class="controlli-carico">
+        <!-- Menu a tendina Possessore con i 3 nomi richiesti -->
+        <div class="campo-form">
+          <label for="possessoreCarico">Possessore</label>
+          <select id="possessoreCarico">
+            <option value="Mattia">Mattia</option>
+            <option value="Laura">Laura</option>
+            <option value="Matteo">Matteo</option>
+          </select>
+        </div>
+
+        <div class="campo-form">
+          <label for="fileCsv">File CSV esportato da ManaBox</label>
+          <input id="fileCsv" type="file" accept=".csv" />
+        </div>
+
+        <button id="bottoneCarica" class="btn-carica" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          Carica nel Grimorio
+        </button>
       </div>
       <p class="meta-caricamento" id="statoCaricamento">
-        La prima volta ti verrà chiesto il tuo token GitHub: resta solo nel tuo
-        browser, non viene mai salvato nel sito.
+        La prima volta ti verrà chiesto il tuo token GitHub: resta memorizzato solo nel tuo browser e non viene salvato nel sito.
       </p>
-    </section>
+    </div>
+  </section>
 
-    <main>
-      <div id="griglia"></div>
-      <p class="vuoto" id="messaggioVuoto" style="display: none">
-        Nessuna carta trovata.
-      </p>
-    </main>
+  <!-- Contenitore Principale Collezione -->
+  <main id="contenitoreCarte">
+    <!-- Le sezioni per tipo verranno iniettate qui via JS -->
+  </main>
 
-    <script>
-      // ATTENZIONE: sostituisci questi due valori con i tuoi prima di pubblicare
-      const GITHUB_OWNER = "JustMattia";
-      const GITHUB_REPO = "Grimorio";
+  <div class="vuoto" id="messaggioVuoto" style="display: none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    <div>Nessuna carta corrisponde ai criteri di ricerca o ai filtri selezionati.</div>
+  </div>
 
-      const COLORI_POSSESSORE = [
-        "var(--owner-1)",
-        "var(--owner-2)",
-        "var(--owner-3)",
-      ];
+  <script>
+    const GITHUB_OWNER = "JustMattia";
+    const GITHUB_REPO = "Grimorio";
 
-      let carte = [];
-      let coloriPerPossessore = {};
+    // Mappa colori possessori
+    const COLORI_POSSESSORE = {
+      Mattia: "var(--owner-mattia)",
+      Laura: "var(--owner-laura)",
+      Matteo: "var(--owner-matteo)"
+    };
 
-      function formattaPrezzo(v) {
-        return v == null ? "—" : "€" + v.toFixed(2);
+    // Ordine canonico dei tipi MTG
+    const CATEGORIE_TIPI = [
+      { id: "Planeswalker", nome: "Planeswalker" },
+      { id: "Creature", nome: "Creature" },
+      { id: "Stregonerie", nome: "Stregonerie" },
+      { id: "Istantanei", nome: "Istantanei" },
+      { id: "Incantesimi", nome: "Incantesimi" },
+      { id: "Artefatti", nome: "Artefatti" },
+      { id: "Terre", nome: "Terre" },
+      { id: "Battaglie", nome: "Battaglie" },
+      { id: "Altro", nome: "Altre Carte" }
+    ];
+
+    let carte = [];
+    let modalitaVista = "lista"; // "lista" di default come richiesto
+
+    // Helper formattazione prezzo
+    function formattaPrezzo(v) {
+      return v == null ? "—" : "€" + Number(v).toFixed(2);
+    }
+
+    // Helper per determinare la categoria del tipo MTG
+    function categorizzaTipo(c) {
+      const tipo = (c.tipo || "").toLowerCase();
+      if (tipo.includes("planeswalker")) return "Planeswalker";
+      if (tipo.includes("creature") || tipo.includes("creatura")) return "Creature";
+      if (tipo.includes("sorcery") || tipo.includes("stregoneria")) return "Stregonerie";
+      if (tipo.includes("instant") || tipo.includes("istantaneo")) return "Istantanei";
+      if (tipo.includes("enchantment") || tipo.includes("incantesimo")) return "Incantesimi";
+      if (tipo.includes("artifact") || tipo.includes("artefatto")) return "Artefatti";
+      if (tipo.includes("land") || tipo.includes("terra")) return "Terre";
+      if (tipo.includes("battle") || tipo.includes("battaglia")) return "Battaglie";
+      return "Altro";
+    }
+
+    // Indice per ordinamento per colore (W -> U -> B -> R -> G -> Multicolore -> Incolore -> Terre)
+    function getIndiceColore(c) {
+      const isTerra = (c.tipo || "").toLowerCase().includes("land") || (c.tipo || "").toLowerCase().includes("terra");
+      if (isTerra) return 8; // Terre sempre in fondo al gruppo
+      const colori = c.colori || [];
+      if (colori.length === 0) return 7; // Incolore
+      if (colori.length > 1) return 6; // Multicolore
+      const col = colori[0].toUpperCase();
+      switch (col) {
+        case "W": return 1; // Bianco
+        case "U": return 2; // Blu
+        case "B": return 3; // Nero
+        case "R": return 4; // Rosso
+        case "G": return 5; // Verde
+        default: return 7;
       }
+    }
 
-      function assegnaColori(lista) {
-        const nomi = [...new Set(lista.map((c) => c.possessore))];
-        nomi.forEach((nome, i) => {
-          coloriPerPossessore[nome] =
-            COLORI_POSSESSORE[i % COLORI_POSSESSORE.length];
+    // Renderizza i simboli di mana grafici
+    function renderManaCost(manaCost) {
+      if (!manaCost) return '<span class="mana-empty">—</span>';
+      const regex = /\{([^}]+)\}/g;
+      let match;
+      let html = '<div class="mana-costo">';
+      let trovato = false;
+      while ((match = regex.exec(manaCost)) !== null) {
+        trovato = true;
+        const sym = match[1].toUpperCase();
+        let cls = "mana-num";
+        let label = sym;
+        if (sym === "W") { cls = "mana-w"; label = "W"; }
+        else if (sym === "U") { cls = "mana-u"; label = "U"; }
+        else if (sym === "B") { cls = "mana-b"; label = "B"; }
+        else if (sym === "R") { cls = "mana-r"; label = "R"; }
+        else if (sym === "G") { cls = "mana-g"; label = "G"; }
+        else if (sym === "C") { cls = "mana-c"; label = "C"; }
+        else if (sym.includes("/")) { cls = "mana-hybrid"; }
+        html += `<span class="mana-sym ${cls}" title="{${sym}}">${label}</span>`;
+      }
+      html += '</div>';
+      return trovato ? html : `<span class="mana-costo">${manaCost}</span>`;
+    }
+
+    // Helper classe badge possessore
+    function classePossessore(nome) {
+      if (!nome) return "badge-possessore altro";
+      const n = nome.toLowerCase();
+      if (n === "mattia") return "badge-possessore mattia";
+      if (n === "laura") return "badge-possessore laura";
+      if (n === "matteo") return "badge-possessore matteo";
+      return "badge-possessore altro";
+    }
+
+    // Aggiornamento Statistiche: somma RIGOROSA dei costi Cardmarket
+    function aggiornaStatistiche(tutte, filtrate) {
+      // Come richiesto: somma del costo Cardmarket di tutte le carte
+      const totaleCardmarket = tutte.reduce((sum, c) => {
+        const prezzo = c.prezzoCardmarket ?? 0;
+        const qta = c.quantita || 1;
+        return sum + (prezzo * qta);
+      }, 0);
+
+      const totaleCarte = tutte.reduce((sum, c) => sum + (c.quantita || 1), 0);
+      
+      document.getElementById("statValore").textContent = totaleCardmarket.toFixed(2);
+      
+      let label = `${totaleCarte} carte in collezione`;
+      if (filtrate && filtrate.length !== tutte.length) {
+        const filtrateCarte = filtrate.reduce((sum, c) => sum + (c.quantita || 1), 0);
+        const filtratoValore = filtrate.reduce((sum, c) => sum + (c.prezzoCardmarket ?? 0) * (c.quantita || 1), 0);
+        label += ` · ${filtrateCarte} filtrate (€${filtratoValore.toFixed(2)})`;
+      }
+      document.getElementById("statLabel").textContent = label;
+    }
+
+    // Popola le opzioni dinamiche delle date nel filtro caricamento
+    function popolaDateCaricamento(lista) {
+      const select = document.getElementById("filtroCaricamento");
+      const dateSet = new Set();
+      lista.forEach(c => {
+        if (c.aggiornatoIl) {
+          const d = new Date(c.aggiornatoIl);
+          if (!isNaN(d.getTime())) {
+            const dataStr = d.toISOString().split("T")[0];
+            dateSet.add(dataStr);
+          }
+        }
+      });
+      const dateOrdinate = Array.from(dateSet).sort().reverse();
+      dateOrdinate.forEach(dataIso => {
+        const opt = document.createElement("option");
+        opt.value = "date:" + dataIso;
+        const [yyyy, mm, dd] = dataIso.split("-");
+        opt.textContent = `Caricate il ${dd}/${mm}/${yyyy}`;
+        select.appendChild(opt);
+      });
+    }
+
+    // Logica di Ordinamento interno
+    function comparaCarte(a, b, criterio) {
+      switch (criterio) {
+        case "tipo_colore_cmc":
+        default: {
+          // Ordine colore MTG
+          const colDiff = getIndiceColore(a) - getIndiceColore(b);
+          if (colDiff !== 0) return colDiff;
+          // Ordine costo mana crescente
+          const cmcDiff = (a.cmc ?? 0) - (b.cmc ?? 0);
+          if (cmcDiff !== 0) return cmcDiff;
+          // Ordine alfabetico secondario
+          return a.nome.localeCompare(b.nome);
+        }
+        case "caricamento_desc":
+          return new Date(b.aggiornatoIl || 0) - new Date(a.aggiornatoIl || 0);
+        case "caricamento_asc":
+          return new Date(a.aggiornatoIl || 0) - new Date(b.aggiornatoIl || 0);
+        case "prezzo_asc":
+          return (a.prezzoCardmarket ?? Infinity) - (b.prezzoCardmarket ?? Infinity);
+        case "prezzo_desc":
+          return (b.prezzoCardmarket ?? -Infinity) - (a.prezzoCardmarket ?? -Infinity);
+        case "nome_asc":
+          return a.nome.localeCompare(b.nome);
+        case "nome_desc":
+          return b.nome.localeCompare(a.nome);
+        case "mana_asc": {
+          const mDiff = (a.cmc ?? 0) - (b.cmc ?? 0);
+          return mDiff !== 0 ? mDiff : a.nome.localeCompare(b.nome);
+        }
+        case "mana_desc": {
+          const mDiff = (b.cmc ?? 0) - (a.cmc ?? 0);
+          return mDiff !== 0 ? mDiff : a.nome.localeCompare(b.nome);
+        }
+      }
+    }
+
+    // Rendering principale della vista
+    function disegna() {
+      const testo = document.getElementById("ricerca").value.trim().toLowerCase();
+      const possessore = document.getElementById("filtroPossessore").value;
+      const tipoFiltro = document.getElementById("filtroTipo").value;
+      const coloreFiltro = document.getElementById("filtroColore").value;
+      const caricamentoFiltro = document.getElementById("filtroCaricamento").value;
+      const ordine = document.getElementById("ordina").value;
+
+      const adesso = new Date();
+
+      // Applicazione Filtri
+      let filtrate = carte.filter(c => {
+        // Ricerca per nome
+        if (testo && !c.nome.toLowerCase().includes(testo)) return false;
+        
+        // Filtro possessore
+        if (possessore && c.possessore !== possessore) return false;
+
+        // Filtro tipo
+        if (tipoFiltro && categorizzaTipo(c) !== tipoFiltro) return false;
+
+        // Filtro colore mana
+        if (coloreFiltro) {
+          const colori = c.colori || [];
+          if (coloreFiltro === "MULTI") {
+            if (colori.length <= 1) return false;
+          } else if (coloreFiltro === "COLORLESS") {
+            if (colori.length > 0) return false;
+          } else {
+            if (!colori.includes(coloreFiltro)) return false;
+          }
+        }
+
+        // Filtro caricamento
+        if (caricamentoFiltro) {
+          const dataCarta = new Date(c.aggiornatoIl || 0);
+          if (caricamentoFiltro === "7d") {
+            const diffG = (adesso - dataCarta) / (1000 * 60 * 60 * 24);
+            if (diffG > 7) return false;
+          } else if (caricamentoFiltro === "30d") {
+            const diffG = (adesso - dataCarta) / (1000 * 60 * 60 * 24);
+            if (diffG > 30) return false;
+          } else if (caricamentoFiltro.startsWith("date:")) {
+            const targetIso = caricamentoFiltro.replace("date:", "");
+            const dataIso = dataCarta.toISOString().split("T")[0];
+            if (dataIso !== targetIso) return false;
+          }
+        }
+
+        return true;
+      });
+
+      aggiornaStatistiche(carte, filtrate);
+
+      const contenitore = document.getElementById("contenitoreCarte");
+      contenitore.innerHTML = "";
+      document.getElementById("messaggioVuoto").style.display = filtrate.length ? "none" : "block";
+
+      if (!filtrate.length) return;
+
+      // Raggruppamento per Tipo: mostrare la lista solo se contiene carte!
+      // Se l'ordinamento è tipo_colore_cmc (default), raggruppiamo per tipo e ordiniamo per colore e mana.
+      // Anche per gli altri ordinamenti, manteniamo la suddivisione per tipo applicando l'ordinamento scelto!
+      CATEGORIE_TIPI.forEach(cat => {
+        const carteDelTipo = filtrate.filter(c => categorizzaTipo(c) === cat.id);
+        
+        // Se non ci sono carte per questo tipo, NON mostrare la sezione
+        if (carteDelTipo.length === 0) return;
+
+        // Ordina le carte del tipo secondo il criterio selezionato
+        carteDelTipo.sort((a, b) => comparaCarte(a, b, ordine));
+
+        const section = document.createElement("section");
+        section.className = "sezione-tipo";
+
+        const qtaTotaleTipo = carteDelTipo.reduce((s, c) => s + (c.quantita || 1), 0);
+
+        section.innerHTML = `
+          <div class="sezione-tipo-header">
+            <h2 class="sezione-tipo-titolo">${cat.nome}</h2>
+            <span class="sezione-tipo-conteggio">${qtaTotaleTipo} ${qtaTotaleTipo === 1 ? 'carta' : 'carte'}</span>
+          </div>
+        `;
+
+        if (modalitaVista === "lista") {
+          // --- VISTA LISTA (DEFAULT) ---
+          const tableWrap = document.createElement("div");
+          tableWrap.className = "tabella-wrap";
+          
+          let tableHtml = `
+            <table class="tabella-carte">
+              <thead>
+                <tr>
+                  <th style="min-width: 240px;">Nome Carta</th>
+                  <th style="min-width: 100px;">Costo Mana</th>
+                  <th style="min-width: 140px;">Tipo</th>
+                  <th style="min-width: 80px;">Edizione</th>
+                  <th style="min-width: 110px;">Possessore</th>
+                  <th style="min-width: 110px;">Cardmarket</th>
+                  <th style="min-width: 110px;">Cardtrader</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+
+          carteDelTipo.forEach(c => {
+            const foilBadge = c.foil ? '<span class="badge-foil">✦ Foil</span>' : '';
+            const qtyBadge = (c.quantita && c.quantita > 1) ? `<span class="badge-qty">×${c.quantita}</span>` : '';
+            const manaHtml = renderManaCost(c.manaCost);
+            const tipoLabel = c.tipo || cat.nome;
+            const setLabel = (c.set || "").toUpperCase() + (c.numero ? ` #${c.numero}` : "");
+
+            tableHtml += `
+              <tr class="riga-carta" data-img="${c.immagine || ''}">
+                <td>
+                  <div class="cella-nome">
+                    ${c.immagine ? `<img class="thumb-carta" src="${c.immagine}" alt="${c.nome}" loading="lazy" />` : ''}
+                    <div class="nome-testo">
+                      <span>${c.nome}</span>
+                      ${foilBadge}
+                      ${qtyBadge}
+                    </div>
+                  </div>
+                </td>
+                <td>${manaHtml}</td>
+                <td class="cella-tipo">${tipoLabel}</td>
+                <td class="cella-set">${setLabel}</td>
+                <td>
+                  <span class="${classePossessore(c.possessore)}">
+                    <span class="dot"></span>
+                    ${c.possessore || 'Sconosciuto'}
+                  </span>
+                </td>
+                <td class="cella-prezzo prezzo-cardmarket">${formattaPrezzo(c.prezzoCardmarket)}</td>
+                <td class="cella-prezzo prezzo-cardtrader">${formattaPrezzo(c.prezzoCardtrader)}</td>
+              </tr>
+            `;
+          });
+
+          tableHtml += `
+              </tbody>
+            </table>
+          `;
+          tableWrap.innerHTML = tableHtml;
+          section.appendChild(tableWrap);
+
+        } else {
+          // --- VISTA GRIGLIA ---
+          const griglia = document.createElement("div");
+          griglia.className = "griglia-carte";
+
+          carteDelTipo.forEach(c => {
+            const cardEl = document.createElement("div");
+            cardEl.className = "carta-card";
+            const foilBadge = c.foil ? '<span class="badge-foil">✦ Foil</span>' : '';
+            const qtyBadge = (c.quantita && c.quantita > 1) ? `<span class="badge-qty">×${c.quantita}</span>` : '';
+            const manaHtml = renderManaCost(c.manaCost);
+
+            cardEl.innerHTML = `
+              <div class="carta-card-img-wrap">
+                ${c.immagine ? `<img src="${c.immagine}" alt="${c.nome}" loading="lazy" />` : ''}
+              </div>
+              <div class="nome-row">
+                <div class="nome">${c.nome} ${qtyBadge} ${foilBadge}</div>
+                <div>${manaHtml}</div>
+              </div>
+              <div class="meta-riga">
+                <span class="cella-set">${(c.set || "").toUpperCase()} #${c.numero || ''}</span>
+                <span class="${classePossessore(c.possessore)}">
+                  <span class="dot"></span>
+                  ${c.possessore || ''}
+                </span>
+              </div>
+              <div class="prezzi-box">
+                <div>
+                  <span>Cardmarket</span>
+                  <b class="prezzo-cardmarket">${formattaPrezzo(c.prezzoCardmarket)}</b>
+                </div>
+                <div>
+                  <span>Cardtrader</span>
+                  <b class="prezzo-cardtrader">${formattaPrezzo(c.prezzoCardtrader)}</b>
+                </div>
+              </div>
+            `;
+            griglia.appendChild(cardEl);
+          });
+
+          section.appendChild(griglia);
+        }
+
+        contenitore.appendChild(section);
+      });
+
+      collegaEventiHover();
+    }
+
+    // Gestione Anteprima Fluttuante al passaggio del mouse nella vista lista
+    function collegaEventiHover() {
+      const preview = document.getElementById("hoverCardPreview");
+      const previewImg = document.getElementById("hoverCardImg");
+      const righe = document.querySelectorAll(".riga-carta");
+
+      righe.forEach(riga => {
+        const imgSrc = riga.getAttribute("data-img");
+        if (!imgSrc) return;
+
+        riga.addEventListener("mouseenter", (e) => {
+          previewImg.src = imgSrc;
+          preview.style.display = "block";
+          posizionaPreview(e);
         });
-        const select = document.getElementById("filtroPossessore");
-        nomi.forEach((nome) => {
-          const opt = document.createElement("option");
-          opt.value = nome;
-          opt.textContent = nome;
-          select.appendChild(opt);
+
+        riga.addEventListener("mousemove", (e) => {
+          posizionaPreview(e);
         });
+
+        riga.addEventListener("mouseleave", () => {
+          preview.style.display = "none";
+        });
+      });
+    }
+
+    function posizionaPreview(e) {
+      const preview = document.getElementById("hoverCardPreview");
+      const x = e.clientX + 20;
+      let y = e.clientY - 120;
+      
+      // Controllo limiti schermo verticale
+      const previewHeight = 350;
+      if (y + previewHeight > window.innerHeight) {
+        y = window.innerHeight - previewHeight - 20;
+      }
+      if (y < 20) y = 20;
+
+      preview.style.left = `${x}px`;
+      preview.style.top = `${y}px`;
+    }
+
+    // Gestori eventi Switch Vista Lista / Griglia
+    document.getElementById("btnVistaLista").addEventListener("click", () => {
+      if (modalitaVista === "lista") return;
+      modalitaVista = "lista";
+      document.getElementById("btnVistaLista").classList.add("active");
+      document.getElementById("btnVistaGriglia").classList.remove("active");
+      disegna();
+    });
+
+    document.getElementById("btnVistaGriglia").addEventListener("click", () => {
+      if (modalitaVista === "griglia") return;
+      modalitaVista = "griglia";
+      document.getElementById("btnVistaGriglia").classList.add("active");
+      document.getElementById("btnVistaLista").classList.remove("active");
+      disegna();
+    });
+
+    // Gestori eventi Filtri e Ricerca
+    document.getElementById("ricerca").addEventListener("input", disegna);
+    document.getElementById("ordina").addEventListener("change", disegna);
+    document.getElementById("filtroPossessore").addEventListener("change", disegna);
+    document.getElementById("filtroTipo").addEventListener("change", disegna);
+    document.getElementById("filtroColore").addEventListener("change", disegna);
+    document.getElementById("filtroCaricamento").addEventListener("change", disegna);
+
+    // Reset Filtri
+    document.getElementById("btnResetFiltri").addEventListener("click", () => {
+      document.getElementById("ricerca").value = "";
+      document.getElementById("ordina").value = "tipo_colore_cmc";
+      document.getElementById("filtroPossessore").value = "";
+      document.getElementById("filtroTipo").value = "";
+      document.getElementById("filtroColore").value = "";
+      document.getElementById("filtroCaricamento").value = "";
+      disegna();
+    });
+
+    // Caricamento Dati Iniziali
+    fetch("data/cards.json?t=" + Date.now())
+      .then(r => r.json())
+      .then(dati => {
+        carte = dati;
+        popolaDateCaricamento(carte);
+        aggiornaStatistiche(carte, carte);
+        disegna();
+      })
+      .catch(err => {
+        console.error("Errore nel caricamento del database cards.json:", err);
+        document.getElementById("statLabel").textContent = "Errore nel caricamento dati.";
+      });
+
+    // --- Caricamento diretto CSV tramite GitHub API ---
+    function getToken() {
+      let token = localStorage.getItem("dispensa_token");
+      if (!token) {
+        token = prompt(
+          "Incolla qui il tuo Personal Access Token di GitHub (inserito una sola volta, resta solo in questo browser):"
+        );
+        if (token) localStorage.setItem("dispensa_token", token.trim());
+      }
+      return token;
+    }
+
+    async function caricaCSV() {
+      const fileInput = document.getElementById("fileCsv");
+      const possessore = document.getElementById("possessoreCarico").value.trim();
+      const stato = document.getElementById("statoCaricamento");
+
+      if (!fileInput.files.length || !possessore) {
+        stato.textContent = "Scegli un file CSV ManaBox prima di procedere.";
+        stato.className = "meta-caricamento error";
+        return;
       }
 
-      function aggiornaStatistiche(lista) {
-        const totaleCarte = lista.reduce((s, c) => s + (c.quantita || 1), 0);
-        const valore = lista.reduce((s, c) => {
-          const prezzi = [c.prezzoCardmarket, c.prezzoCardtrader].filter(
-            (p) => p != null,
-          );
-          const minimo = prezzi.length ? Math.min(...prezzi) : 0;
-          return s + minimo * (c.quantita || 1);
-        }, 0);
-        document.getElementById("statValore").textContent =
-          "€" + valore.toFixed(2);
-        document.getElementById("statLabel").textContent =
-          totaleCarte + " carte in totale";
+      const token = getToken();
+      if (!token) {
+        stato.textContent = "È necessario un token GitHub per autorizzare il caricamento.";
+        stato.className = "meta-caricamento error";
+        return;
       }
 
-      function disegna() {
-        const testo = document.getElementById("ricerca").value.toLowerCase();
-        const possessore = document.getElementById("filtroPossessore").value;
-        const ordine = document.getElementById("ordina").value;
+      const file = fileInput.files[0];
+      const testo = await file.text();
+      const base64 = btoa(unescape(encodeURIComponent(testo)));
 
-        let filtrate = carte.filter(
-          (c) =>
-            c.nome.toLowerCase().includes(testo) &&
-            (!possessore || c.possessore === possessore),
+      const nomeSicuro = encodeURIComponent(possessore.replace(/\s+/g, "-"));
+      const percorso = `incoming/${nomeSicuro}__${Date.now()}.csv`;
+
+      stato.textContent = "Caricamento del file in corso...";
+      stato.className = "meta-caricamento";
+
+      try {
+        const res = await fetch(
+          `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${percorso}`,
+          {
+            method: "PUT",
+            headers: {
+              Authorization: `token ${token}`,
+              Accept: "application/vnd.github+json",
+            },
+            body: JSON.stringify({
+              message: `Import carte da ${possessore}`,
+              content: base64,
+            }),
+          }
         );
 
-        if (ordine === "nome")
-          filtrate.sort((a, b) => a.nome.localeCompare(b.nome));
-        if (ordine === "cardmarket")
-          filtrate.sort(
-            (a, b) =>
-              (a.prezzoCardmarket ?? Infinity) -
-              (b.prezzoCardmarket ?? Infinity),
-          );
-        if (ordine === "cardtrader")
-          filtrate.sort(
-            (a, b) =>
-              (a.prezzoCardtrader ?? Infinity) -
-              (b.prezzoCardtrader ?? Infinity),
-          );
-
-        const griglia = document.getElementById("griglia");
-        griglia.innerHTML = "";
-        document.getElementById("messaggioVuoto").style.display =
-          filtrate.length ? "none" : "block";
-
-        for (const c of filtrate) {
-          const div = document.createElement("div");
-          div.className = "carta";
-          div.style.borderLeftColor =
-            coloriPerPossessore[c.possessore] || "var(--owner-1)";
-          div.innerHTML = `
-        ${c.immagine ? `<img src="${c.immagine}" alt="${c.nome}" loading="lazy" />` : ""}
-        <div class="nome">${c.nome}${c.foil ? " ✦" : ""}${c.quantita > 1 ? " ×" + c.quantita : ""}</div>
-        <div class="meta">${c.set?.toUpperCase() || ""} · ${c.possessore}</div>
-        <div class="prezzi">
-          <span>Cardmarket<br><b>${formattaPrezzo(c.prezzoCardmarket)}</b></span>
-          <span>Cardtrader<br><b>${formattaPrezzo(c.prezzoCardtrader)}</b></span>
-        </div>
-      `;
-          griglia.appendChild(div);
+        if (res.ok) {
+          stato.textContent = "File caricato con successo! Il workflow GitHub Actions elaborerà le carte entro 1-2 minuti. Ricarica la pagina per vederle.";
+          stato.className = "meta-caricamento success";
+          fileInput.value = "";
+        } else {
+          const err = await res.json();
+          stato.textContent = "Errore durante il caricamento: " + (err.message || res.status);
+          stato.className = "meta-caricamento error";
         }
+      } catch (e) {
+        stato.textContent = "Errore di rete: " + e.message;
+        stato.className = "meta-caricamento error";
       }
+    }
 
-      fetch("data/cards.json?t=" + Date.now())
-        .then((r) => r.json())
-        .then((dati) => {
-          carte = dati;
-          assegnaColori(carte);
-          aggiornaStatistiche(carte);
-          disegna();
-        });
+    document.getElementById("bottoneCarica").addEventListener("click", caricaCSV);
+  </script>
+</body>
 
-      document.getElementById("ricerca").addEventListener("input", disegna);
-      document
-        .getElementById("filtroPossessore")
-        .addEventListener("change", disegna);
-      document.getElementById("ordina").addEventListener("change", disegna);
-
-      // --- Caricamento diretto dal sito ---
-
-      function getToken() {
-        let token = localStorage.getItem("dispensa_token");
-        if (!token) {
-          token = prompt(
-            "Incolla qui il tuo token GitHub (creato una sola volta, resta solo in questo browser):",
-          );
-          if (token) localStorage.setItem("dispensa_token", token.trim());
-        }
-        return token;
-      }
-
-      async function caricaCSV() {
-        const fileInput = document.getElementById("fileCsv");
-        const possessore = document
-          .getElementById("possessoreCarico")
-          .value.trim();
-        const stato = document.getElementById("statoCaricamento");
-
-        if (!fileInput.files.length || !possessore) {
-          stato.textContent = "Scegli un file e scrivi il tuo nome.";
-          return;
-        }
-
-        const token = getToken();
-        if (!token) {
-          stato.textContent = "Serve un token per caricare.";
-          return;
-        }
-
-        const file = fileInput.files[0];
-        const testo = await file.text();
-        const base64 = btoa(unescape(encodeURIComponent(testo)));
-
-        const nomeSicuro = encodeURIComponent(possessore.replace(/\s+/g, "-"));
-        const percorso = `incoming/${nomeSicuro}__${Date.now()}.csv`;
-
-        stato.textContent = "Caricamento in corso...";
-
-        try {
-          const res = await fetch(
-            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${percorso}`,
-            {
-              method: "PUT",
-              headers: {
-                Authorization: `token ${token}`,
-                Accept: "application/vnd.github+json",
-              },
-              body: JSON.stringify({
-                message: `Import carte da ${possessore}`,
-                content: base64,
-              }),
-            },
-          );
-
-          if (res.ok) {
-            stato.textContent =
-              "Caricato! Le carte compariranno tra un minuto o due — ricarica la pagina.";
-            fileInput.value = "";
-          } else {
-            const err = await res.json();
-            stato.textContent = "Errore: " + (err.message || res.status);
-          }
-        } catch (e) {
-          stato.textContent = "Errore di rete: " + e.message;
-        }
-      }
-
-      document
-        .getElementById("bottoneCarica")
-        .addEventListener("click", caricaCSV);
-    </script>
-  </body>
 </html>
