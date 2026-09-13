@@ -1,0 +1,37 @@
+name: Importa carte in arrivo
+
+on:
+  push:
+    paths:
+      - 'incoming/**'
+
+permissions:
+  contents: write
+
+jobs:
+  importa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Installa dipendenze
+        working-directory: scripts
+        run: npm install
+
+      - name: Esegui import
+        working-directory: scripts
+        env:
+          CARDTRADER_TOKEN: ${{ secrets.CARDTRADER_TOKEN }}
+        run: node importa.js
+
+      - name: Salva i dati aggiornati
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/cards.json incoming
+          git commit -m "Import carte" || echo "Nessuna modifica da salvare"
+          git push

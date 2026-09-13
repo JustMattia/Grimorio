@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grimorio</title>
+    <style>
+      :root {
+        --bg: #17161c;
+        --panel: #1f1e26;
+        --panel-border: #34323d;
+        --ink: #ece8df;
+        --ink-dim: #9d9aa6;
+        --gold: #c9a227;
+        --teal: #4f8f86;
+        --owner-1: #c9a227;
+        --owner-2: #4f8f86;
+        --owner-3: #a2618f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+        min-height: 100vh;
+      }
+
+      header,
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      header {
+        padding-top: 2.5rem;
+        padding-bottom: 1.5rem;
+      }
+
+      h1 {
+        font-family:
+          Iowan Old Style,
+          Palatino,
+          Georgia,
+          serif;
+        font-weight: 600;
+        font-size: 2.1rem;
+        margin: 0 0 0.35rem;
+        letter-spacing: 0.01em;
+      }
+
+      h2 {
+        font-family:
+          Iowan Old Style,
+          Palatino,
+          Georgia,
+          serif;
+        font-size: 1.25rem;
+        margin: 0 0 0.8rem;
+        font-weight: 600;
+      }
+
+      .sottotitolo {
+        color: var(--ink-dim);
+        font-size: 0.95rem;
+        margin: 0 0 1.6rem;
+      }
+
+      .stat {
+        font-family:
+          Iowan Old Style,
+          Palatino,
+          Georgia,
+          serif;
+        font-size: 2.6rem;
+        color: var(--gold);
+        line-height: 1;
+      }
+
+      .stat-label {
+        color: var(--ink-dim);
+        font-size: 0.85rem;
+        margin-top: 0.35rem;
+      }
+
+      .controlli {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 1.8rem;
+      }
+
+      .controlli input,
+      .controlli select {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        color: var(--ink);
+        padding: 0.55rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+      }
+
+      .controlli input {
+        flex: 1 1 220px;
+      }
+
+      button {
+        background: var(--gold);
+        border: none;
+        color: #171018;
+        font-weight: 600;
+        padding: 0.55rem 1.1rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        cursor: pointer;
+      }
+
+      button:hover {
+        filter: brightness(1.08);
+      }
+
+      .pannello-carico {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: 6px;
+        padding: 1.2rem 1.4rem;
+        margin: 0 auto 2.2rem;
+        max-width: 1100px;
+      }
+
+      .meta-caricamento {
+        color: var(--ink-dim);
+        font-size: 0.85rem;
+        margin: 0.7rem 0 0;
+        min-height: 1.2em;
+      }
+
+      #griglia {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.9rem;
+        padding-bottom: 3rem;
+      }
+
+      .carta {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-left: 3px solid var(--owner-1);
+        border-radius: 4px;
+        padding: 0.7rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .carta img {
+        width: 100%;
+        border-radius: 3px;
+        display: block;
+        background: #0f0e13;
+      }
+
+      .carta .nome {
+        font-weight: 600;
+        font-size: 0.92rem;
+        line-height: 1.25;
+      }
+
+      .carta .meta {
+        color: var(--ink-dim);
+        font-size: 0.78rem;
+      }
+
+      .carta .prezzi {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.82rem;
+        margin-top: 0.1rem;
+        border-top: 1px solid var(--panel-border);
+        padding-top: 0.5rem;
+      }
+
+      .carta .prezzi span b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .vuoto {
+        color: var(--ink-dim);
+        text-align: center;
+        padding: 3rem 1rem;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Grimorio</h1>
+
+      <div class="stat" id="statValore">—</div>
+      <div class="stat-label" id="statLabel">carte in totale</div>
+
+      <div class="controlli">
+        <input id="ricerca" type="text" placeholder="Cerca una carta..." />
+        <select id="filtroPossessore">
+          <option value="">Tutti i possessori</option>
+        </select>
+        <select id="ordina">
+          <option value="nome">Ordina per nome</option>
+          <option value="cardmarket">Prezzo Cardmarket</option>
+          <option value="cardtrader">Prezzo Cardtrader</option>
+        </select>
+      </div>
+    </header>
+
+    <section class="pannello-carico">
+      <h2>Carica nuove carte</h2>
+      <div class="controlli">
+        <input id="possessoreCarico" type="text" placeholder="Il tuo nome" />
+        <input id="fileCsv" type="file" accept=".csv" />
+        <button id="bottoneCarica">Carica</button>
+      </div>
+      <p class="meta-caricamento" id="statoCaricamento">
+        La prima volta ti verrà chiesto il tuo token GitHub: resta solo nel tuo
+        browser, non viene mai salvato nel sito.
+      </p>
+    </section>
+
+    <main>
+      <div id="griglia"></div>
+      <p class="vuoto" id="messaggioVuoto" style="display: none">
+        Nessuna carta trovata.
+      </p>
+    </main>
+
+    <script>
+      // ATTENZIONE: sostituisci questi due valori con i tuoi prima di pubblicare
+      const GITHUB_OWNER = "JustMattia";
+      const GITHUB_REPO = "Grimorio";
+
+      const COLORI_POSSESSORE = [
+        "var(--owner-1)",
+        "var(--owner-2)",
+        "var(--owner-3)",
+      ];
+
+      let carte = [];
+      let coloriPerPossessore = {};
+
+      function formattaPrezzo(v) {
+        return v == null ? "—" : "€" + v.toFixed(2);
+      }
+
+      function assegnaColori(lista) {
+        const nomi = [...new Set(lista.map((c) => c.possessore))];
+        nomi.forEach((nome, i) => {
+          coloriPerPossessore[nome] =
+            COLORI_POSSESSORE[i % COLORI_POSSESSORE.length];
+        });
+        const select = document.getElementById("filtroPossessore");
+        nomi.forEach((nome) => {
+          const opt = document.createElement("option");
+          opt.value = nome;
+          opt.textContent = nome;
+          select.appendChild(opt);
+        });
+      }
+
+      function aggiornaStatistiche(lista) {
+        const totaleCarte = lista.reduce((s, c) => s + (c.quantita || 1), 0);
+        const valore = lista.reduce((s, c) => {
+          const prezzi = [c.prezzoCardmarket, c.prezzoCardtrader].filter(
+            (p) => p != null,
+          );
+          const minimo = prezzi.length ? Math.min(...prezzi) : 0;
+          return s + minimo * (c.quantita || 1);
+        }, 0);
+        document.getElementById("statValore").textContent =
+          "€" + valore.toFixed(2);
+        document.getElementById("statLabel").textContent =
+          totaleCarte + " carte in totale";
+      }
+
+      function disegna() {
+        const testo = document.getElementById("ricerca").value.toLowerCase();
+        const possessore = document.getElementById("filtroPossessore").value;
+        const ordine = document.getElementById("ordina").value;
+
+        let filtrate = carte.filter(
+          (c) =>
+            c.nome.toLowerCase().includes(testo) &&
+            (!possessore || c.possessore === possessore),
+        );
+
+        if (ordine === "nome")
+          filtrate.sort((a, b) => a.nome.localeCompare(b.nome));
+        if (ordine === "cardmarket")
+          filtrate.sort(
+            (a, b) =>
+              (a.prezzoCardmarket ?? Infinity) -
+              (b.prezzoCardmarket ?? Infinity),
+          );
+        if (ordine === "cardtrader")
+          filtrate.sort(
+            (a, b) =>
+              (a.prezzoCardtrader ?? Infinity) -
+              (b.prezzoCardtrader ?? Infinity),
+          );
+
+        const griglia = document.getElementById("griglia");
+        griglia.innerHTML = "";
+        document.getElementById("messaggioVuoto").style.display =
+          filtrate.length ? "none" : "block";
+
+        for (const c of filtrate) {
+          const div = document.createElement("div");
+          div.className = "carta";
+          div.style.borderLeftColor =
+            coloriPerPossessore[c.possessore] || "var(--owner-1)";
+          div.innerHTML = `
+        ${c.immagine ? `<img src="${c.immagine}" alt="${c.nome}" loading="lazy" />` : ""}
+        <div class="nome">${c.nome}${c.foil ? " ✦" : ""}${c.quantita > 1 ? " ×" + c.quantita : ""}</div>
+        <div class="meta">${c.set?.toUpperCase() || ""} · ${c.possessore}</div>
+        <div class="prezzi">
+          <span>Cardmarket<br><b>${formattaPrezzo(c.prezzoCardmarket)}</b></span>
+          <span>Cardtrader<br><b>${formattaPrezzo(c.prezzoCardtrader)}</b></span>
+        </div>
+      `;
+          griglia.appendChild(div);
+        }
+      }
+
+      fetch("data/cards.json")
+        .then((r) => r.json())
+        .then((dati) => {
+          carte = dati;
+          assegnaColori(carte);
+          aggiornaStatistiche(carte);
+          disegna();
+        });
+
+      document.getElementById("ricerca").addEventListener("input", disegna);
+      document
+        .getElementById("filtroPossessore")
+        .addEventListener("change", disegna);
+      document.getElementById("ordina").addEventListener("change", disegna);
+
+      // --- Caricamento diretto dal sito ---
+
+      function getToken() {
+        let token = localStorage.getItem("dispensa_token");
+        if (!token) {
+          token = prompt(
+            "Incolla qui il tuo token GitHub (creato una sola volta, resta solo in questo browser):",
+          );
+          if (token) localStorage.setItem("dispensa_token", token.trim());
+        }
+        return token;
+      }
+
+      async function caricaCSV() {
+        const fileInput = document.getElementById("fileCsv");
+        const possessore = document
+          .getElementById("possessoreCarico")
+          .value.trim();
+        const stato = document.getElementById("statoCaricamento");
+
+        if (!fileInput.files.length || !possessore) {
+          stato.textContent = "Scegli un file e scrivi il tuo nome.";
+          return;
+        }
+
+        const token = getToken();
+        if (!token) {
+          stato.textContent = "Serve un token per caricare.";
+          return;
+        }
+
+        const file = fileInput.files[0];
+        const testo = await file.text();
+        const base64 = btoa(unescape(encodeURIComponent(testo)));
+
+        const nomeSicuro = encodeURIComponent(possessore.replace(/\s+/g, "-"));
+        const percorso = `incoming/${nomeSicuro}__${Date.now()}.csv`;
+
+        stato.textContent = "Caricamento in corso...";
+
+        try {
+          const res = await fetch(
+            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${percorso}`,
+            {
+              method: "PUT",
+              headers: {
+                Authorization: `token ${token}`,
+                Accept: "application/vnd.github+json",
+              },
+              body: JSON.stringify({
+                message: `Import carte da ${possessore}`,
+                content: base64,
+              }),
+            },
+          );
+
+          if (res.ok) {
+            stato.textContent =
+              "Caricato! Le carte compariranno tra un minuto o due — ricarica la pagina.";
+            fileInput.value = "";
+          } else {
+            const err = await res.json();
+            stato.textContent = "Errore: " + (err.message || res.status);
+          }
+        } catch (e) {
+          stato.textContent = "Errore di rete: " + e.message;
+        }
+      }
+
+      document
+        .getElementById("bottoneCarica")
+        .addEventListener("click", caricaCSV);
+    </script>
+  </body>
+</html>
