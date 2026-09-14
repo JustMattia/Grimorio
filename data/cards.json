@@ -715,7 +715,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.14,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T19:25:20.725Z"
+    "aggiornatoIl": "2026-09-14T19:25:20.725Z",
+    "testoIt": "{3}{B}{B}: Mostruosità 3. (Se questa creatura non è mostruosa, metti tre segnalini +1/+1 su di essa e diventa mostruosa.)\nFintanto che il Parassita Sinuoso è mostruoso, ha minacciare. (Non può essere bloccato tranne che da due o più creature.)"
   },
   {
     "scryfallId": "814bcfc0-7539-4ed9-8b51-27e6a3ab9d9a",
@@ -3734,28 +3735,6 @@
     "aggiornatoIl": "2026-09-14T20:18:17.175Z"
   },
   {
-    "scryfallId": "612cf954-f86c-4629-99df-4874d56fded3",
-    "nome": "Bosco Atro",
-    "nomeIt": "Bosco Atro",
-    "nomeEn": "Mirkwood",
-    "lingua": "it",
-    "set": "hob",
-    "numero": "188",
-    "immagine": "https://cards.scryfall.io/normal/front/6/1/612cf954-f86c-4629-99df-4874d56fded3.jpg?1785323344",
-    "manaCost": "",
-    "cmc": 0,
-    "tipo": "Land",
-    "tipoIt": "Terra",
-    "colori": [],
-    "rarita": "common",
-    "foil": false,
-    "quantita": 1,
-    "possessore": "Laura",
-    "prezzoCardmarket": 0.08,
-    "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.076Z"
-  },
-  {
     "scryfallId": "cb25b11a-6bf5-4a9a-b60f-d4dcac3816d6",
     "nome": "Schiamazzatore Rumoroso",
     "nomeIt": "Schiamazzatore Rumoroso",
@@ -3777,7 +3756,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.14,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.127Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.127Z",
+    "testoIt": "Ogniqualvolta lanci una magia non creatura, recluta Goblin 1. (Metti un segnalino +1/+1 su un Esercito che controlli. È anche un Goblin. Se non controlli un Esercito, crea prima una pedina creatura Esercito Goblin 0/0 nera.)"
   },
   {
     "scryfallId": "ad0dba36-d056-4bc1-987a-391da26ad267",
@@ -3799,7 +3779,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.12,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.117Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.117Z",
+    "testoIt": "Quando la Mappa di Thrór entra, passa in rassegna il tuo grimorio per una carta terra base, rivelala e aggiungila alla tua mano, poi rimescola.\n{2}, {T}: Pesca una carta, poi scarta una carta."
   },
   {
     "scryfallId": "fa8fd3c4-bd00-485d-80b1-2b67f5786fce",
@@ -3823,7 +3804,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.05,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.563Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.563Z",
+    "testoIt": "Quando questo Equipaggiamento entra, un avversario bersaglio sacrifica una creatura a sua scelta.\nLa creatura equipaggiata prende +2/+1.\nEquipaggiare {2} ({2}: Assegna a una creatura bersaglio che controlli. Equipaggia solo come una stregoneria.)"
   },
   {
     "scryfallId": "81263d5d-e402-4813-9458-161112da27ab",
@@ -3871,7 +3853,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.658Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.658Z",
+    "testoIt": "Quando questo Equipaggiamento entra, crea una pedina creatura Nano 2/2 rossa, poi assegnale questo Equipaggiamento.\nLa creatura equipaggiata prende +1/+2.\nEquipaggiare {2} ({2}: Assegna a una creatura bersaglio che controlli. Equipaggia solo come una stregoneria.)"
   },
   {
     "scryfallId": "9c50656d-c74a-4e90-9ef7-afa237682516",
@@ -3895,7 +3878,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.645Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.645Z",
+    "testoIt": "{4}{U}: Una creatura bersaglio non può essere bloccata in questo turno."
   },
   {
     "scryfallId": "cb982607-da37-4894-91a5-cf6307d4d703",
@@ -3920,7 +3904,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.05,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.691Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.691Z",
+    "testoIt": "Quando questo Equipaggiamento entra, recluta Goblin 1, poi assegna questo Equipaggiamento all'Esercito reclutato. (Per reclutare Goblin 1, metti un segnalino +1/+1 su un Esercito che controlli. È anche un Goblin. Se non controlli un Esercito, crea prima una pedina creatura Esercito Goblin 0/0 nera.)\nLa creatura equipaggiata prende +1/+0 e ha minacciare.\nEquipaggiare {4}"
   },
   {
     "scryfallId": "9984b9ef-e81c-48f4-aa33-0504171a2d3c",
@@ -3944,7 +3929,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.541Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.541Z",
+    "testoIt": "Nella Storia (Se controlli tre o più artefatti, permanenti leggendari e/o Saghe, hai una storia eterna per il resto della partita.)\nFintanto che hai una storia eterna, Óin prende +1/+0 e ha cautela.\n{1}, {T}, Scarta una carta: Pesca una carta."
   },
   {
     "scryfallId": "0feb9817-56e1-465a-851c-b2fe202aa8ae",
@@ -4016,7 +4002,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.11,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:18.088Z"
+    "aggiornatoIl": "2026-09-14T20:18:18.088Z",
+    "testoIt": "Questa magia costa {3} in meno per essere lanciata se bersaglia una creatura TAPpata.\nLa Magnifica Fine infligge 5 danni a una creatura bersaglio."
   },
   {
     "scryfallId": "419ca9e5-8413-4378-a4ef-eda5a1024218",
@@ -4088,7 +4075,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.03,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-14T20:18:17.872Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.872Z",
+    "testoIt": "Quando questa creatura muore, una creatura bersaglio controllata da un avversario prende -1/-1 fino alla fine del turno."
   },
   {
     "scryfallId": "7bf81a8b-52ad-49f5-a3d4-22613cad3a3d",
@@ -4112,7 +4100,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.1,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-14T20:18:18.032Z"
+    "aggiornatoIl": "2026-09-14T20:18:18.032Z",
+    "testoIt": "Quando questo Equipaggiamento entra, puoi scartare una carta. Se lo fai, pesca due carte.\nLa creatura equipaggiata prende +2/+0.\nEquipaggiare {3} ({3}: Assegna a una creatura bersaglio che controlli. Equipaggia solo come una stregoneria.)"
   },
   {
     "scryfallId": "b06d9cee-bb0f-4fe7-ab2a-b55d36461aec",
@@ -4136,7 +4125,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.08,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-14T20:18:18.075Z"
+    "aggiornatoIl": "2026-09-14T20:18:18.075Z",
+    "testoIt": "Scegli uno -\n* Distruggi una creatura bersaglio con volare.\n* Metti un segnalino +1/+1 su una creatura bersaglio che controlli. Ha travolgere e anti-malocchio fino alla fine del turno. (Non può essere bersaglio di magie o abilità controllate dai tuoi avversari.)"
   },
   {
     "scryfallId": "612cf954-f86c-4629-99df-4874d56fded3",
@@ -4158,7 +4148,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.08,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:17.994Z"
+    "aggiornatoIl": "2026-09-14T20:18:17.994Z",
+    "testoIt": "Questa terra entra TAPpata.\n{T}: Aggiungi {B} o {G}.\n{2}{B}{G}, {T}, Sacrifica questa terra: Metti due segnalini +1/+1 su un Orso, Ragno o Lupo bersaglio che controlli. Attiva solo come una stregoneria."
   },
   {
     "scryfallId": "50202288-f433-4b56-8f60-349bda7b4f6b",
@@ -4207,7 +4198,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.08,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-14T20:18:18.200Z"
+    "aggiornatoIl": "2026-09-14T20:18:18.200Z",
+    "testoIt": "(Mentre questa Saga entra e dopo la tua acquisizione, aggiungi un segnalino sapere. Sacrifica dopo III.)\nI - Assolda. (Pesca una carta, poi scarta una carta. Se hai scartato una carta non terra, crea una pedina creatura Soldato Umano 1/1 bianca.)\nII - Rimetti sul campo di battaglia una carta creatura bersaglio con valore di mana pari o inferiore a 3 dal tuo cimitero.\nIII - Scegli fino a una creatura bersaglio e metti un segnalino +1/+1 su di essa."
   },
   {
     "scryfallId": "ea174cea-40e5-424e-9734-e39aae6c6b17",
@@ -4231,7 +4223,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:18.617Z"
+    "aggiornatoIl": "2026-09-14T20:18:18.617Z",
+    "testoIt": "Scegli uno o entrambi -\n* L'Attacco delle Pigne infligge 3 danni a una creatura bersaglio. Se quella creatura sta per morire in questo turno, invece esiliala.\n* Distruggi una pedina artefatto bersaglio."
   },
   {
     "scryfallId": "804589b7-3ef9-473d-97cc-c61a2d41f70d",
@@ -4279,7 +4272,8 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.03,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:18.692Z"
+    "aggiornatoIl": "2026-09-14T20:18:18.692Z",
+    "testoIt": "Volare\nQuando questa creatura entra, assolda. (Pesca una carta, poi scarta una carta. Se hai scartato una carta non terra, crea una pedina creatura Soldato Umano 1/1 bianca.)"
   },
   {
     "scryfallId": "3ad02b56-13ec-46ef-92bd-ae078b8bb517",
@@ -4325,6 +4319,7 @@
     "possessore": "Laura",
     "prezzoCardmarket": 0.03,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T20:18:18.753Z"
+    "aggiornatoIl": "2026-09-14T20:18:18.753Z",
+    "testoIt": "La forza del Presidio di Esgaroth è pari al numero di creature che controlli.\nQuando questa creatura entra, assolda. (Pesca una carta, poi scarta una carta. Se hai scartato una carta non terra, crea una pedina creatura Soldato Umano 1/1 bianca.)"
   }
 ]
