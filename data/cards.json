@@ -260,5 +260,77 @@
     "prezzoCardtrader": 0.11,
     "aggiornatoIl": "2026-09-13T12:23:28.392Z",
     "tipoIt": "Creatura — Spirito"
+  },
+  {
+    "scryfallId": "62016f24-3f40-406b-8e29-30a6545d0fc1",
+    "nome": "Grido di Contrizione",
+    "nomeIt": "Grido di Contrizione",
+    "nomeEn": "Cry of Contrition",
+    "lingua": "it",
+    "set": "gpt",
+    "numero": "46",
+    "immagine": "https://cards.scryfall.io/normal/front/6/2/62016f24-3f40-406b-8e29-30a6545d0fc1.jpg?1783943512",
+    "manaCost": "{B}",
+    "cmc": 1,
+    "tipo": "Sorcery",
+    "tipoIt": "Stregoneria",
+    "colori": [
+      "B"
+    ],
+    "rarita": "common",
+    "foil": false,
+    "quantita": 1,
+    "possessore": "Mattia",
+    "prezzoCardmarket": 0.18,
+    "prezzoCardtrader": 0.11,
+    "aggiornatoIl": "2026-09-13T20:27:48.598Z"
+  },
+  {
+    "scryfallId": "e50f5505-fcbb-4a84-bcf6-950362d83201",
+    "nome": "Parassita Sinuoso",
+    "nomeIt": "Parassita Sinuoso",
+    "nomeEn": "Sinuous Vermin",
+    "lingua": "it",
+    "set": "cn2",
+    "numero": "46",
+    "immagine": "https://cards.scryfall.io/normal/front/e/5/e50f5505-fcbb-4a84-bcf6-950362d83201.jpg?1783937351",
+    "manaCost": "{1}{B}",
+    "cmc": 2,
+    "tipo": "Creature — Rat Horror",
+    "tipoIt": "Creatura — Orrore Ratto",
+    "colori": [
+      "B"
+    ],
+    "rarita": "common",
+    "foil": false,
+    "quantita": 1,
+    "possessore": "Mattia",
+    "prezzoCardmarket": 0.14,
+    "prezzoCardtrader": 0.11,
+    "aggiornatoIl": "2026-09-13T20:27:50.454Z"
+  },
+  {
+    "scryfallId": "814bcfc0-7539-4ed9-8b51-27e6a3ab9d9a",
+    "nome": "Infrangere Speranze",
+    "nomeIt": "Infrangere Speranze",
+    "nomeEn": "Dash Hopes",
+    "lingua": "it",
+    "set": "plc",
+    "numero": "68",
+    "immagine": "https://cards.scryfall.io/normal/front/8/1/814bcfc0-7539-4ed9-8b51-27e6a3ab9d9a.jpg?1783943155",
+    "manaCost": "{B}{B}",
+    "cmc": 2,
+    "tipo": "Instant",
+    "tipoIt": "Istantaneo",
+    "colori": [
+      "B"
+    ],
+    "rarita": "common",
+    "foil": false,
+    "quantita": 1,
+    "possessore": "Mattia",
+    "prezzoCardmarket": 0.53,
+    "prezzoCardtrader": 0.11,
+    "aggiornatoIl": "2026-09-13T20:27:51.595Z"
   }
 ]
