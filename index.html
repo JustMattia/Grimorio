@@ -89,10 +89,10 @@
     /* Container */
     header,
     main {
-      max-width: 1200px;
+      max-width: 1440px;
       margin: 0 auto;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
     }
 
     /* === HEADER UNICO E COMPATTO === */
@@ -739,9 +739,9 @@
     }
 
     .badge-possessore.laura {
-      background: rgba(20, 184, 166, 0.12);
-      color: #2dd4bf;
-      border-color: rgba(20, 184, 166, 0.3);
+      background: #b151ce4b;
+      color: #cc72e7;
+      border-color: #b151ce;
     }
 
     .badge-possessore.matteo {
@@ -816,13 +816,13 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      padding: 0.75rem 1rem;
+      padding: 0.65rem 0.75rem;
       border-bottom: 1px solid var(--panel-border);
       white-space: nowrap;
     }
 
     table.tabella-carte td {
-      padding: 0.65rem 1rem;
+      padding: 0.55rem 0.75rem;
       border-bottom: 1px solid var(--panel-border-subtle);
       vertical-align: middle;
       color: var(--ink);
@@ -3518,13 +3518,13 @@
               <thead>
                 <tr>
                   ${thSelezione}
-                  <th style="min-width: 240px; width: 32%;">Nome Carta</th>
-                  <th style="min-width: 105px; width: 12%;">${isTerre ? '' : 'Costo Mana'}</th>
-                  <th style="min-width: 140px; width: 18%;">Tipo</th>
-                  <th style="min-width: 80px; width: 10%;">Edizione</th>
-                  <th style="min-width: 110px; width: 12%;">Possessore</th>
-                  <th style="min-width: 110px; width: 8%;">Cardmarket</th>
-                  <th style="min-width: 110px; width: 8%;">Cardtrader</th>
+                  <th style="min-width: 190px; width: 30%;">Nome Carta</th>
+                  <th style="min-width: 85px; width: 11%;">${isTerre ? '' : 'Costo Mana'}</th>
+                  <th style="min-width: 120px; width: 17%;">Tipo</th>
+                  <th style="min-width: 75px; width: 9%;">Edizione</th>
+                  <th style="min-width: 95px; width: 11%;">Possessore</th>
+                  <th style="min-width: 85px; width: 11%;">Cardmarket</th>
+                  <th style="min-width: 85px; width: 11%;">Cardtrader</th>
                 </tr>
               </thead>
               <tbody>
@@ -4974,6 +4974,25 @@
       const nomeFileUnivoco = `${nomeSicuro}__${Date.now()}.csv`;
       const percorso = `incoming/${nomeFileUnivoco}`;
 
+      // Recupera con certezza lo SHA iniziale corrente di data/cards.json prima dell'upload (cache-free)
+      try {
+        const resShaPre = await fetch(
+          `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json?t=${Date.now()}`,
+          {
+            headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" },
+            cache: "no-store"
+          }
+        );
+        if (resShaPre.ok) {
+          const dPre = await resShaPre.json();
+          if (dPre && dPre.sha) {
+            shaCardsJsonIniziale = dPre.sha;
+          }
+        }
+      } catch (ePre) {
+        console.warn("Impossibile recuperare SHA prima del caricamento:", ePre);
+      }
+
       impostaProgresso(30, "Invio a GitHub...", `Caricamento di ${nomeFileUnivoco} nella cartella incoming/`);
       aggiungiLog("Inoltro file via GitHub Contents API...");
 
@@ -5024,64 +5043,96 @@
     // Monitoraggio periodico dell'avanzamento fino all'aggiornamento reale
     async function monitoraElaborazione(token, nomeFileUnivoco) {
       let tentativi = 0;
-      const maxTentativi = 40; // Circa 2 minuti di monitoraggio (3s per ciclo)
+      const maxTentativi = 45; // ~110 secondi max (2.5s per ciclo)
       let progressoStimato = 50;
 
       const intervallo = setInterval(async () => {
         tentativi++;
-        progressoStimato = Math.min(88, progressoStimato + 3);
+        progressoStimato = Math.min(94, progressoStimato + 2);
         impostaProgresso(
           progressoStimato,
           "Elaborazione carte in corso...",
           "Scryfall e Cardtrader stanno aggiornando immagini e prezzi"
         );
 
-        if (tentativi === 3) {
-          aggiungiLog("GitHub Actions ha preso in carico il file CSV...");
-        } else if (tentativi === 6) {
-          aggiungiLog("Scaricamento dei dati e dei prezzi minimi di mercato...");
-        } else if (tentativi === 9) {
-          aggiungiLog("Generazione e scrittura del nuovo database cards.json...");
+        if (tentativi === 2) {
+          aggiungiLog("File CSV registrato su GitHub, avvio workflow...");
+        } else if (tentativi === 5) {
+          aggiungiLog("Elaborazione e scaricamento prezzi minimi...");
+        } else if (tentativi === 8) {
+          aggiungiLog("Verifica dati e traduzioni ufficiali in italiano...");
+        } else if (tentativi === 11) {
+          aggiungiLog("Generazione e scrittura del nuovo cards.json...");
         }
 
         try {
-          // 1. Verifica se il file in incoming/ è stato consumato ed eliminato dallo script
+          // 1. Verifica se il file in incoming/ è stato consumato (con cache-buster no-store)
           const resIncoming = await fetch(
-            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/incoming/${nomeFileUnivoco}`,
-            { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" } }
+            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/incoming/${nomeFileUnivoco}?t=${Date.now()}`,
+            {
+              headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" },
+              cache: "no-store"
+            }
           );
 
-          // 2. Verifica se il database cards.json ha un nuovo commit sha
+          // 2. Verifica se il database cards.json ha un nuovo commit sha (con cache-buster no-store)
           const resCards = await fetch(
-            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`,
-            { headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" } }
+            `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json?t=${Date.now()}`,
+            {
+              headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" },
+              cache: "no-store"
+            }
           );
 
           let shaAttuale = null;
+          let dataCards = null;
           if (resCards.ok) {
-            const dataCards = await resCards.json();
+            dataCards = await resCards.json();
             shaAttuale = dataCards.sha;
           }
 
-          const fileIncomingRimosso = (resIncoming.status === 404);
-          const shaModificato = (shaCardsJsonIniziale && shaAttuale && shaAttuale !== shaCardsJsonIniziale);
-
-          if (fileIncomingRimosso || shaModificato) {
-            clearInterval(intervallo);
-
-            let nuoveCarte = null;
-            if (dataCards && dataCards.content) {
-              try {
-                const jsonStr = decodeBase64Utf8(dataCards.content);
-                nuoveCarte = JSON.parse(jsonStr);
-              } catch (pe) {
-                console.warn("Decodifica base64 API fallita:", pe);
+          // 3. Verifica live dello stato del workflow GitHub Actions
+          let workflowFinito = false;
+          try {
+            const resRuns = await fetch(
+              `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/runs?event=push&per_page=1&t=${Date.now()}`,
+              {
+                headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" },
+                cache: "no-store"
+              }
+            );
+            if (resRuns.ok) {
+              const dataRuns = await resRuns.json();
+              const run = dataRuns?.workflow_runs?.[0];
+              if (run) {
+                if (run.status === "completed" && run.conclusion === "success") {
+                  workflowFinito = true;
+                  aggiungiLog("Workflow GitHub Actions completato con successo!", "done");
+                }
               }
             }
+          } catch (eRuns) { }
+
+          let carteNelDatabase = null;
+          if (dataCards && dataCards.content) {
+            try {
+              const jsonStr = decodeBase64Utf8(dataCards.content);
+              carteNelDatabase = JSON.parse(jsonStr);
+            } catch (pe) { }
+          }
+
+          const fileIncomingRimosso = (resIncoming.status === 404);
+          const shaModificato = Boolean(shaAttuale && shaCardsJsonIniziale && shaAttuale !== shaCardsJsonIniziale);
+          const conteggioCarteCresciuto = Boolean(carteNelDatabase && Array.isArray(carteNelDatabase) && carteNelDatabase.length > carte.length);
+
+          if (fileIncomingRimosso || shaModificato || workflowFinito || conteggioCarteCresciuto) {
+            clearInterval(intervallo);
+
+            let nuoveCarte = carteNelDatabase;
 
             if (!nuoveCarte && shaAttuale) {
               try {
-                const rRaw = await fetch(`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${shaAttuale}/data/cards.json`);
+                const rRaw = await fetch(`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${shaAttuale}/data/cards.json?t=${Date.now()}`, { cache: "no-store" });
                 if (rRaw.ok) nuoveCarte = await rRaw.json();
               } catch (re) {
                 console.warn("Download raw tramite SHA fallito:", re);
@@ -5130,7 +5181,7 @@
             document.getElementById("fileCsv").value = "";
           }, 1200);
         }
-      }, 3000);
+      }, 2500);
     }
 
     document.getElementById("bottoneCarica").addEventListener("click", caricaCSV);
