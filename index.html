@@ -2759,7 +2759,7 @@
         </div>
         <div class="conferma-titolo" id="confermaTitolo">Conferma Eliminazione</div>
       </div>
-      <div class="conferma-corpo">
+      <div class="conferma-corpo" id="confermaEliminaCorpo">
         <p class="conferma-testo">
           Sei sicuro di voler eliminare la carta <strong id="confermaNomeCarta"></strong> dal grimorio?
         </p>
@@ -2774,9 +2774,33 @@
           </label>
         </div>
       </div>
-      <div class="conferma-azioni">
+      <div class="conferma-azioni" id="confermaEliminaAzioni">
         <button type="button" class="btn-conferma-no" id="btnConfermaEliminaNo">No, annulla</button>
         <button type="button" class="btn-conferma-si" id="btnConfermaEliminaSi">Sì, elimina</button>
+      </div>
+
+      <!-- Sezione Avanzamento e Stato Live Eliminazione Singola -->
+      <div id="statoAvanzamentoElimina" style="display: none; padding-top: 0.25rem;">
+        <div class="progresso-container">
+          <div class="progresso-barra-wrap">
+            <div class="progresso-barra" id="barraProgressoElimina" style="width: 0%;"></div>
+          </div>
+          <div class="progresso-percentuale" id="testoPercentualeElimina">0%</div>
+        </div>
+
+        <div class="stato-task-box">
+          <div class="stato-icona" id="statoIconaElimina">
+            <div class="spinner-caricamento"></div>
+          </div>
+          <div class="stato-task-dettagli">
+            <div class="stato-task-titolo" id="statoTaskTitoloElimina">Eliminazione in corso...</div>
+            <div class="stato-task-desc" id="statoTaskDescElimina">Attendere la sincronizzazione con GitHub</div>
+          </div>
+        </div>
+
+        <div class="task-log-box" id="taskLogBoxElimina">
+          <div class="task-log-riga active">[1/3] Avvio rimozione carta...</div>
+        </div>
       </div>
     </div>
   </div>
@@ -2796,7 +2820,7 @@
         </div>
         <div class="conferma-titolo" id="confermaMultiplaTitolo">Eliminazione Multipla Carte</div>
       </div>
-      <div class="conferma-corpo">
+      <div class="conferma-corpo" id="confermaMultiplaCorpo">
         <p class="conferma-testo">
           Stai per eliminare <strong id="confermaMultiplaConteggio">0 carte</strong> dal Grimorio.
         </p>
@@ -2814,9 +2838,33 @@
           </label>
         </div>
       </div>
-      <div class="conferma-azioni">
+      <div class="conferma-azioni" id="confermaMultiplaAzioni">
         <button type="button" class="btn-conferma-no" id="btnConfermaEliminaMultiplaNo">No, annulla</button>
         <button type="button" class="btn-conferma-si" id="btnConfermaEliminaMultiplaSi">Sì, elimina carte</button>
+      </div>
+
+      <!-- Sezione Avanzamento e Stato Live Eliminazione Multipla -->
+      <div id="statoAvanzamentoEliminaMultipla" style="display: none; padding-top: 0.25rem;">
+        <div class="progresso-container">
+          <div class="progresso-barra-wrap">
+            <div class="progresso-barra" id="barraProgressoEliminaMultipla" style="width: 0%;"></div>
+          </div>
+          <div class="progresso-percentuale" id="testoPercentualeEliminaMultipla">0%</div>
+        </div>
+
+        <div class="stato-task-box">
+          <div class="stato-icona" id="statoIconaEliminaMultipla">
+            <div class="spinner-caricamento"></div>
+          </div>
+          <div class="stato-task-dettagli">
+            <div class="stato-task-titolo" id="statoTaskTitoloEliminaMultipla">Eliminazione in corso...</div>
+            <div class="stato-task-desc" id="statoTaskDescEliminaMultipla">Attendere la sincronizzazione con GitHub</div>
+          </div>
+        </div>
+
+        <div class="task-log-box" id="taskLogBoxEliminaMultipla">
+          <div class="task-log-riga active">[1/3] Avvio rimozione carte in blocco...</div>
+        </div>
       </div>
     </div>
   </div>
@@ -2901,6 +2949,7 @@
     let modalitaSelezione = false;
     let carteSelezionateIds = new Set();
     let filtrateCorrenti = [];
+    let eliminazioneInCorso = false;
 
     // Notifica flash al ricaricamento
     const flashMsg = sessionStorage.getItem("grimorio_flash");
@@ -3923,16 +3972,30 @@
         opzioniBox.style.display = "none";
       }
 
+      // Reset vista popup se era in corso un tentativo precedente
+      document.getElementById("confermaEliminaCorpo").style.display = "flex";
+      document.getElementById("confermaEliminaAzioni").style.display = "flex";
+      document.getElementById("statoAvanzamentoElimina").style.display = "none";
+      document.getElementById("btnConfermaEliminaSi").disabled = false;
+      document.getElementById("btnConfermaEliminaNo").disabled = false;
+
       modalConfermaElimina.style.display = "flex";
       modalConfermaElimina.scrollTop = 0;
       aggiornaLockScrollBody();
     }
 
     async function eseguiEliminazioneConfermata() {
-      if (!cartaSelezionata) return;
+      if (!cartaSelezionata || eliminazioneInCorso) return;
       const c = cartaSelezionata;
       const nomeVisualizzato = ottieniNomeItaliano(c);
 
+      const token = getToken();
+      if (!token) {
+        alert("È necessario un token GitHub per autorizzare l'eliminazione dal Grimorio.");
+        return;
+      }
+
+      eliminazioneInCorso = true;
       const qta = c.quantita || 1;
       let rimuoviSoloUna = false;
       if (qta > 1) {
@@ -3940,13 +4003,14 @@
         rimuoviSoloUna = (sceltaRadio === "singola");
       }
 
-      const btnSi = document.getElementById("btnConfermaEliminaSi");
-      const btnNo = document.getElementById("btnConfermaEliminaNo");
-      const testoOriginale = btnSi.innerHTML;
+      // Passaggio alla vista progresso live
+      document.getElementById("confermaEliminaCorpo").style.display = "none";
+      document.getElementById("confermaEliminaAzioni").style.display = "none";
+      document.getElementById("statoAvanzamentoElimina").style.display = "block";
+      document.getElementById("taskLogBoxElimina").innerHTML = "";
 
-      btnSi.disabled = true;
-      btnNo.disabled = true;
-      btnSi.innerHTML = `<span>Eliminazione...</span>`;
+      impostaProgressoElimina("singola", 15, "Preparazione rimozione...", "Elaborazione modifiche al Grimorio");
+      aggiungiLogElimina("singola", `Inizio procedura di rimozione per: "${nomeVisualizzato}" (${c.possessore || 'Mattia'})`);
 
       const carteAggiornate = JSON.parse(JSON.stringify(carte));
       const idx = carteAggiornate.findIndex(item =>
@@ -3957,70 +4021,106 @@
       if (idx !== -1) {
         if (rimuoviSoloUna && (carteAggiornate[idx].quantita || 1) > 1) {
           carteAggiornate[idx].quantita = (carteAggiornate[idx].quantita || 1) - 1;
+          aggiungiLogElimina("singola", `Quantità ridotta di 1 copia (rimaste: ${carteAggiornate[idx].quantita}).`);
         } else {
           carteAggiornate.splice(idx, 1);
+          aggiungiLogElimina("singola", `Rimozione completa della carta dalla collezione.`);
         }
       }
 
-      // Tenta il commit su GitHub se il token è presente
-      let salvatoSuGitHub = false;
+      const carteDaSalvare = carteAggiornate.map(item => {
+        const clone = { ...item };
+        delete clone._uid;
+        return clone;
+      });
+
       try {
-        const token = localStorage.getItem("dispensa_token") || localStorage.getItem("grimorio_gh_token");
-        if (token && shaCardsJsonIniziale) {
-          const carteDaSalvare = carteAggiornate.map(item => {
-            const clone = { ...item };
-            delete clone._uid;
-            return clone;
-          });
-          const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
-            method: "PUT",
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Accept": "application/vnd.github+json",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              message: `Rimozione carta: ${nomeVisualizzato} (${c.possessore})`,
-              content: btoa(unescape(encodeURIComponent(JSON.stringify(carteDaSalvare, null, 2)))),
-              sha: shaCardsJsonIniziale
-            })
-          });
+        await new Promise(r => setTimeout(r, 450));
+        impostaProgressoElimina("singola", 30, "Connessione a GitHub...", "Verifica versione corrente di data/cards.json");
+        aggiungiLogElimina("singola", "Richiesta SHA archivio tramite GitHub API...");
 
-          if (resp.ok) {
-            const dataRes = await resp.json();
-            if (dataRes?.content?.sha) {
-              shaCardsJsonIniziale = dataRes.content.sha;
-            }
-            salvatoSuGitHub = true;
+        const resSha = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github+json"
           }
+        });
+
+        if (!resSha.ok) {
+          const errData = await resSha.json().catch(() => ({}));
+          throw new Error(errData.message || `Impossibile verificare cards.json (HTTP ${resSha.status})`);
         }
+        const dataSha = await resSha.json();
+        const latestSha = dataSha.sha;
+        shaCardsJsonIniziale = latestSha;
+        aggiungiLogElimina("singola", `SHA database confermato (${latestSha.substring(0, 7)}).`);
+
+        await new Promise(r => setTimeout(r, 450));
+        impostaProgressoElimina("singola", 50, "Invio commit a GitHub...", "Scrittura e commit su data/cards.json");
+        aggiungiLogElimina("singola", "Invio commit di rimozione a GitHub...");
+
+        const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+          method: "PUT",
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: `Rimozione carta: ${nomeVisualizzato} (${c.possessore || 'Mattia'})`,
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(carteDaSalvare, null, 2)))),
+            sha: latestSha
+          })
+        });
+
+        if (!resp.ok) {
+          const errPut = await resp.json().catch(() => ({}));
+          throw new Error(errPut.message || `Errore salvataggio GitHub (HTTP ${resp.status})`);
+        }
+
+        const dataRes = await resp.json();
+        if (dataRes?.content?.sha) {
+          shaCardsJsonIniziale = dataRes.content.sha;
+        }
+
+        aggiungiLogElimina("singola", "Commit registrato con successo nel repository!", "done");
+        carte = carteAggiornate;
+
+        const flashMsg = `✓ Carta "${nomeVisualizzato}" eliminata e sincronizzata con successo!`;
+        const verifyFn = (datiOnline) => {
+          if (!Array.isArray(datiOnline)) return false;
+          if (rimuoviSoloUna) {
+            const trovata = datiOnline.find(item =>
+              (item.scryfallId && item.scryfallId === c.scryfallId && item.possessore === c.possessore) ||
+              (ottieniNomeItaliano(item) === nomeVisualizzato && item.set === c.set && item.numero === c.numero && item.possessore === c.possessore)
+            );
+            return trovata && (trovata.quantita || 1) <= (c.quantita || 1) - 1;
+          } else {
+            const trovata = datiOnline.find(item =>
+              (item.scryfallId && item.scryfallId === c.scryfallId && item.possessore === c.possessore) ||
+              (ottieniNomeItaliano(item) === nomeVisualizzato && item.set === c.set && item.numero === c.numero && item.possessore === c.possessore)
+            );
+            return !trovata;
+          }
+        };
+
+        monitoraEliminazione("singola", token, [c], flashMsg, verifyFn);
+
       } catch (err) {
-        console.warn("Sincronizzazione GitHub non riuscita (salvataggio locale):", err);
+        console.error("Errore durante l'eliminazione:", err);
+        aggiungiLogElimina("singola", `Errore: ${err.message}`, "error");
+        impostaProgressoElimina("singola", 30, "Errore eliminazione", err.message, false);
+        setTimeout(() => {
+          eliminazioneInCorso = false;
+          document.getElementById("confermaEliminaCorpo").style.display = "flex";
+          document.getElementById("confermaEliminaAzioni").style.display = "flex";
+          document.getElementById("statoAvanzamentoElimina").style.display = "none";
+        }, 4000);
       }
-
-      carte = carteAggiornate;
-      aggiornaStatistiche(carte, carte);
-      disegna();
-
-      modalConfermaElimina.style.display = "none";
-      modalDettaglio.style.display = "none";
-      btnSi.disabled = false;
-      btnNo.disabled = false;
-      btnSi.innerHTML = testoOriginale;
-      cartaSelezionata = null;
-      aggiornaLockScrollBody();
-
-      const banner = document.getElementById("flashBanner");
-      document.getElementById("flashTesto").textContent = salvatoSuGitHub
-        ? `✓ Carta "${nomeVisualizzato}" eliminata e sincronizzata su GitHub!`
-        : `✓ Carta "${nomeVisualizzato}" rimossa dal Grimorio!`;
-      banner.style.display = "flex";
-      setTimeout(() => {
-        if (banner) banner.style.display = "none";
-      }, 4500);
     }
 
     function chiudiDettaglioCarta() {
+      if (eliminazioneInCorso) return;
       modalDettaglio.style.display = "none";
       cartaSelezionata = null;
       aggiornaLockScrollBody();
@@ -4039,12 +4139,14 @@
     // Apre popup di conferma prima dell'eliminazione effettiva
     document.getElementById("btnEliminaCarta").addEventListener("click", chiediConfermaEliminazione);
     document.getElementById("btnConfermaEliminaNo").addEventListener("click", () => {
+      if (eliminazioneInCorso) return;
       modalConfermaElimina.style.display = "none";
       aggiornaLockScrollBody();
     });
     document.getElementById("btnConfermaEliminaSi").addEventListener("click", eseguiEliminazioneConfermata);
 
     modalConfermaElimina.addEventListener("click", (e) => {
+      if (eliminazioneInCorso) return;
       if (e.target === modalConfermaElimina) {
         modalConfermaElimina.style.display = "none";
         aggiornaLockScrollBody();
@@ -4053,6 +4155,7 @@
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
+        if (eliminazioneInCorso) return;
         if (modalConfermaEliminaMultipla && modalConfermaEliminaMultipla.style.display !== "none") {
           modalConfermaEliminaMultipla.style.display = "none";
           aggiornaLockScrollBody();
@@ -4251,28 +4354,42 @@
         listaPreview.appendChild(extra);
       }
 
+      // Reset vista popup se era in corso un tentativo precedente
+      document.getElementById("confermaMultiplaCorpo").style.display = "flex";
+      document.getElementById("confermaMultiplaAzioni").style.display = "flex";
+      document.getElementById("statoAvanzamentoEliminaMultipla").style.display = "none";
+      document.getElementById("btnConfermaEliminaMultiplaSi").disabled = false;
+      document.getElementById("btnConfermaEliminaMultiplaNo").disabled = false;
+
       modalConfermaEliminaMultipla.style.display = "flex";
       modalConfermaEliminaMultipla.scrollTop = 0;
       aggiornaLockScrollBody();
     }
 
     async function eseguiEliminazioneMultiplaConfermata() {
-      if (carteSelezionateIds.size === 0) return;
+      if (carteSelezionateIds.size === 0 || eliminazioneInCorso) return;
 
-      const btnSi = document.getElementById("btnConfermaEliminaMultiplaSi");
-      const btnNo = document.getElementById("btnConfermaEliminaMultiplaNo");
-      const testoOriginale = btnSi.innerHTML;
+      const token = getToken();
+      if (!token) {
+        alert("È necessario un token GitHub per autorizzare l'eliminazione dal Grimorio.");
+        return;
+      }
 
-      btnSi.disabled = true;
-      btnNo.disabled = true;
-      btnSi.innerHTML = `<span>Eliminazione in corso...</span>`;
-
+      eliminazioneInCorso = true;
+      const numeroCarteSelezionate = carteSelezionateIds.size;
       const sceltaRadio = document.querySelector('input[name="opzioneEliminaMultiplaQty"]:checked')?.value;
       const rimuoviSoloUna = (sceltaRadio === "singola");
 
-      const numeroCarteSelezionate = carteSelezionateIds.size;
-      let carteAggiornate = JSON.parse(JSON.stringify(carte));
+      // Passaggio alla vista progresso live
+      document.getElementById("confermaMultiplaCorpo").style.display = "none";
+      document.getElementById("confermaMultiplaAzioni").style.display = "none";
+      document.getElementById("statoAvanzamentoEliminaMultipla").style.display = "block";
+      document.getElementById("taskLogBoxEliminaMultipla").innerHTML = "";
 
+      impostaProgressoElimina("multipla", 15, "Preparazione rimozione multipla...", "Elaborazione delle carte selezionate");
+      aggiungiLogElimina("multipla", `Preparazione eliminazione di ${numeroCarteSelezionate} carte selezionate...`);
+
+      let carteAggiornate = JSON.parse(JSON.stringify(carte));
       if (rimuoviSoloUna) {
         carteAggiornate = carteAggiornate.map(item => {
           if (carteSelezionateIds.has(item._uid)) {
@@ -4283,8 +4400,10 @@
           }
           return item;
         }).filter(Boolean);
+        aggiungiLogElimina("multipla", "Quantità ridotta di 1 copia per ciascuna carta selezionata.");
       } else {
         carteAggiornate = carteAggiornate.filter(item => !carteSelezionateIds.has(item._uid));
+        aggiungiLogElimina("multipla", "Rimozione totale delle carte selezionate dalla collezione.");
       }
 
       const carteDaSalvare = carteAggiornate.map(c => {
@@ -4293,69 +4412,81 @@
         return clone;
       });
 
-      let salvatoSuGitHub = false;
       try {
-        let token = localStorage.getItem("dispensa_token") || localStorage.getItem("grimorio_gh_token");
-        if (token && !shaCardsJsonIniziale) {
-          const resSha = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
-            headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
-          });
-          if (resSha.ok) {
-            const dSha = await resSha.json();
-            shaCardsJsonIniziale = dSha.sha;
+        await new Promise(r => setTimeout(r, 450));
+        impostaProgressoElimina("multipla", 30, "Connessione a GitHub...", "Verifica versione corrente di data/cards.json");
+        aggiungiLogElimina("multipla", "Richiesta SHA archivio tramite GitHub API...");
+
+        const resSha = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github+json"
           }
+        });
+
+        if (!resSha.ok) {
+          const errData = await resSha.json().catch(() => ({}));
+          throw new Error(errData.message || `Impossibile verificare cards.json (HTTP ${resSha.status})`);
+        }
+        const dataSha = await resSha.json();
+        const latestSha = dataSha.sha;
+        shaCardsJsonIniziale = latestSha;
+        aggiungiLogElimina("multipla", `SHA database confermato (${latestSha.substring(0, 7)}).`);
+
+        await new Promise(r => setTimeout(r, 450));
+        impostaProgressoElimina("multipla", 50, "Invio commit a GitHub...", `Scrittura del commit per ${numeroCarteSelezionate} carte`);
+        aggiungiLogElimina("multipla", "Invio commit di rimozione multipla a GitHub...");
+
+        const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+          method: "PUT",
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            message: `Rimozione multipla di ${numeroCarteSelezionate} carte dal Grimorio`,
+            content: btoa(unescape(encodeURIComponent(JSON.stringify(carteDaSalvare, null, 2)))),
+            sha: latestSha
+          })
+        });
+
+        if (!resp.ok) {
+          const errPut = await resp.json().catch(() => ({}));
+          throw new Error(errPut.message || `Errore salvataggio GitHub (HTTP ${resp.status})`);
         }
 
-        if (token && shaCardsJsonIniziale) {
-          const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
-            method: "PUT",
-            headers: {
-              "Authorization": `Bearer ${token}`,
-              "Accept": "application/vnd.github+json",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              message: `Rimozione multipla di ${numeroCarteSelezionate} carte dal Grimorio`,
-              content: btoa(unescape(encodeURIComponent(JSON.stringify(carteDaSalvare, null, 2)))),
-              sha: shaCardsJsonIniziale
-            })
-          });
-
-          if (resp.ok) {
-            const dataRes = await resp.json();
-            if (dataRes?.content?.sha) {
-              shaCardsJsonIniziale = dataRes.content.sha;
-            }
-            salvatoSuGitHub = true;
-          }
+        const dataRes = await resp.json();
+        if (dataRes?.content?.sha) {
+          shaCardsJsonIniziale = dataRes.content.sha;
         }
+
+        aggiungiLogElimina("multipla", "Commit registrato con successo nel repository!", "done");
+        carte = carteAggiornate;
+        carteSelezionateIds.clear();
+        modalitaSelezione = false;
+        document.body.classList.remove("modalita-selezione-attiva");
+        aggiornaBarraSelezione();
+
+        const flashMsg = `✓ ${numeroCarteSelezionate} carte eliminate e sincronizzate con successo!`;
+        const verifyFn = (datiOnline) => {
+          if (!Array.isArray(datiOnline)) return false;
+          return datiOnline.length <= carteAggiornate.length;
+        };
+
+        monitoraEliminazione("multipla", token, null, flashMsg, verifyFn);
+
       } catch (err) {
-        console.warn("Sincronizzazione GitHub non riuscita (salvataggio locale):", err);
+        console.error("Errore durante l'eliminazione multipla:", err);
+        aggiungiLogElimina("multipla", `Errore: ${err.message}`, "error");
+        impostaProgressoElimina("multipla", 30, "Errore eliminazione", err.message, false);
+        setTimeout(() => {
+          eliminazioneInCorso = false;
+          document.getElementById("confermaMultiplaCorpo").style.display = "flex";
+          document.getElementById("confermaMultiplaAzioni").style.display = "flex";
+          document.getElementById("statoAvanzamentoEliminaMultipla").style.display = "none";
+        }, 4000);
       }
-
-      carte = carteAggiornate;
-      carteSelezionateIds.clear();
-      modalitaSelezione = false;
-      document.body.classList.remove("modalita-selezione-attiva");
-      aggiornaBarraSelezione();
-
-      aggiornaStatistiche(carte, carte);
-      disegna();
-
-      modalConfermaEliminaMultipla.style.display = "none";
-      btnSi.disabled = false;
-      btnNo.disabled = false;
-      btnSi.innerHTML = testoOriginale;
-      aggiornaLockScrollBody();
-
-      const banner = document.getElementById("flashBanner");
-      document.getElementById("flashTesto").textContent = salvatoSuGitHub
-        ? `✓ ${numeroCarteSelezionate} carte eliminate e sincronizzate su GitHub!`
-        : `✓ ${numeroCarteSelezionate} carte eliminate dal Grimorio!`;
-      banner.style.display = "flex";
-      setTimeout(() => {
-        if (banner) banner.style.display = "none";
-      }, 4500);
     }
 
     // Event listener per la selezione multipla
@@ -4366,12 +4497,14 @@
     document.getElementById("btnBarraElimina").addEventListener("click", apriConfermaEliminazioneMultipla);
 
     document.getElementById("btnConfermaEliminaMultiplaNo").addEventListener("click", () => {
+      if (eliminazioneInCorso) return;
       modalConfermaEliminaMultipla.style.display = "none";
       aggiornaLockScrollBody();
     });
     document.getElementById("btnConfermaEliminaMultiplaSi").addEventListener("click", eseguiEliminazioneMultiplaConfermata);
 
     modalConfermaEliminaMultipla.addEventListener("click", (e) => {
+      if (eliminazioneInCorso) return;
       if (e.target === modalConfermaEliminaMultipla) {
         modalConfermaEliminaMultipla.style.display = "none";
         aggiornaLockScrollBody();
@@ -4551,14 +4684,117 @@
 
     // --- CARICAMENTO DIRETTO CSV, STATO TASK LIVE E RICARICA AUTOMATICA ---
     function getToken() {
-      let token = localStorage.getItem("dispensa_token");
+      let token = localStorage.getItem("dispensa_token") || localStorage.getItem("grimorio_gh_token");
       if (!token) {
         token = prompt(
           "Incolla qui il tuo Personal Access Token di GitHub (inserito una sola volta, resta salvato solo nel tuo browser):"
         );
-        if (token) localStorage.setItem("dispensa_token", token.trim());
+        if (token) {
+          token = token.trim();
+          localStorage.setItem("dispensa_token", token);
+          localStorage.setItem("grimorio_gh_token", token);
+        }
       }
       return token;
+    }
+
+    function impostaProgressoElimina(tipo, percentuale, titolo, desc, isDone = false) {
+      const suffisso = (tipo === "multipla") ? "Multipla" : "";
+      const barra = document.getElementById(`barraProgressoElimina${suffisso}`);
+      const perc = document.getElementById(`testoPercentualeElimina${suffisso}`);
+      const tTitolo = document.getElementById(`statoTaskTitoloElimina${suffisso}`);
+      const tDesc = document.getElementById(`statoTaskDescElimina${suffisso}`);
+      const icona = document.getElementById(`statoIconaElimina${suffisso}`);
+
+      if (barra) barra.style.width = `${percentuale}%`;
+      if (perc) perc.textContent = `${percentuale}%`;
+      if (tTitolo) tTitolo.textContent = titolo;
+      if (tDesc) tDesc.textContent = desc;
+      if (icona) {
+        if (isDone) {
+          icona.innerHTML = '<div class="stato-icona-success">✓</div>';
+        } else {
+          icona.innerHTML = '<div class="spinner-caricamento"></div>';
+        }
+      }
+    }
+
+    function aggiungiLogElimina(tipo, testo, tipoLog = "active") {
+      const suffisso = (tipo === "multipla") ? "Multipla" : "";
+      const box = document.getElementById(`taskLogBoxElimina${suffisso}`);
+      if (!box) return;
+      const d = new Date();
+      const tempo = d.toTimeString().split(" ")[0];
+      const div = document.createElement("div");
+      div.className = `task-log-riga ${tipoLog}`;
+      div.textContent = `[${tempo}] ${testo}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function concludiEliminazioneConSuccesso(tipo, flashMsg) {
+      impostaProgressoElimina(
+        tipo,
+        100,
+        "Eliminazione completata con successo!",
+        "Grimorio allineato! Ricaricamento in corso...",
+        true
+      );
+      aggiungiLogElimina(tipo, "✓ Archivio cards.json allineato su GitHub!", "done");
+      aggiungiLogElimina(tipo, "Ricaricamento automatico della pagina in corso...", "done");
+
+      sessionStorage.setItem("grimorio_flash", flashMsg);
+      setTimeout(() => {
+        window.location.reload();
+      }, 1200);
+    }
+
+    async function monitoraEliminazione(tipo, token, idsEliminati, flashMsg, verifyFn) {
+      let tentativi = 0;
+      const maxTentativi = 8; // ~20 secondi totali (2.5s per ciclo)
+      let progressoStimato = 60;
+
+      const intervallo = setInterval(async () => {
+        tentativi++;
+        progressoStimato = Math.min(94, progressoStimato + 5);
+        impostaProgressoElimina(
+          tipo,
+          progressoStimato,
+          "Sincronizzazione in corso...",
+          "Propagazione delle modifiche sui server di GitHub Pages"
+        );
+
+        if (tentativi === 1) {
+          aggiungiLogElimina(tipo, "Richiesta registrata su GitHub. Attesa propagazione CDN...");
+        } else if (tentativi === 2) {
+          aggiungiLogElimina(tipo, "GitHub Pages sta rigenerando la risorsa cards.json...");
+        } else if (tentativi === 3) {
+          aggiungiLogElimina(tipo, "Controllo allineamento dei dati in tempo reale...");
+        } else if (tentativi === 5) {
+          aggiungiLogElimina(tipo, "Verifica finale della propagazione delle modifiche...");
+        }
+
+        try {
+          if (tentativi >= 2 && verifyFn) {
+            const resCheck = await fetch("data/cards.json?t=" + Date.now(), { cache: "no-store" });
+            if (resCheck.ok) {
+              const datiCheck = await resCheck.json();
+              if (verifyFn(datiCheck)) {
+                clearInterval(intervallo);
+                concludiEliminazioneConSuccesso(tipo, flashMsg);
+                return;
+              }
+            }
+          }
+        } catch (err) {
+          console.warn("Verifica allineamento in corso:", err);
+        }
+
+        if (tentativi >= maxTentativi) {
+          clearInterval(intervallo);
+          concludiEliminazioneConSuccesso(tipo, flashMsg);
+        }
+      }, 2500);
     }
 
     function aggiungiLog(testo, tipo = "active") {
