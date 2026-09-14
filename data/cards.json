@@ -45,7 +45,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.14,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T19:24:51.783Z"
+    "aggiornatoIl": "2026-09-14T19:24:51.783Z",
+    "testoIt": "Tutte le creature prendono -1/-1 fino alla fine del turno."
   },
   {
     "scryfallId": "58f9eb25-4140-4ecf-bcaa-1b193d884007",
@@ -2257,7 +2258,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 2.46,
     "prezzoCardtrader": 1.77,
-    "aggiornatoIl": "2026-09-14T19:37:52.454Z"
+    "aggiornatoIl": "2026-09-14T19:37:52.454Z",
+    "testoIt": "Ogniqualvolta un'altra creatura viene messa in un cimitero dal gioco, puoi guadagnare 1 punto vita."
   },
   {
     "scryfallId": "61edb39b-ff82-4568-971f-baf22e209c88",
@@ -2305,28 +2307,6 @@
     "prezzoCardmarket": 0.11,
     "prezzoCardtrader": 0.11,
     "aggiornatoIl": "2026-09-14T19:37:53.879Z"
-  },
-  {
-    "scryfallId": "9764a8bc-94ff-448f-aed6-2eca21fc0418",
-    "nome": "Conca Infossata",
-    "nomeIt": "Conca Infossata",
-    "nomeEn": "Sunken Hollow",
-    "lingua": "it",
-    "set": "ltc",
-    "numero": "335",
-    "immagine": "https://cards.scryfall.io/normal/front/9/7/9764a8bc-94ff-448f-aed6-2eca21fc0418.jpg?1783915861",
-    "manaCost": "",
-    "cmc": 0,
-    "tipo": "Land — Island Swamp",
-    "tipoIt": "Terra — Isola Palude",
-    "colori": [],
-    "rarita": "rare",
-    "foil": false,
-    "quantita": 1,
-    "possessore": "Mattia",
-    "prezzoCardmarket": 0.57,
-    "prezzoCardtrader": 0.41,
-    "aggiornatoIl": "2026-09-14T19:37:54.552Z"
   },
   {
     "scryfallId": "e2db6f65-5160-4c10-8a24-f8d4f106adcd",
@@ -2496,29 +2476,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.87,
     "prezzoCardtrader": 0.4,
-    "aggiornatoIl": "2026-09-14T19:37:58.460Z"
-  },
-  {
-    "scryfallId": "3f34c451-fdb4-4f73-9e27-203b72ba1843",
-    "nome": "Foresta",
-    "nomeIt": "Foresta",
-    "nomeEn": "Forest",
-    "lingua": "it",
-    "set": "ath",
-    "numero": "84",
-    "immagine": "https://cards.scryfall.io/normal/front/3/f/3f34c451-fdb4-4f73-9e27-203b72ba1843.jpg?1783946264",
-    "manaCost": "",
-    "cmc": 0,
-    "tipo": "Basic Land — Forest",
-    "tipoIt": "Terra Base — Foresta",
-    "colori": [],
-    "rarita": "common",
-    "foil": false,
-    "quantita": 1,
-    "possessore": "Mattia",
-    "prezzoCardmarket": 0.21,
-    "prezzoCardtrader": 0.54,
-    "aggiornatoIl": "2026-09-14T19:37:59.110Z"
+    "aggiornatoIl": "2026-09-14T19:37:58.460Z",
+    "testoIt": "{T}: Aggiungi {G} alla tua riserva di mana.\nMetti un segnalino -1/-1 sul Druido Devoto: STAPpa il Druido Devoto."
   },
   {
     "scryfallId": "4971a447-29c8-47b6-863c-f13a69b4148b",
@@ -2590,29 +2549,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 0.78,
     "prezzoCardtrader": 0.68,
-    "aggiornatoIl": "2026-09-14T19:38:01.219Z"
-  },
-  {
-    "scryfallId": "8bab22c5-4742-4f2e-bda1-26c72b09cd9c",
-    "nome": "Conservatory",
-    "nomeIt": "Conservatory",
-    "nomeEn": "Conservatory",
-    "lingua": "it",
-    "set": "clu",
-    "numero": "14",
-    "immagine": "https://cards.scryfall.io/normal/front/8/b/8bab22c5-4742-4f2e-bda1-26c72b09cd9c.jpg?1783912579",
-    "manaCost": "",
-    "cmc": 0,
-    "tipo": "Land",
-    "tipoIt": "Terra",
-    "colori": [],
-    "rarita": "uncommon",
-    "foil": false,
-    "quantita": 1,
-    "possessore": "Mattia",
-    "prezzoCardmarket": 0.21,
-    "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-14T19:38:01.937Z"
+    "aggiornatoIl": "2026-09-14T19:38:01.219Z",
+    "testoIt": "{T}: STAPpa una Foresta bersaglio."
   },
   {
     "scryfallId": "f24b3479-18c3-4c43-b8d1-8b4a25d271a7",
@@ -2660,7 +2598,8 @@
     "possessore": "Mattia",
     "prezzoCardmarket": 1.03,
     "prezzoCardtrader": 0.32,
-    "aggiornatoIl": "2026-09-14T19:38:03.543Z"
+    "aggiornatoIl": "2026-09-14T19:38:03.543Z",
+    "testoIt": "Cangiante (Questa carta ha tutti i tipi di creatura in ogni momento.)\nTAPpa una creatura STAPpata che controlli: Il Cangiante Falenpolvere ha volare fino alla fine del turno."
   },
   {
     "scryfallId": "cc1f65c8-4941-41ac-9340-f741725ec71c",
@@ -2806,28 +2745,6 @@
     "prezzoCardmarket": 0.13,
     "prezzoCardtrader": 0.11,
     "aggiornatoIl": "2026-09-14T19:38:07.738Z"
-  },
-  {
-    "scryfallId": "6bbb6526-2fea-4f5d-921a-01ce870728de",
-    "nome": "Spregiamagie",
-    "nomeIt": "Spregiamagie",
-    "nomeEn": "Spellskite",
-    "lingua": "it",
-    "set": "sld",
-    "numero": "2340",
-    "immagine": "https://cards.scryfall.io/normal/front/6/b/6bbb6526-2fea-4f5d-921a-01ce870728de.jpg?1783905149",
-    "manaCost": "{2}",
-    "cmc": 2,
-    "tipo": "Artifact Creature — Phyrexian Horror",
-    "tipoIt": "Creatura Artefatto — Orrore Phyrexiano",
-    "colori": [],
-    "rarita": "rare",
-    "foil": true,
-    "quantita": 1,
-    "possessore": "Mattia",
-    "prezzoCardmarket": 31.35,
-    "prezzoCardtrader": 14.03,
-    "aggiornatoIl": "2026-09-14T19:38:09.045Z"
   },
   {
     "scryfallId": "6f3e8c1c-481e-4f90-8eeb-29584d157f1f",
