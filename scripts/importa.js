@@ -228,6 +228,70 @@ async function cardtraderZeroLowPrice(cardName, setCode) {
   return prezzi.length ? Math.min(...prezzi) : null;
 }
 
+const ctPriceCache = new Map();
+const itInfoCache = new Map();
+
+async function getCardtraderPriceCached(cardName, setCode) {
+  const key = `${cardName.toLowerCase()}__${setCode.toLowerCase()}`;
+  if (ctPriceCache.has(key)) return ctPriceCache.get(key);
+  const price = await cardtraderZeroLowPrice(cardName, setCode);
+  ctPriceCache.set(key, price);
+  return price;
+}
+
+async function getItalianCardInfoCached(card) {
+  if (itInfoCache.has(card.id)) return itInfoCache.get(card.id);
+
+  let nomeItaliano = card.name;
+  let tipoItaliano = null;
+
+  try {
+    const resIt = await fetch(`https://api.scryfall.com/cards/${card.set}/${card.collector_number}/it`, {
+      headers: { "User-Agent": "Grimorio/1.0" }
+    });
+    if (resIt.ok) {
+      const itData = await resIt.json();
+      if (itData) {
+        if (itData.printed_name) nomeItaliano = itData.printed_name;
+        if (itData.printed_type_line) tipoItaliano = itData.printed_type_line;
+      }
+    } else {
+      // Fallback: se il set specifico non ha edizione italiana (es. Duel Decks), cerca la carta in italiano in altri set
+      const q = encodeURIComponent(`!"${card.name}" lang:it`);
+      const resSearch = await fetch(`https://api.scryfall.com/cards/search?q=${q}`, {
+        headers: { "User-Agent": "Grimorio/1.0" }
+      });
+      if (resSearch.ok) {
+        const searchData = await resSearch.json();
+        const itCard = searchData?.data?.[0];
+        if (itCard) {
+          if (itCard.printed_name) nomeItaliano = itCard.printed_name;
+          if (itCard.printed_type_line) tipoItaliano = itCard.printed_type_line;
+        }
+      }
+    }
+  } catch (e) {}
+
+  const result = { nomeItaliano, tipoItaliano };
+  itInfoCache.set(card.id, result);
+  return result;
+}
+
+// Helper per elaborazione parallela controllata
+async function mapConcurrent(items, limit, asyncFn) {
+  const results = new Array(items.length);
+  let index = 0;
+  async function worker() {
+    while (index < items.length) {
+      const i = index++;
+      results[i] = await asyncFn(items[i], i);
+    }
+  }
+  const workers = Array.from({ length: Math.min(limit, items.length) }, () => worker());
+  await Promise.all(workers);
+  return results;
+}
+
 // --- 4. Elabora ogni file in incoming/ e aggiorna il database condiviso ---
 
 const esistenti = fs.existsSync(DATA_PATH)
@@ -253,62 +317,36 @@ for (const nomeFile of fileDaImportare) {
     await new Promise((r) => setTimeout(r, 100)); // rispetta il rate limit di Scryfall
   }
 
-  let aggiunte = 0;
-  for (const row of rows) {
+  // Elaborazione parallela delle righe a blocchi di 6 concorrenti
+  const elaborate = await mapConcurrent(rows, 6, async (row) => {
     const card = cardsById[row["Scryfall ID"]];
     if (!card) {
       console.warn(
         `Nessuna corrispondenza Scryfall per la riga: ${row["Name"]} (${row["Scryfall ID"]})`,
       );
-      continue;
+      return null;
     }
-    aggiunte++;
 
     const isFoil = row["Foil"] === "foil";
     const rawLang = row["Language"] || row["language"] || "English";
     const prezzoEur = isFoil ? card.prices?.eur_foil : card.prices?.eur;
     const prezzoCardmarket = prezzoEur ? parseFloat(prezzoEur) : null;
-    const prezzoCardtrader = await cardtraderZeroLowPrice(card.name, card.set);
+
+    // Recupero parallelo di prezzo Cardtrader e traduzione italiana
+    const [prezzoCardtrader, itInfo] = await Promise.all([
+      getCardtraderPriceCached(card.name, card.set),
+      getItalianCardInfoCached(card)
+    ]);
 
     const tipoOriginale =
       card.type_line ||
       card.card_faces?.map((f) => f.type_line).filter(Boolean).join(" // ") ||
       "";
-    let nomeItaliano = card.name;
-    let tipoItaliano = null;
 
-    try {
-      const resIt = await fetch(`https://api.scryfall.com/cards/${card.set}/${card.collector_number}/it`, {
-        headers: { "User-Agent": "Grimorio/1.0" }
-      });
-      if (resIt.ok) {
-        const itData = await resIt.json();
-        if (itData) {
-          if (itData.printed_name) nomeItaliano = itData.printed_name;
-          if (itData.printed_type_line) tipoItaliano = itData.printed_type_line;
-        }
-      } else {
-        // Fallback: se il set specifico non ha edizione italiana (es. Duel Decks), cerca la carta in italiano in altri set
-        const q = encodeURIComponent(`!"${card.name}" lang:it`);
-        const resSearch = await fetch(`https://api.scryfall.com/cards/search?q=${q}`, {
-          headers: { "User-Agent": "Grimorio/1.0" }
-        });
-        if (resSearch.ok) {
-          const searchData = await resSearch.json();
-          const itCard = searchData?.data?.[0];
-          if (itCard) {
-            if (itCard.printed_name) nomeItaliano = itCard.printed_name;
-            if (itCard.printed_type_line) tipoItaliano = itCard.printed_type_line;
-          }
-        }
-      }
-    } catch (e) {}
+    let nomeItaliano = itInfo.nomeItaliano || card.name;
+    let tipoItaliano = itInfo.tipoItaliano || traduciTipo(tipoOriginale);
 
-    if (!tipoItaliano) {
-      tipoItaliano = traduciTipo(tipoOriginale);
-    }
-
-    esistenti.push({
+    return {
       scryfallId: card.id,
       nome: nomeItaliano,
       nomeIt: nomeItaliano,
@@ -338,12 +376,15 @@ for (const nomeFile of fileDaImportare) {
       prezzoCardmarket,
       prezzoCardtrader,
       aggiornatoIl: new Date().toISOString(),
-    });
-  }
+    };
+  });
+
+  const carteAggiunte = elaborate.filter(Boolean);
+  esistenti.push(...carteAggiunte);
 
   fs.rmSync(path.join(INCOMING_DIR, nomeFile));
   console.log(
-    `${nomeFile}: ${rows.length} righe nel CSV, ${aggiunte} carte aggiunte per ${possessore}.`,
+    `${nomeFile}: ${rows.length} righe nel CSV, ${carteAggiunte.length} carte aggiunte per ${possessore}.`,
   );
 }
 

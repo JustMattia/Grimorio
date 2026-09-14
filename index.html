@@ -2952,16 +2952,66 @@
     let filtrateCorrenti = [];
     let eliminazioneInCorso = false;
 
-    // Notifica flash al ricaricamento
+    // Mostra notifica toast rapida in cima alla pagina senza ricaricare
+    function mostraNotificaFlash(messaggio) {
+      const banner = document.getElementById("flashBanner");
+      const testo = document.getElementById("flashTesto");
+      if (banner && testo) {
+        testo.textContent = messaggio;
+        banner.style.display = "flex";
+        setTimeout(() => {
+          if (banner) banner.style.display = "none";
+        }, 4500);
+      }
+    }
+
+    // Decodifica UTF-8 per stringhe Base64 dall'API di GitHub (bypassa deployment GitHub Pages)
+    function decodeBase64Utf8(base64Str) {
+      try {
+        const binString = atob(base64Str.replace(/\s/g, ''));
+        const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
+        return new TextDecoder().decode(bytes);
+      } catch (e) {
+        return decodeURIComponent(escape(atob(base64Str.replace(/\s/g, ''))));
+      }
+    }
+
+    // Gestione Cache Locale per avvio istantaneo (0ms) e resistenza a ritardi di deploy CDN
+    const CACHE_KEY_CARTE = "grimorio_carte_cache_v1";
+    const CACHE_KEY_SHA = "grimorio_cards_sha_v1";
+
+    function salvaInCacheLocale(dati, sha) {
+      try {
+        localStorage.setItem(CACHE_KEY_CARTE, JSON.stringify(dati));
+        if (sha) {
+          localStorage.setItem(CACHE_KEY_SHA, sha);
+        }
+      } catch (e) {
+        console.warn("Spazio localStorage esaurito o errore salvataggio cache:", e);
+      }
+    }
+
+    function leggiDaCacheLocale() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY_CARTE);
+        const sha = localStorage.getItem(CACHE_KEY_SHA);
+        if (raw) {
+          const dati = JSON.parse(raw);
+          if (Array.isArray(dati) && dati.length > 0) {
+            return { dati, sha };
+          }
+        }
+      } catch (e) {
+        console.warn("Errore lettura cache locale:", e);
+      }
+      return null;
+    }
+
+    // Notifica flash se presente da reload precedente
     const flashMsg = sessionStorage.getItem("grimorio_flash");
     if (flashMsg) {
-      document.getElementById("flashTesto").textContent = flashMsg;
-      document.getElementById("flashBanner").style.display = "flex";
+      mostraNotificaFlash(flashMsg);
       sessionStorage.removeItem("grimorio_flash");
-      setTimeout(() => {
-        const b = document.getElementById("flashBanner");
-        if (b) b.style.display = "none";
-      }, 6000);
     }
 
     // Helper formattazione prezzo
@@ -4036,7 +4086,6 @@
       });
 
       try {
-        await new Promise(r => setTimeout(r, 450));
         impostaProgressoElimina("singola", 30, "Connessione a GitHub...", "Verifica versione corrente di data/cards.json");
         aggiungiLogElimina("singola", "Richiesta SHA archivio tramite GitHub API...");
 
@@ -4054,10 +4103,9 @@
         const dataSha = await resSha.json();
         const latestSha = dataSha.sha;
         shaCardsJsonIniziale = latestSha;
-        aggiungiLogElimina("singola", `SHA database confermato (${latestSha.substring(0, 7)}).`);
+        aggiungiLogElimina("singola", `SHA confermato (${latestSha.substring(0, 7)}).`);
 
-        await new Promise(r => setTimeout(r, 450));
-        impostaProgressoElimina("singola", 50, "Invio commit a GitHub...", "Scrittura e commit su data/cards.json");
+        impostaProgressoElimina("singola", 60, "Invio commit a GitHub...", "Scrittura e commit su data/cards.json");
         aggiungiLogElimina("singola", "Invio commit di rimozione a GitHub...");
 
         const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
@@ -4086,26 +4134,23 @@
 
         aggiungiLogElimina("singola", "Commit registrato con successo nel repository!", "done");
         carte = carteAggiornate;
+        salvaInCacheLocale(carte, shaCardsJsonIniziale);
+        aggiornaStatistiche(carte, carte);
+        disegna();
 
-        const flashMsg = `✓ Carta "${nomeVisualizzato}" eliminata e sincronizzata con successo!`;
-        const verifyFn = (datiOnline) => {
-          if (!Array.isArray(datiOnline)) return false;
-          if (rimuoviSoloUna) {
-            const trovata = datiOnline.find(item =>
-              (item.scryfallId && item.scryfallId === c.scryfallId && item.possessore === c.possessore) ||
-              (ottieniNomeItaliano(item) === nomeVisualizzato && item.set === c.set && item.numero === c.numero && item.possessore === c.possessore)
-            );
-            return trovata && (trovata.quantita || 1) <= (c.quantita || 1) - 1;
-          } else {
-            const trovata = datiOnline.find(item =>
-              (item.scryfallId && item.scryfallId === c.scryfallId && item.possessore === c.possessore) ||
-              (ottieniNomeItaliano(item) === nomeVisualizzato && item.set === c.set && item.numero === c.numero && item.possessore === c.possessore)
-            );
-            return !trovata;
-          }
-        };
+        impostaProgressoElimina("singola", 100, "Eliminazione completata!", "Carta rimossa con successo dal Grimorio", true);
+        aggiungiLogElimina("singola", "✓ Salvataggio completato in tempo reale!", "done");
 
-        monitoraEliminazione("singola", token, [c], flashMsg, verifyFn);
+        setTimeout(() => {
+          eliminazioneInCorso = false;
+          modalConfermaElimina.style.display = "none";
+          chiudiDettaglioCarta();
+          aggiornaLockScrollBody();
+          mostraNotificaFlash(`✓ Carta "${nomeVisualizzato}" eliminata e sincronizzata con successo!`);
+          document.getElementById("confermaEliminaCorpo").style.display = "flex";
+          document.getElementById("confermaEliminaAzioni").style.display = "flex";
+          document.getElementById("statoAvanzamentoElimina").style.display = "none";
+        }, 500);
 
       } catch (err) {
         console.error("Errore durante l'eliminazione:", err);
@@ -4414,7 +4459,6 @@
       });
 
       try {
-        await new Promise(r => setTimeout(r, 450));
         impostaProgressoElimina("multipla", 30, "Connessione a GitHub...", "Verifica versione corrente di data/cards.json");
         aggiungiLogElimina("multipla", "Richiesta SHA archivio tramite GitHub API...");
 
@@ -4432,10 +4476,9 @@
         const dataSha = await resSha.json();
         const latestSha = dataSha.sha;
         shaCardsJsonIniziale = latestSha;
-        aggiungiLogElimina("multipla", `SHA database confermato (${latestSha.substring(0, 7)}).`);
+        aggiungiLogElimina("multipla", `SHA confermato (${latestSha.substring(0, 7)}).`);
 
-        await new Promise(r => setTimeout(r, 450));
-        impostaProgressoElimina("multipla", 50, "Invio commit a GitHub...", `Scrittura del commit per ${numeroCarteSelezionate} carte`);
+        impostaProgressoElimina("multipla", 60, "Invio commit a GitHub...", `Scrittura del commit per ${numeroCarteSelezionate} carte`);
         aggiungiLogElimina("multipla", "Invio commit di rimozione multipla a GitHub...");
 
         const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
@@ -4464,18 +4507,26 @@
 
         aggiungiLogElimina("multipla", "Commit registrato con successo nel repository!", "done");
         carte = carteAggiornate;
+        salvaInCacheLocale(carte, shaCardsJsonIniziale);
         carteSelezionateIds.clear();
         modalitaSelezione = false;
         document.body.classList.remove("modalita-selezione-attiva");
         aggiornaBarraSelezione();
+        aggiornaStatistiche(carte, carte);
+        disegna();
 
-        const flashMsg = `✓ ${numeroCarteSelezionate} carte eliminate e sincronizzate con successo!`;
-        const verifyFn = (datiOnline) => {
-          if (!Array.isArray(datiOnline)) return false;
-          return datiOnline.length <= carteAggiornate.length;
-        };
+        impostaProgressoElimina("multipla", 100, "Eliminazione completata!", `${numeroCarteSelezionate} carte rimosse dal Grimorio`, true);
+        aggiungiLogElimina("multipla", "✓ Rimozione salvata con successo in tempo reale!", "done");
 
-        monitoraEliminazione("multipla", token, null, flashMsg, verifyFn);
+        setTimeout(() => {
+          eliminazioneInCorso = false;
+          modalConfermaEliminaMultipla.style.display = "none";
+          aggiornaLockScrollBody();
+          mostraNotificaFlash(`✓ ${numeroCarteSelezionate} carte eliminate e sincronizzate con successo!`);
+          document.getElementById("confermaMultiplaCorpo").style.display = "flex";
+          document.getElementById("confermaMultiplaAzioni").style.display = "flex";
+          document.getElementById("statoAvanzamentoEliminaMultipla").style.display = "none";
+        }, 500);
 
       } catch (err) {
         console.error("Errore durante l'eliminazione multipla:", err);
@@ -4579,103 +4630,172 @@
       }
     }
 
-    // Caricamento Dati Iniziali
-    fetch("data/cards.json?t=" + Date.now())
-      .then(r => r.json())
-      .then(dati => {
-        carte = dati;
-        carte.forEach(c => {
-          if (!c._uid) c._uid = 'c_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
-          if (!c.nomeEn) c.nomeEn = c.nome;
-          if (!c.nomeIt) c.nomeIt = c.nome;
-          if (!c.tipoIt && c.tipo) c.tipoIt = traduciTipo(c.tipo);
-          if (!c.lingua) c.lingua = "Inglese";
-        });
-        aggiornaStatistiche(carte, carte);
-        disegna();
-        risolviNomiItalianiMancanti(carte);
-        // Memorizza hash/stato iniziale per polling
-        memorizzaShaIniziale();
-      })
-      .catch(err => {
-        console.warn("Caricamento remoto cards.json non riuscito, carico dati locali di fallback:", err);
-        // Fallback robusto nel caso di apertura diretta con protocollo file:// o server offline
-        carte = [
-          {
-            scryfallId: "7d47f27d-5a25-4d2a-b2a2-027b579b881b",
-            nome: "Tremore",
-            nomeIt: "Tremore",
-            nomeEn: "Tremor",
-            lingua: "Inglese",
-            set: "8ed",
-            numero: "228",
-            immagine: "https://cards.scryfall.io/normal/front/7/d/7d47f27d-5a25-4d2a-b2a2-027b579b881b.jpg?1783944695",
-            foil: false,
-            quantita: 1,
-            possessore: "Mattia",
-            prezzoCardmarket: 0.12,
-            prezzoCardtrader: 0.11,
-            aggiornatoIl: "2026-09-13T10:25:18.014Z",
-            manaCost: "{R}",
-            cmc: 1,
-            tipo: "Sorcery",
-            tipoIt: "Stregoneria",
-            colori: ["R"],
-            rarita: "common"
-          },
-          {
-            scryfallId: "358efb1e-0366-4943-9a25-6a356e48773c",
-            nome: "Nausea",
-            nomeIt: "Nausea",
-            nomeEn: "Nausea",
-            lingua: "Inglese",
-            set: "8ed",
-            numero: "148",
-            immagine: "https://cards.scryfall.io/normal/front/3/5/358efb1e-0366-4943-9a25-6a356e48773c.jpg?1783944752",
-            foil: false,
-            quantita: 1,
-            possessore: "Mattia",
-            prezzoCardmarket: 0.14,
-            prezzoCardtrader: 0.11,
-            aggiornatoIl: "2026-09-13T10:25:18.478Z",
-            manaCost: "{1}{B}",
-            cmc: 2,
-            tipo: "Sorcery",
-            tipoIt: "Stregoneria",
-            colori: ["B"],
-            rarita: "common"
-          },
-          {
-            scryfallId: "513e063c-b328-4e5f-8806-b232c38645f5",
-            nome: "Torre di Urza",
-            nomeIt: "Torre di Urza",
-            nomeEn: "Urza's Tower",
-            lingua: "Inglese",
-            set: "9ed",
-            numero: "329",
-            immagine: "https://cards.scryfall.io/normal/front/5/1/513e063c-b328-4e5f-8806-b232c38645f5.jpg?1783943879",
-            foil: false,
-            quantita: 1,
-            possessore: "Mattia",
-            prezzoCardmarket: 0.72,
-            prezzoCardtrader: 0.24,
-            aggiornatoIl: "2026-09-13T10:25:19.093Z",
-            manaCost: "",
-            cmc: 0,
-            tipo: "Land — Urza's Tower",
-            tipoIt: "Terra — Torre di Urza",
-            colori: [],
-            rarita: "uncommon"
-          }
-        ];
-        aggiornaStatistiche(carte, carte);
-        disegna();
+    function applicaCarte(dati, sha = null) {
+      if (!Array.isArray(dati)) return;
+      carte = dati;
+      carte.forEach(c => {
+        if (!c._uid) c._uid = 'c_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+        if (!c.nomeEn) c.nomeEn = c.nome;
+        if (!c.nomeIt) c.nomeIt = c.nome;
+        if (!c.tipoIt && c.tipo) c.tipoIt = traduciTipo(c.tipo);
+        if (!c.lingua) c.lingua = "Inglese";
       });
+      aggiornaStatistiche(carte, carte);
+      disegna();
+      if (sha) {
+        shaCardsJsonIniziale = sha;
+        salvaInCacheLocale(carte, sha);
+      }
+    }
+
+    const FALLBACK_CARTE = [
+      {
+        scryfallId: "7d47f27d-5a25-4d2a-b2a2-027b579b881b",
+        nome: "Tremore",
+        nomeIt: "Tremore",
+        nomeEn: "Tremor",
+        lingua: "Inglese",
+        set: "8ed",
+        numero: "228",
+        immagine: "https://cards.scryfall.io/normal/front/7/d/7d47f27d-5a25-4d2a-b2a2-027b579b881b.jpg?1783944695",
+        foil: false,
+        quantita: 1,
+        possessore: "Mattia",
+        prezzoCardmarket: 0.12,
+        prezzoCardtrader: 0.11,
+        aggiornatoIl: "2026-09-13T10:25:18.014Z",
+        manaCost: "{R}",
+        cmc: 1,
+        tipo: "Sorcery",
+        tipoIt: "Stregoneria",
+        colori: ["R"],
+        rarita: "common"
+      },
+      {
+        scryfallId: "358efb1e-0366-4943-9a25-6a356e48773c",
+        nome: "Nausea",
+        nomeIt: "Nausea",
+        nomeEn: "Nausea",
+        lingua: "Inglese",
+        set: "8ed",
+        numero: "148",
+        immagine: "https://cards.scryfall.io/normal/front/3/5/358efb1e-0366-4943-9a25-6a356e48773c.jpg?1783944752",
+        foil: false,
+        quantita: 1,
+        possessore: "Mattia",
+        prezzoCardmarket: 0.14,
+        prezzoCardtrader: 0.11,
+        aggiornatoIl: "2026-09-13T10:25:18.478Z",
+        manaCost: "{1}{B}",
+        cmc: 2,
+        tipo: "Sorcery",
+        tipoIt: "Stregoneria",
+        colori: ["B"],
+        rarita: "common"
+      },
+      {
+        scryfallId: "513e063c-b328-4e5f-8806-b232c38645f5",
+        nome: "Torre di Urza",
+        nomeIt: "Torre di Urza",
+        nomeEn: "Urza's Tower",
+        lingua: "Inglese",
+        set: "9ed",
+        numero: "329",
+        immagine: "https://cards.scryfall.io/normal/front/5/1/513e063c-b328-4e5f-8806-b232c38645f5.jpg?1783943879",
+        foil: false,
+        quantita: 1,
+        possessore: "Mattia",
+        prezzoCardmarket: 0.72,
+        prezzoCardtrader: 0.24,
+        aggiornatoIl: "2026-09-13T10:25:19.093Z",
+        manaCost: "",
+        cmc: 0,
+        tipo: "Land — Urza's Tower",
+        tipoIt: "Terra — Torre di Urza",
+        colori: [],
+        rarita: "uncommon"
+      }
+    ];
+
+    // Caricamento Dati Iniziali Ultra-Veloce: Cache Locale Immediata (0ms) + Sync GitHub in background
+    async function caricaDatiIniziali() {
+      // 1. Lettura immediata da localStorage per azzerare l'attesa iniziale
+      const cached = leggiDaCacheLocale();
+      if (cached && cached.dati && cached.dati.length > 0) {
+        applicaCarte(cached.dati, cached.sha);
+        risolviNomiItalianiMancanti(carte);
+      }
+
+      // 2. Controllo sincronizzazione con GitHub in background
+      const token = getToken(false);
+      let datiAggiornati = false;
+
+      if (token) {
+        try {
+          const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+            headers: {
+              Authorization: `token ${token}`,
+              Accept: "application/vnd.github+json"
+            }
+          });
+          if (res.ok) {
+            const dataApi = await res.json();
+            const remoteSha = dataApi.sha;
+            shaCardsJsonIniziale = remoteSha;
+
+            if (!cached || cached.sha !== remoteSha) {
+              if (dataApi.content) {
+                try {
+                  const jsonStr = decodeBase64Utf8(dataApi.content);
+                  const datiOnline = JSON.parse(jsonStr);
+                  applicaCarte(datiOnline, remoteSha);
+                  risolviNomiItalianiMancanti(carte);
+                  datiAggiornati = true;
+                } catch (e) {
+                  console.warn("Decodifica JSON base64 da API fallita:", e);
+                }
+              }
+            } else {
+              datiAggiornati = true; // Dati locali già sincronizzati con l'ultimo commit
+            }
+          }
+        } catch (errApi) {
+          console.warn("Verifica API GitHub in background non riuscita:", errApi);
+        }
+      }
+
+      // 3. Fallback: se la cache locale era assente e l'API non è stata usata, carica da file statico
+      if (!datiAggiornati && (!cached || !cached.dati || cached.dati.length === 0)) {
+        try {
+          const r = await fetch("data/cards.json?t=" + Date.now(), { cache: "no-store" });
+          if (r.ok) {
+            const dati = await r.json();
+            applicaCarte(dati, shaCardsJsonIniziale);
+            risolviNomiItalianiMancanti(carte);
+          } else {
+            throw new Error(`HTTP ${r.status}`);
+          }
+        } catch (err) {
+          console.warn("Caricamento cards.json fallito, uso fallback:", err);
+          if (!carte || carte.length === 0) {
+            applicaCarte(FALLBACK_CARTE);
+          }
+        }
+      }
+
+      if (!shaCardsJsonIniziale) {
+        memorizzaShaIniziale();
+      }
+    }
+
+    caricaDatiIniziali();
 
     function memorizzaShaIniziale() {
-      fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
-        headers: { "Accept": "application/vnd.github+json" }
-      })
+      const headers = { Accept: "application/vnd.github+json" };
+      const token = getToken(false);
+      if (token) headers.Authorization = `token ${token}`;
+
+      fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, { headers })
         .then(r => r.ok ? r.json() : null)
         .then(d => {
           if (d && d.sha) shaCardsJsonIniziale = d.sha;
@@ -4684,9 +4804,9 @@
     }
 
     // --- CARICAMENTO DIRETTO CSV, STATO TASK LIVE E RICARICA AUTOMATICA ---
-    function getToken() {
+    function getToken(chiediSeManca = true) {
       let token = localStorage.getItem("dispensa_token") || localStorage.getItem("grimorio_gh_token");
-      if (!token) {
+      if (!token && chiediSeManca) {
         token = prompt(
           "Incolla qui il tuo Personal Access Token di GitHub (inserito una sola volta, resta salvato solo nel tuo browser):"
         );
@@ -4948,14 +5068,49 @@
 
           if (fileIncomingRimosso || shaModificato) {
             clearInterval(intervallo);
-            impostaProgresso(100, "Completato con successo!", "Collezione aggiornata! Ricaricamento in corso...", true);
-            aggiungiLog("Database cards.json aggiornato nel repository!", "done");
-            aggiungiLog("Ricaricamento automatico della pagina in corso...", "done");
 
-            sessionStorage.setItem("grimorio_flash", "Nuove carte caricate con successo nel Grimorio!");
-            setTimeout(() => {
-              window.location.reload();
-            }, 1200);
+            let nuoveCarte = null;
+            if (dataCards && dataCards.content) {
+              try {
+                const jsonStr = decodeBase64Utf8(dataCards.content);
+                nuoveCarte = JSON.parse(jsonStr);
+              } catch (pe) {
+                console.warn("Decodifica base64 API fallita:", pe);
+              }
+            }
+
+            if (!nuoveCarte && shaAttuale) {
+              try {
+                const rRaw = await fetch(`https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${shaAttuale}/data/cards.json`);
+                if (rRaw.ok) nuoveCarte = await rRaw.json();
+              } catch (re) {
+                console.warn("Download raw tramite SHA fallito:", re);
+              }
+            }
+
+            if (nuoveCarte && Array.isArray(nuoveCarte)) {
+              applicaCarte(nuoveCarte, shaAttuale);
+              risolviNomiItalianiMancanti(carte);
+
+              impostaProgresso(100, "Completato con successo!", "Collezione aggiornata e sincronizzata in tempo reale!", true);
+              aggiungiLog("Database cards.json sincronizzato e applicato alla schermata!", "done");
+
+              setTimeout(() => {
+                modalOverlay.style.display = "none";
+                aggiornaLockScrollBody();
+                mostraNotificaFlash("✓ Nuove carte caricate e visualizzate con successo nel Grimorio!");
+                document.getElementById("formCaricamento").style.display = "block";
+                document.getElementById("statoAvanzamento").style.display = "none";
+                document.getElementById("fileCsv").value = "";
+              }, 1000);
+            } else {
+              impostaProgresso(100, "Completato con successo!", "Collezione aggiornata! Ricaricamento in corso...", true);
+              aggiungiLog("Database cards.json aggiornato nel repository!", "done");
+              sessionStorage.setItem("grimorio_flash", "Nuove carte caricate con successo nel Grimorio!");
+              setTimeout(() => {
+                window.location.reload();
+              }, 1200);
+            }
             return;
           }
         } catch (err) {
@@ -4964,12 +5119,16 @@
 
         if (tentativi >= maxTentativi) {
           clearInterval(intervallo);
-          impostaProgresso(100, "Importazione completata", "Ricarica la pagina per visualizzare le carte", true);
+          impostaProgresso(100, "Importazione completata", "Operazione terminata sui server di GitHub", true);
           aggiungiLog("Operazione terminata sui server di GitHub.", "done");
-          sessionStorage.setItem("grimorio_flash", "Nuove carte elaborate nel Grimorio!");
           setTimeout(() => {
-            window.location.reload();
-          }, 1500);
+            modalOverlay.style.display = "none";
+            aggiornaLockScrollBody();
+            mostraNotificaFlash("✓ Elaborazione terminata sui server di GitHub!");
+            document.getElementById("formCaricamento").style.display = "block";
+            document.getElementById("statoAvanzamento").style.display = "none";
+            document.getElementById("fileCsv").value = "";
+          }, 1200);
         }
       }, 3000);
     }
