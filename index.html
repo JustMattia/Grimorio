@@ -1504,11 +1504,488 @@
       transform: translateY(-1px);
     }
 
+    /* Pulsante Modalità Selezione nella Toolbar */
+    .btn-seleziona {
+      background: #0f0e15;
+      border: 1px solid var(--panel-border);
+      color: var(--ink-dim);
+      padding: 0.48rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .btn-seleziona:hover {
+      color: var(--ink);
+      border-color: rgba(250, 204, 21, 0.4);
+    }
+
+    .btn-seleziona.active {
+      color: #0c0b10;
+      border-color: var(--yellow);
+      background: var(--yellow);
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(250, 204, 21, 0.35);
+    }
+
+    .btn-seleziona.active svg {
+      stroke: #0c0b10;
+    }
+
+    .badge-selezionate-count {
+      background: #0c0b10;
+      color: var(--yellow);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.05rem 0.45rem;
+      border-radius: var(--radius-full);
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-seleziona:not(.active) .badge-selezionate-count {
+      background: var(--yellow);
+      color: #0c0b10;
+    }
+
+    /* Checkbox Selezione Custom per Lista */
+    .col-seleziona-th,
+    .col-seleziona-td {
+      width: 44px;
+      min-width: 44px;
+      text-align: center;
+      vertical-align: middle;
+      padding-left: 0.75rem !important;
+      padding-right: 0.5rem !important;
+    }
+
+    .chk-selezione-custom {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border: 2px solid var(--ink-muted);
+      background: #0d0c13;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin: 0 auto;
+    }
+
+    .chk-selezione-custom svg {
+      display: none;
+    }
+
+    .chk-selezione-custom.checked {
+      border-color: var(--yellow);
+      background: var(--yellow);
+    }
+
+    .chk-selezione-custom.checked svg {
+      display: block;
+      stroke: #0c0b10;
+    }
+
+    .chk-selezione-custom.indeterminate {
+      border-color: var(--yellow);
+      background: rgba(250, 204, 21, 0.2);
+    }
+
+    .chk-selezione-custom.indeterminate svg {
+      display: block;
+      stroke: var(--yellow);
+    }
+
+    .riga-carta:hover .chk-selezione-custom:not(.checked):not(.indeterminate) {
+      border-color: var(--yellow);
+    }
+
+    /* Tasto rapido selezione per intero gruppo/tipo nella sezione */
+    .btn-tipo-seleziona-tutte {
+      margin-left: auto;
+      background: #111018;
+      border: 1px solid var(--panel-border);
+      color: var(--ink-dim);
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+      font-family: "Outfit", sans-serif;
+      user-select: none;
+    }
+
+    .btn-tipo-seleziona-tutte:hover {
+      color: #ffffff;
+      border-color: rgba(250, 204, 21, 0.4);
+      background: #1b1926;
+    }
+
+    .btn-tipo-seleziona-tutte.active {
+      color: var(--yellow);
+      border-color: rgba(250, 204, 21, 0.5);
+      background: rgba(250, 204, 21, 0.1);
+    }
+
+    .chk-mini {
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1.5px solid var(--ink-muted);
+      background: #0d0c13;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .chk-mini.checked {
+      border-color: var(--yellow);
+      background: var(--yellow);
+    }
+
+    .chk-mini.checked svg {
+      stroke: #0c0b10;
+    }
+
+    .chk-mini.indeterminate {
+      border-color: var(--yellow);
+      background: rgba(250, 204, 21, 0.25);
+    }
+
+    .chk-mini.indeterminate svg {
+      stroke: var(--yellow);
+    }
+
+    /* Barra globale "Seleziona tutto" sopra la collezione */
+    .barra-seleziona-tutto-globale {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: var(--shadow-sm);
+      animation: fadeInDrawer 0.2s ease-out;
+    }
+
+    .master-chk-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .master-chk-testo {
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
+    .master-chk-testo strong {
+      color: var(--yellow);
+    }
+
+    .master-chk-sub {
+      font-size: 0.78rem;
+      color: var(--ink-dim);
+      margin-left: 0.35rem;
+    }
+
+    /* Checkbox Pillola per Griglia */
+    .carta-chk-pill {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+      background: rgba(12, 11, 16, 0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      transition: all 0.15s ease;
+      cursor: pointer;
+    }
+
+    .carta-chk-pill svg {
+      display: none;
+    }
+
+    .carta-chk-pill.checked {
+      border-color: var(--yellow);
+      background: var(--yellow);
+    }
+
+    .carta-chk-pill.checked svg {
+      display: block;
+      stroke: #0c0b10;
+    }
+
+    /* Evidenziazione carta/riga selezionata */
+    .riga-carta.carta-selezionata {
+      background: rgba(250, 204, 21, 0.1) !important;
+    }
+
+    .riga-carta.carta-selezionata td {
+      border-bottom-color: rgba(250, 204, 21, 0.3) !important;
+    }
+
+    .carta-card.carta-selezionata {
+      border-color: var(--yellow);
+      box-shadow: 0 0 16px rgba(250, 204, 21, 0.28);
+      transform: translateY(-2px);
+    }
+
+    /* Cursore in modalità selezione */
+    .modalita-selezione-attiva .riga-carta,
+    .modalita-selezione-attiva .carta-card {
+      cursor: pointer;
+    }
+
+    /* Barra Flottante Azioni Selezione */
+    .barra-selezione-flottante {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 8000;
+      background: rgba(21, 20, 28, 0.95);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(250, 204, 21, 0.18);
+      padding: 0.65rem 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      width: calc(100% - 2rem);
+      max-width: 680px;
+      animation: floatSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes floatSlideUp {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    .barra-selezione-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .barra-selezione-icona {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-full);
+      background: rgba(250, 204, 21, 0.12);
+      color: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .barra-selezione-testi {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+
+    .barra-selezione-conteggio {
+      font-family: "Outfit", sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .barra-selezione-sub {
+      font-size: 0.76rem;
+      color: var(--ink-dim);
+    }
+
+    .barra-selezione-azioni {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: nowrap;
+    }
+
+    .btn-barra-azione {
+      font-family: "Outfit", sans-serif;
+      font-weight: 600;
+      font-size: 0.84rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--panel-border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-barra-tutte,
+    .btn-barra-deseleziona {
+      background: #1b1a24;
+      color: var(--ink);
+    }
+
+    .btn-barra-tutte:hover,
+    .btn-barra-deseleziona:hover {
+      background: #252331;
+      color: #ffffff;
+      border-color: rgba(250, 204, 21, 0.4);
+    }
+
+    .btn-barra-elimina {
+      background: #dc2626;
+      border-color: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
+    }
+
+    .btn-barra-elimina:hover:not(:disabled) {
+      background: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    .btn-barra-elimina:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .btn-barra-chiudi {
+      background: transparent;
+      border: none;
+      color: var(--ink-muted);
+      font-size: 1.15rem;
+      cursor: pointer;
+      padding: 0.35rem 0.5rem;
+      border-radius: var(--radius-sm);
+      line-height: 1;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-barra-chiudi:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    /* Modal Anteprima Multipla */
+    .modal-conferma-multipla {
+      max-width: 490px;
+    }
+
+    .anteprima-selezionate-lista {
+      max-height: 175px;
+      overflow-y: auto;
+      background: #0d0c13;
+      border: 1px solid var(--panel-border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .anteprima-carta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.35rem 0.45rem;
+      border-radius: 4px;
+      background: #14131d;
+    }
+
+    .anteprima-thumb {
+      width: 24px;
+      height: 33px;
+      border-radius: 2px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .anteprima-thumb-placeholder {
+      width: 24px;
+      height: 33px;
+      border-radius: 2px;
+      background: #252331;
+      flex-shrink: 0;
+    }
+
+    .anteprima-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+      overflow: hidden;
+    }
+
+    .anteprima-nome {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .anteprima-sub {
+      font-size: 0.72rem;
+      color: var(--ink-dim);
+    }
+
+    .anteprima-extra-count {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--ink-dim);
+      padding: 0.35rem 0;
+      font-weight: 500;
+    }
+
     /* =========================================================
        RESPONSIVE DESIGN (MOBILE & TABLET <= 768px)
        Dichiarato in fondo per sovrascrivere correttamente tutti gli stili base
        ========================================================= */
     @media (max-width: 768px) {
+
       header,
       main {
         padding-left: 0.85rem;
@@ -1594,6 +2071,58 @@
         flex: 1;
         justify-content: center;
         padding: 0.45rem 0.5rem;
+      }
+
+      .btn-seleziona {
+        flex: 1;
+        justify-content: center;
+        padding: 0.45rem 0.45rem;
+        font-size: 0.82rem;
+      }
+
+      .barra-selezione-flottante {
+        bottom: 0.75rem;
+        width: calc(100% - 1.25rem);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.65rem;
+        padding: 0.75rem 0.85rem;
+      }
+
+      .barra-selezione-info {
+        justify-content: space-between;
+      }
+
+      .barra-selezione-azioni {
+        display: flex;
+        gap: 0.4rem;
+        justify-content: stretch;
+        width: 100%;
+      }
+
+      .barra-selezione-azioni .btn-barra-azione {
+        flex: 1;
+        justify-content: center;
+        padding: 0.5rem 0.4rem;
+        font-size: 0.8rem;
+      }
+
+      /* Mobile lista: posizionamento checkbox quando la modalità selezione è attiva */
+      .modalita-selezione-attiva table.tabella-carte tbody tr.riga-carta {
+        padding-left: 2.85rem !important;
+        position: relative;
+      }
+
+      .modalita-selezione-attiva .col-seleziona-td {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: auto !important;
+        min-width: auto !important;
+        padding: 0 !important;
+        border: none !important;
+        display: block !important;
       }
 
       /* Drawer Filtri su Mobile */
@@ -1964,6 +2493,17 @@
             <span>Filtri</span>
             <span class="badge-filtri-attivi" id="badgeFiltriAttivi" style="display: none;">0</span>
           </button>
+
+          <!-- Pulsante Modalità Selezione Multipla -->
+          <button type="button" class="btn-seleziona" id="btnToggleSelezione" aria-pressed="false"
+            title="Seleziona più carte da eliminare">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polyline points="9 11 12 14 22 4"></polyline>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            <span>Seleziona</span>
+            <span class="badge-selezionate-count" id="badgeSelezionateCount" style="display: none;">0</span>
+          </button>
         </div>
       </div>
 
@@ -2241,6 +2781,83 @@
     </div>
   </div>
 
+  <!-- MODAL CONFERMA ELIMINAZIONE MULTIPLA CARTE -->
+  <div class="modal-overlay" id="modalConfermaEliminaMultiplaOverlay" style="display: none; z-index: 10002;">
+    <div class="modal-conferma-card modal-conferma-multipla" role="dialog" aria-modal="true"
+      aria-labelledby="confermaMultiplaTitolo">
+      <div class="conferma-header">
+        <div class="conferma-icona-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            <line x1="10" y1="11" x2="10" y2="17"></line>
+            <line x1="14" y1="11" x2="14" y2="17"></line>
+          </svg>
+        </div>
+        <div class="conferma-titolo" id="confermaMultiplaTitolo">Eliminazione Multipla Carte</div>
+      </div>
+      <div class="conferma-corpo">
+        <p class="conferma-testo">
+          Stai per eliminare <strong id="confermaMultiplaConteggio">0 carte</strong> dal Grimorio.
+        </p>
+        <div class="anteprima-selezionate-lista" id="anteprimaSelezionateLista">
+          <!-- Anteprima dinamica generata via JS -->
+        </div>
+        <div id="confermaMultiplaOpzioniQty" class="conferma-opzioni-qty" style="display: none; margin-top: 0.75rem;">
+          <label class="radio-opzione">
+            <input type="radio" name="opzioneEliminaMultiplaQty" value="tutte" checked />
+            <span id="labelEliminaMultiplaTutte">Elimina completamente le carte selezionate (tutte le copie)</span>
+          </label>
+          <label class="radio-opzione">
+            <input type="radio" name="opzioneEliminaMultiplaQty" value="singola" />
+            <span id="labelEliminaMultiplaSingola">Riduci di 1 sola copia ciascuna carta</span>
+          </label>
+        </div>
+      </div>
+      <div class="conferma-azioni">
+        <button type="button" class="btn-conferma-no" id="btnConfermaEliminaMultiplaNo">No, annulla</button>
+        <button type="button" class="btn-conferma-si" id="btnConfermaEliminaMultiplaSi">Sì, elimina carte</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BARRA FLOTTANTE AZIONI SELEZIONE MULTIPLA -->
+  <div class="barra-selezione-flottante" id="barraSelezioneFlottante" style="display: none;">
+    <div class="barra-selezione-info">
+      <div class="barra-selezione-icona">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <polyline points="9 11 12 14 22 4"></polyline>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+      </div>
+      <div class="barra-selezione-testi">
+        <span class="barra-selezione-conteggio" id="barraSelezioneConteggio">0 carte selezionate</span>
+        <span class="barra-selezione-sub" id="barraSelezioneSub">Tocca o clicca sulle carte per aggiungerle</span>
+      </div>
+    </div>
+    <div class="barra-selezione-azioni">
+      <button type="button" class="btn-barra-azione btn-barra-tutte" id="btnBarraSelezionaTutte"
+        title="Seleziona tutte le carte attualmente filtrate">
+        Seleziona tutte
+      </button>
+      <button type="button" class="btn-barra-azione btn-barra-deseleziona" id="btnBarraDeselezionaTutte"
+        style="display: none;" title="Deseleziona tutte le carte">
+        Deseleziona
+      </button>
+      <button type="button" class="btn-barra-azione btn-barra-elimina" id="btnBarraElimina" disabled
+        title="Elimina le carte selezionate">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+        <span id="btnBarraEliminaTesto">Elimina</span>
+      </button>
+      <button type="button" class="btn-barra-chiudi" id="btnBarraChiudi" title="Esci dalla modalità selezione">
+        ✕
+      </button>
+    </div>
+  </div>
+
   <!-- CONTENITORE PRINCIPALE CARTE (Subito visibile dopo l'header) -->
   <main id="contenitoreCarte">
     <!-- Sezioni per tipo iniettate dinamicamente via JS -->
@@ -2281,6 +2898,9 @@
     let carte = [];
     let modalitaVista = "lista"; // "lista" di default come richiesto
     let shaCardsJsonIniziale = null;
+    let modalitaSelezione = false;
+    let carteSelezionateIds = new Set();
+    let filtrateCorrenti = [];
 
     // Notifica flash al ricaricamento
     const flashMsg = sessionStorage.getItem("grimorio_flash");
@@ -2686,6 +3306,14 @@
         return true;
       });
 
+      filtrateCorrenti = filtrate;
+
+      carte.forEach(c => {
+        if (!c._uid) {
+          c._uid = 'c_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
+        }
+      });
+
       aggiornaStatistiche(carte, filtrate);
 
       const contenitore = document.getElementById("contenitoreCarte");
@@ -2693,6 +3321,40 @@
       document.getElementById("messaggioVuoto").style.display = filtrate.length ? "none" : "block";
 
       if (!filtrate.length) return;
+
+      const tutteVisibiliSelezionate = (filtrate.length > 0 && filtrate.every(c => carteSelezionateIds.has(c._uid)));
+      const numSelTotali = filtrate.filter(c => carteSelezionateIds.has(c._uid)).length;
+      const parzialeTotale = numSelTotali > 0 && !tutteVisibiliSelezionate;
+
+      // Barra master "Seleziona tutto" per l'intera lista/collezione
+      if (modalitaSelezione && filtrate.length > 0) {
+        const masterBar = document.createElement("div");
+        masterBar.className = "barra-seleziona-tutto-globale";
+        masterBar.innerHTML = `
+          <div class="master-chk-label" title="${tutteVisibiliSelezionate ? 'Deseleziona tutte le carte della lista' : 'Seleziona tutte le carte della lista'}">
+            <div class="chk-selezione-custom ${tutteVisibiliSelezionate ? 'checked' : (parzialeTotale ? 'indeterminate' : '')}">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                ${tutteVisibiliSelezionate ? '<polyline points="20 6 9 17 4 12"></polyline>' : (parzialeTotale ? '<line x1="5" y1="12" x2="19" y2="12"></line>' : '')}
+              </svg>
+            </div>
+            <div class="master-chk-testo">
+              <strong>Seleziona tutto</strong>
+              <span class="master-chk-sub">(${tutteVisibiliSelezionate ? 'Tutte le ' + filtrate.length + ' carte della lista selezionate' : (numSelTotali > 0 ? numSelTotali + ' su ' + filtrate.length + ' selezionate' : 'Clicca per selezionare tutte le ' + filtrate.length + ' carte visibili')})</span>
+            </div>
+          </div>
+        `;
+
+        masterBar.querySelector(".master-chk-label").addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (tutteVisibiliSelezionate) {
+            deselezionaTutte();
+          } else {
+            selezionaTutteVisibili();
+          }
+        });
+
+        contenitore.appendChild(masterBar);
+      }
 
       // Suddivisione per Tipo MTG: mostrare la lista solo se contiene carte!
       CATEGORIE_TIPI.forEach(cat => {
@@ -2705,13 +3367,34 @@
         section.className = "sezione-tipo";
 
         const qtaTotaleTipo = carteDelTipo.reduce((s, c) => s + (c.quantita || 1), 0);
+        const tutteDelTipoSelezionate = (carteDelTipo.length > 0 && carteDelTipo.every(c => carteSelezionateIds.has(c._uid)));
+        const numSelTipo = carteDelTipo.filter(c => carteSelezionateIds.has(c._uid)).length;
+        const parzialeTipo = numSelTipo > 0 && !tutteDelTipoSelezionate;
 
         section.innerHTML = `
           <div class="sezione-tipo-header">
             <h2 class="sezione-tipo-titolo">${cat.nome}</h2>
             <span class="sezione-tipo-conteggio">${qtaTotaleTipo} ${qtaTotaleTipo === 1 ? 'carta' : 'carte'}</span>
+            ${modalitaSelezione ? `
+              <button type="button" class="btn-tipo-seleziona-tutte ${tutteDelTipoSelezionate ? 'active' : ''}" title="${tutteDelTipoSelezionate ? `Deseleziona tutte le ${cat.nome}` : `Seleziona tutte le ${cat.nome}`}">
+                <span class="chk-mini ${tutteDelTipoSelezionate ? 'checked' : (parzialeTipo ? 'indeterminate' : '')}">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    ${tutteDelTipoSelezionate ? '<polyline points="20 6 9 17 4 12"></polyline>' : (parzialeTipo ? '<line x1="5" y1="12" x2="19" y2="12"></line>' : '')}
+                  </svg>
+                </span>
+                <span>${tutteDelTipoSelezionate ? `Deseleziona ${cat.nome}` : `Seleziona ${cat.nome}`}</span>
+              </button>
+            ` : ''}
           </div>
         `;
+
+        const btnTipoHeader = section.querySelector(".btn-tipo-seleziona-tutte");
+        if (btnTipoHeader) {
+          btnTipoHeader.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleSelezioneGruppoTipo(carteDelTipo);
+          });
+        }
 
         const isTerre = (cat.id === "Terre");
 
@@ -2720,10 +3403,21 @@
           const tableWrap = document.createElement("div");
           tableWrap.className = "tabella-wrap";
 
+          const thSelezione = modalitaSelezione ? `
+            <th class="col-seleziona-th">
+              <div class="chk-selezione-custom chk-seleziona-tipo-th ${tutteDelTipoSelezionate ? 'checked' : (parzialeTipo ? 'indeterminate' : '')}" title="${tutteDelTipoSelezionate ? `Deseleziona tutte le ${cat.nome}` : `Seleziona tutte le ${cat.nome}`}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  ${tutteDelTipoSelezionate ? '<polyline points="20 6 9 17 4 12"></polyline>' : (parzialeTipo ? '<line x1="5" y1="12" x2="19" y2="12"></line>' : '')}
+                </svg>
+              </div>
+            </th>
+          ` : '';
+
           let tableHtml = `
             <table class="tabella-carte">
               <thead>
                 <tr>
+                  ${thSelezione}
                   <th style="min-width: 240px; width: 32%;">Nome Carta</th>
                   <th style="min-width: 105px; width: 12%;">${isTerre ? '' : 'Costo Mana'}</th>
                   <th style="min-width: 140px; width: 18%;">Tipo</th>
@@ -2738,14 +3432,26 @@
 
           carteDelTipo.forEach(c => {
             const nomeVisualizzato = ottieniNomeItaliano(c);
+            const isSel = carteSelezionateIds.has(c._uid);
             const foilBadge = c.foil ? '<span class="badge-foil">✦ Foil</span>' : '';
             const qtyBadge = (c.quantita && c.quantita > 1) ? `<span class="badge-qty">×${c.quantita}</span>` : '';
             const manaHtml = renderManaCost(c.manaCost, isTerre);
             const tipoLabel = ottieniTipoItaliano(c);
             const setLabel = (c.set || "").toUpperCase() + (c.numero ? ` #${c.numero}` : "");
 
+            const colSelezioneTd = modalitaSelezione ? `
+              <td class="col-seleziona-td">
+                <div class="chk-selezione-custom ${isSel ? 'checked' : ''}">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+              </td>
+            ` : '';
+
             tableHtml += `
-              <tr class="riga-carta" data-img="${c.immagine || ''}">
+              <tr class="riga-carta ${isSel ? 'carta-selezionata' : ''}" data-img="${c.immagine || ''}">
+                ${colSelezioneTd}
                 <td class="col-main">
                   <div class="cella-nome">
                     ${c.immagine ? `<img class="thumb-carta" src="${c.immagine}" alt="${nomeVisualizzato}" loading="lazy" />` : ''}
@@ -2793,8 +3499,23 @@
 
           tableWrap.querySelectorAll(".riga-carta").forEach((riga, idx) => {
             const cardData = carteDelTipo[idx];
-            riga.addEventListener("click", () => apriDettaglioCarta(cardData));
+            riga.addEventListener("click", (e) => {
+              if (modalitaSelezione) {
+                e.stopPropagation();
+                toggleSelezioneCarta(cardData);
+              } else {
+                apriDettaglioCarta(cardData);
+              }
+            });
           });
+
+          const thChk = tableWrap.querySelector(".chk-seleziona-tipo-th");
+          if (thChk) {
+            thChk.addEventListener("click", (e) => {
+              e.stopPropagation();
+              toggleSelezioneGruppoTipo(carteDelTipo);
+            });
+          }
 
           section.appendChild(tableWrap);
 
@@ -2805,15 +3526,31 @@
 
           carteDelTipo.forEach(c => {
             const nomeVisualizzato = ottieniNomeItaliano(c);
+            const isSel = carteSelezionateIds.has(c._uid);
             const cardEl = document.createElement("div");
-            cardEl.className = "carta-card";
-            cardEl.addEventListener("click", () => apriDettaglioCarta(c));
+            cardEl.className = "carta-card" + (isSel ? " carta-selezionata" : "");
+            cardEl.addEventListener("click", (e) => {
+              if (modalitaSelezione) {
+                e.stopPropagation();
+                toggleSelezioneCarta(c);
+              } else {
+                apriDettaglioCarta(c);
+              }
+            });
             const foilBadge = c.foil ? '<span class="badge-foil">✦ Foil</span>' : '';
             const qtyBadge = (c.quantita && c.quantita > 1) ? `<span class="badge-qty">×${c.quantita}</span>` : '';
             const manaHtml = renderManaCost(c.manaCost, isTerre);
+            const chkPill = modalitaSelezione ? `
+              <div class="carta-chk-pill ${isSel ? 'checked' : ''}" title="${isSel ? 'Deseleziona' : 'Seleziona'}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+            ` : '';
 
             cardEl.innerHTML = `
               <div class="carta-card-img-wrap">
+                ${chkPill}
                 ${c.immagine ? `<img src="${c.immagine}" alt="${nomeVisualizzato}" loading="lazy" />` : ''}
               </div>
               <div class="nome-row">
@@ -2907,9 +3644,11 @@
       const q = document.getElementById("modalCaricamentoOverlay");
       const d = document.getElementById("modalDettaglioOverlay");
       const c = document.getElementById("modalConfermaEliminaOverlay");
+      const m = document.getElementById("modalConfermaEliminaMultiplaOverlay");
       const aperto = (q && q.style.display !== "none") ||
-                     (d && d.style.display !== "none") ||
-                     (c && c.style.display !== "none");
+        (d && d.style.display !== "none") ||
+        (c && c.style.display !== "none") ||
+        (m && m.style.display !== "none");
       if (aperto) {
         document.body.classList.add("modal-aperta");
       } else {
@@ -3099,7 +3838,7 @@
                   }
                 }
               })
-              .catch(() => {});
+              .catch(() => { });
 
             // Carica comunque i dati specifici della stampa (prezzi, set_name, artista)
             if (c.scryfallId) {
@@ -3226,8 +3965,13 @@
       // Tenta il commit su GitHub se il token è presente
       let salvatoSuGitHub = false;
       try {
-        const token = localStorage.getItem("grimorio_gh_token");
+        const token = localStorage.getItem("dispensa_token") || localStorage.getItem("grimorio_gh_token");
         if (token && shaCardsJsonIniziale) {
+          const carteDaSalvare = carteAggiornate.map(item => {
+            const clone = { ...item };
+            delete clone._uid;
+            return clone;
+          });
           const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
             method: "PUT",
             headers: {
@@ -3237,7 +3981,7 @@
             },
             body: JSON.stringify({
               message: `Rimozione carta: ${nomeVisualizzato} (${c.possessore})`,
-              content: btoa(unescape(encodeURIComponent(JSON.stringify(carteAggiornate, null, 2)))),
+              content: btoa(unescape(encodeURIComponent(JSON.stringify(carteDaSalvare, null, 2)))),
               sha: shaCardsJsonIniziale
             })
           });
@@ -3309,6 +4053,11 @@
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
+        if (modalConfermaEliminaMultipla && modalConfermaEliminaMultipla.style.display !== "none") {
+          modalConfermaEliminaMultipla.style.display = "none";
+          aggiornaLockScrollBody();
+          return;
+        }
         if (modalConfermaElimina && modalConfermaElimina.style.display !== "none") {
           modalConfermaElimina.style.display = "none";
           aggiornaLockScrollBody();
@@ -3321,6 +4070,310 @@
           modalDettaglio.style.display = "none";
           cartaSelezionata = null;
         }
+        if (modalitaSelezione && (!modalConfermaEliminaMultipla || modalConfermaEliminaMultipla.style.display === "none")) {
+          toggleModalitaSelezione(false);
+          return;
+        }
+        aggiornaLockScrollBody();
+      }
+    });
+
+    // === GESTIONE MODALITÀ SELEZIONE MULTIPLA ED ELIMINAZIONE IN BLOCCO ===
+    const modalConfermaEliminaMultipla = document.getElementById("modalConfermaEliminaMultiplaOverlay");
+
+    function aggiornaBarraSelezione() {
+      const count = carteSelezionateIds.size;
+      const badgeCount = document.getElementById("badgeSelezionateCount");
+      const barra = document.getElementById("barraSelezioneFlottante");
+      const btnToggle = document.getElementById("btnToggleSelezione");
+      const conteggioEl = document.getElementById("barraSelezioneConteggio");
+      const subEl = document.getElementById("barraSelezioneSub");
+      const btnElimina = document.getElementById("btnBarraElimina");
+      const btnEliminaTesto = document.getElementById("btnBarraEliminaTesto");
+      const btnTutte = document.getElementById("btnBarraSelezionaTutte");
+      const btnDeseleziona = document.getElementById("btnBarraDeselezionaTutte");
+
+      if (badgeCount) {
+        badgeCount.textContent = count;
+        badgeCount.style.display = count > 0 ? "inline-flex" : "none";
+      }
+
+      if (modalitaSelezione) {
+        if (barra) barra.style.display = "flex";
+        if (btnToggle) {
+          btnToggle.classList.add("active");
+          btnToggle.setAttribute("aria-pressed", "true");
+        }
+
+        let totaleCopie = 0;
+        carte.forEach(c => {
+          if (carteSelezionateIds.has(c._uid)) {
+            totaleCopie += (c.quantita || 1);
+          }
+        });
+
+        if (conteggioEl) {
+          if (count === 0) {
+            conteggioEl.textContent = "Nessuna carta selezionata";
+            if (subEl) subEl.textContent = "Tocca o clicca sulle carte per aggiungerle";
+          } else if (count === 1) {
+            conteggioEl.textContent = `1 carta selezionata (${totaleCopie} ${totaleCopie === 1 ? 'copia' : 'copie'})`;
+            if (subEl) subEl.textContent = "Pronta per l'eliminazione";
+          } else {
+            conteggioEl.textContent = `${count} carte selezionate (${totaleCopie} copie totali)`;
+            if (subEl) subEl.textContent = "Pronte per l'eliminazione";
+          }
+        }
+
+        if (btnElimina) {
+          btnElimina.disabled = (count === 0);
+        }
+        if (btnEliminaTesto) {
+          btnEliminaTesto.textContent = count > 0 ? `Elimina (${count})` : "Elimina";
+        }
+
+        const tutteVisibiliSelezionate = (filtrateCorrenti.length > 0 && filtrateCorrenti.every(c => carteSelezionateIds.has(c._uid)));
+        if (btnTutte && btnDeseleziona) {
+          if (tutteVisibiliSelezionate) {
+            btnTutte.style.display = "none";
+            btnDeseleziona.style.display = "inline-flex";
+          } else {
+            btnTutte.style.display = "inline-flex";
+            btnDeseleziona.style.display = "none";
+          }
+        }
+      } else {
+        if (barra) barra.style.display = "none";
+        if (btnToggle) {
+          btnToggle.classList.remove("active");
+          btnToggle.setAttribute("aria-pressed", "false");
+        }
+        if (badgeCount) badgeCount.style.display = "none";
+      }
+    }
+
+    function toggleModalitaSelezione(forzaStato) {
+      if (typeof forzaStato === "boolean") {
+        modalitaSelezione = forzaStato;
+      } else {
+        modalitaSelezione = !modalitaSelezione;
+      }
+
+      document.body.classList.toggle("modalita-selezione-attiva", modalitaSelezione);
+
+      if (!modalitaSelezione) {
+        carteSelezionateIds.clear();
+      }
+
+      aggiornaBarraSelezione();
+      disegna();
+    }
+
+    function toggleSelezioneCarta(c) {
+      if (!c || !c._uid) return;
+      if (carteSelezionateIds.has(c._uid)) {
+        carteSelezionateIds.delete(c._uid);
+      } else {
+        carteSelezionateIds.add(c._uid);
+      }
+      aggiornaBarraSelezione();
+      disegna();
+    }
+
+    function toggleSelezioneGruppoTipo(carteGruppo) {
+      if (!carteGruppo || !carteGruppo.length) return;
+      const tutteGiaSelezionate = carteGruppo.every(c => carteSelezionateIds.has(c._uid));
+      if (tutteGiaSelezionate) {
+        carteGruppo.forEach(c => carteSelezionateIds.delete(c._uid));
+      } else {
+        carteGruppo.forEach(c => carteSelezionateIds.add(c._uid));
+      }
+      aggiornaBarraSelezione();
+      disegna();
+    }
+
+    function selezionaTutteVisibili() {
+      filtrateCorrenti.forEach(c => {
+        if (c._uid) carteSelezionateIds.add(c._uid);
+      });
+      aggiornaBarraSelezione();
+      disegna();
+    }
+
+    function deselezionaTutte() {
+      carteSelezionateIds.clear();
+      aggiornaBarraSelezione();
+      disegna();
+    }
+
+    function apriConfermaEliminazioneMultipla() {
+      if (carteSelezionateIds.size === 0) return;
+
+      const carteDaEliminare = carte.filter(c => carteSelezionateIds.has(c._uid));
+      const totaleCarte = carteDaEliminare.length;
+      const totaleCopie = carteDaEliminare.reduce((s, c) => s + (c.quantita || 1), 0);
+      const haCopieMultiple = carteDaEliminare.some(c => (c.quantita || 1) > 1);
+
+      document.getElementById("confermaMultiplaConteggio").textContent = `${totaleCarte} ${totaleCarte === 1 ? 'carta' : 'carte'} (${totaleCopie} ${totaleCopie === 1 ? 'copia' : 'copie'} totali)`;
+
+      const boxOpzioni = document.getElementById("confermaMultiplaOpzioniQty");
+      if (haCopieMultiple) {
+        boxOpzioni.style.display = "flex";
+        const radioTutte = boxOpzioni.querySelector('input[value="tutte"]');
+        if (radioTutte) radioTutte.checked = true;
+      } else {
+        boxOpzioni.style.display = "none";
+      }
+
+      const listaPreview = document.getElementById("anteprimaSelezionateLista");
+      listaPreview.innerHTML = "";
+
+      const maxMostrate = 8;
+      carteDaEliminare.slice(0, maxMostrate).forEach(c => {
+        const riga = document.createElement("div");
+        riga.className = "anteprima-carta-item";
+        const nomeIt = ottieniNomeItaliano(c);
+        const qtaBadge = (c.quantita && c.quantita > 1) ? `<span class="badge-qty">×${c.quantita}</span>` : '';
+        riga.innerHTML = `
+          ${c.immagine ? `<img class="anteprima-thumb" src="${c.immagine}" alt="${nomeIt}" />` : '<div class="anteprima-thumb-placeholder"></div>'}
+          <div class="anteprima-info">
+            <span class="anteprima-nome">${nomeIt} ${qtaBadge}</span>
+            <span class="anteprima-sub">${(c.set || '').toUpperCase()} #${c.numero || ''} · ${c.possessore || ''}</span>
+          </div>
+        `;
+        listaPreview.appendChild(riga);
+      });
+
+      if (carteDaEliminare.length > maxMostrate) {
+        const extra = document.createElement("div");
+        extra.className = "anteprima-extra-count";
+        extra.textContent = `... e altre ${carteDaEliminare.length - maxMostrate} carte selezionate`;
+        listaPreview.appendChild(extra);
+      }
+
+      modalConfermaEliminaMultipla.style.display = "flex";
+      modalConfermaEliminaMultipla.scrollTop = 0;
+      aggiornaLockScrollBody();
+    }
+
+    async function eseguiEliminazioneMultiplaConfermata() {
+      if (carteSelezionateIds.size === 0) return;
+
+      const btnSi = document.getElementById("btnConfermaEliminaMultiplaSi");
+      const btnNo = document.getElementById("btnConfermaEliminaMultiplaNo");
+      const testoOriginale = btnSi.innerHTML;
+
+      btnSi.disabled = true;
+      btnNo.disabled = true;
+      btnSi.innerHTML = `<span>Eliminazione in corso...</span>`;
+
+      const sceltaRadio = document.querySelector('input[name="opzioneEliminaMultiplaQty"]:checked')?.value;
+      const rimuoviSoloUna = (sceltaRadio === "singola");
+
+      const numeroCarteSelezionate = carteSelezionateIds.size;
+      let carteAggiornate = JSON.parse(JSON.stringify(carte));
+
+      if (rimuoviSoloUna) {
+        carteAggiornate = carteAggiornate.map(item => {
+          if (carteSelezionateIds.has(item._uid)) {
+            if ((item.quantita || 1) > 1) {
+              return { ...item, quantita: (item.quantita || 1) - 1 };
+            }
+            return null;
+          }
+          return item;
+        }).filter(Boolean);
+      } else {
+        carteAggiornate = carteAggiornate.filter(item => !carteSelezionateIds.has(item._uid));
+      }
+
+      const carteDaSalvare = carteAggiornate.map(c => {
+        const clone = { ...c };
+        delete clone._uid;
+        return clone;
+      });
+
+      let salvatoSuGitHub = false;
+      try {
+        let token = localStorage.getItem("dispensa_token") || localStorage.getItem("grimorio_gh_token");
+        if (token && !shaCardsJsonIniziale) {
+          const resSha = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+            headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+          });
+          if (resSha.ok) {
+            const dSha = await resSha.json();
+            shaCardsJsonIniziale = dSha.sha;
+          }
+        }
+
+        if (token && shaCardsJsonIniziale) {
+          const resp = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data/cards.json`, {
+            method: "PUT",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Accept": "application/vnd.github+json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              message: `Rimozione multipla di ${numeroCarteSelezionate} carte dal Grimorio`,
+              content: btoa(unescape(encodeURIComponent(JSON.stringify(carteDaSalvare, null, 2)))),
+              sha: shaCardsJsonIniziale
+            })
+          });
+
+          if (resp.ok) {
+            const dataRes = await resp.json();
+            if (dataRes?.content?.sha) {
+              shaCardsJsonIniziale = dataRes.content.sha;
+            }
+            salvatoSuGitHub = true;
+          }
+        }
+      } catch (err) {
+        console.warn("Sincronizzazione GitHub non riuscita (salvataggio locale):", err);
+      }
+
+      carte = carteAggiornate;
+      carteSelezionateIds.clear();
+      modalitaSelezione = false;
+      document.body.classList.remove("modalita-selezione-attiva");
+      aggiornaBarraSelezione();
+
+      aggiornaStatistiche(carte, carte);
+      disegna();
+
+      modalConfermaEliminaMultipla.style.display = "none";
+      btnSi.disabled = false;
+      btnNo.disabled = false;
+      btnSi.innerHTML = testoOriginale;
+      aggiornaLockScrollBody();
+
+      const banner = document.getElementById("flashBanner");
+      document.getElementById("flashTesto").textContent = salvatoSuGitHub
+        ? `✓ ${numeroCarteSelezionate} carte eliminate e sincronizzate su GitHub!`
+        : `✓ ${numeroCarteSelezionate} carte eliminate dal Grimorio!`;
+      banner.style.display = "flex";
+      setTimeout(() => {
+        if (banner) banner.style.display = "none";
+      }, 4500);
+    }
+
+    // Event listener per la selezione multipla
+    document.getElementById("btnToggleSelezione").addEventListener("click", () => toggleModalitaSelezione());
+    document.getElementById("btnBarraChiudi").addEventListener("click", () => toggleModalitaSelezione(false));
+    document.getElementById("btnBarraSelezionaTutte").addEventListener("click", selezionaTutteVisibili);
+    document.getElementById("btnBarraDeselezionaTutte").addEventListener("click", deselezionaTutte);
+    document.getElementById("btnBarraElimina").addEventListener("click", apriConfermaEliminazioneMultipla);
+
+    document.getElementById("btnConfermaEliminaMultiplaNo").addEventListener("click", () => {
+      modalConfermaEliminaMultipla.style.display = "none";
+      aggiornaLockScrollBody();
+    });
+    document.getElementById("btnConfermaEliminaMultiplaSi").addEventListener("click", eseguiEliminazioneMultiplaConfermata);
+
+    modalConfermaEliminaMultipla.addEventListener("click", (e) => {
+      if (e.target === modalConfermaEliminaMultipla) {
+        modalConfermaEliminaMultipla.style.display = "none";
         aggiornaLockScrollBody();
       }
     });
@@ -3380,7 +4433,7 @@
                       disegna();
                     }
                   })
-                  .catch(() => {});
+                  .catch(() => { });
               }
             })
             .catch(() => { });
@@ -3398,6 +4451,7 @@
       .then(dati => {
         carte = dati;
         carte.forEach(c => {
+          if (!c._uid) c._uid = 'c_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now().toString(36);
           if (!c.nomeEn) c.nomeEn = c.nome;
           if (!c.nomeIt) c.nomeIt = c.nome;
           if (!c.tipoIt && c.tipo) c.tipoIt = traduciTipo(c.tipo);
