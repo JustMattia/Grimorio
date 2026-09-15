@@ -167,6 +167,51 @@
       font-weight: 500;
     }
 
+    .header-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    /* Tasto Esporta CSV */
+    .btn-apri-esporta {
+      background: var(--panel-elevated);
+      color: var(--ink);
+      font-family: "Outfit", sans-serif;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.52rem 1.1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--panel-border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-apri-esporta svg {
+      color: var(--yellow);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-apri-esporta:hover {
+      background: #222030;
+      border-color: var(--yellow);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .btn-apri-esporta:hover svg {
+      transform: translateY(1px);
+    }
+
+    .btn-apri-esporta:active {
+      transform: translateY(0);
+    }
+
     /* Tasto Carica: giallo solido semplice, nessun gradiente */
     .btn-apri-carica {
       background: var(--yellow);
@@ -1980,6 +2025,108 @@
       font-weight: 500;
     }
 
+    /* === MODAL ESPORTAZIONE CARTE (Stile coerente con Caricamento) === */
+    .modal-esporta-card {
+      max-width: 540px;
+    }
+
+    .campo-form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .campo-form-header label {
+      margin-bottom: 0;
+    }
+
+    .btn-toggle-link {
+      background: transparent;
+      border: none;
+      color: var(--yellow);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0 0.2rem;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .btn-toggle-link:hover {
+      color: var(--yellow-hover);
+    }
+
+    .opzioni-selezione-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .opzione-pillola {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: #0f0e15;
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius-sm);
+      padding: 0.38rem 0.65rem;
+      font-size: 0.85rem;
+      color: var(--ink-dim);
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .opzione-pillola:hover {
+      border-color: rgba(250, 204, 21, 0.45);
+      color: var(--ink);
+    }
+
+    .opzione-pillola.selected {
+      border-color: var(--yellow);
+      color: #ffffff;
+      background: rgba(250, 204, 21, 0.08);
+    }
+
+    .opzione-pillola input[type="checkbox"] {
+      accent-color: var(--yellow);
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .mana-icon-official {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .sub-checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      cursor: pointer;
+      margin-top: 0.45rem;
+      user-select: none;
+    }
+
+    .sub-checkbox-label input[type="checkbox"] {
+      accent-color: var(--yellow);
+      width: 13px;
+      height: 13px;
+      margin: 0;
+    }
+
+    .sub-checkbox-label:hover {
+      color: var(--ink-dim);
+    }
+
     /* =========================================================
        RESPONSIVE DESIGN (MOBILE & TABLET <= 768px)
        Dichiarato in fondo per sovrascrivere correttamente tutti gli stili base
@@ -2032,7 +2179,12 @@
         font-size: 0.78rem;
       }
 
-      .btn-apri-carica {
+      .header-top-actions {
+        gap: 0.45rem;
+      }
+
+      .btn-apri-carica,
+      .btn-apri-esporta {
         padding: 0.45rem 0.85rem;
         font-size: 0.86rem;
       }
@@ -2435,15 +2587,27 @@
         </div>
       </div>
 
-      <!-- Tasto Carica che apre il Popup -->
-      <button type="button" class="btn-apri-carica" id="btnApriCarica">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="17 8 12 3 7 8"></polyline>
-          <line x1="12" y1="3" x2="12" y2="15"></line>
-        </svg>
-        <span>Carica</span>
-      </button>
+      <div class="header-top-actions">
+        <!-- Tasto Esporta che apre il Popup Esportazione CSV -->
+        <button type="button" class="btn-apri-esporta" id="btnApriEsporta" title="Esporta le carte in formato .CSV con filtri personalizzati">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Esporta CSV</span>
+        </button>
+
+        <!-- Tasto Carica che apre il Popup -->
+        <button type="button" class="btn-apri-carica" id="btnApriCarica">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <span>Carica</span>
+        </button>
+      </div>
     </div>
 
     <!-- Barra Toolbar: Ricerca, Switch Vista, Pulsante Filtri -->
@@ -2643,6 +2807,142 @@
             <div class="task-log-riga active">[1/4] Preparazione del file CSV in corso...</div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POPUP MODALE ESPORTA CARTE IN CSV -->
+  <div class="modal-overlay" id="modalEsportaOverlay" style="display: none;">
+    <div class="modal-card modal-esporta-card" role="dialog" aria-modal="true" aria-labelledby="titoloModalEsporta">
+      <div class="modal-header">
+        <h2 id="titoloModalEsporta">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          Esporta carte in CSV
+        </h2>
+        <button type="button" class="btn-modal-chiudi" id="btnChiudiModalEsporta" title="Chiudi finestra">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="campo-form">
+          <div class="campo-form-header">
+            <label>Possessori</label>
+            <button type="button" class="btn-toggle-link" id="btnToggleTuttiPossessori">Tutti</button>
+          </div>
+          <div class="opzioni-selezione-grid" id="esportaPossessoriChips">
+            <label class="opzione-pillola selected" data-possessore="Mattia">
+              <input type="checkbox" name="esportaPossessore" value="Mattia" checked />
+              <span>Mattia</span>
+            </label>
+            <label class="opzione-pillola selected" data-possessore="Laura">
+              <input type="checkbox" name="esportaPossessore" value="Laura" checked />
+              <span>Laura</span>
+            </label>
+            <label class="opzione-pillola selected" data-possessore="Matteo">
+              <input type="checkbox" name="esportaPossessore" value="Matteo" checked />
+              <span>Matteo</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="campo-form">
+          <div class="campo-form-header">
+            <label>Colori</label>
+            <button type="button" class="btn-toggle-link" id="btnToggleTuttiColori">Tutti</button>
+          </div>
+          <div class="opzioni-selezione-grid" id="esportaColoriChips">
+            <label class="opzione-pillola selected" data-colore="W">
+              <input type="checkbox" name="esportaColore" value="W" checked />
+              <img class="mana-icon-official" src="https://svgs.scryfall.io/card-symbols/W.svg" alt="W" />
+              <span>Bianco</span>
+            </label>
+            <label class="opzione-pillola selected" data-colore="U">
+              <input type="checkbox" name="esportaColore" value="U" checked />
+              <img class="mana-icon-official" src="https://svgs.scryfall.io/card-symbols/U.svg" alt="U" />
+              <span>Blu</span>
+            </label>
+            <label class="opzione-pillola selected" data-colore="B">
+              <input type="checkbox" name="esportaColore" value="B" checked />
+              <img class="mana-icon-official" src="https://svgs.scryfall.io/card-symbols/B.svg" alt="B" />
+              <span>Nero</span>
+            </label>
+            <label class="opzione-pillola selected" data-colore="R">
+              <input type="checkbox" name="esportaColore" value="R" checked />
+              <img class="mana-icon-official" src="https://svgs.scryfall.io/card-symbols/R.svg" alt="R" />
+              <span>Rosso</span>
+            </label>
+            <label class="opzione-pillola selected" data-colore="G">
+              <input type="checkbox" name="esportaColore" value="G" checked />
+              <img class="mana-icon-official" src="https://svgs.scryfall.io/card-symbols/G.svg" alt="G" />
+              <span>Verde</span>
+            </label>
+            <label class="opzione-pillola selected" data-colore="C">
+              <input type="checkbox" name="esportaColore" value="C" checked />
+              <img class="mana-icon-official" src="https://svgs.scryfall.io/card-symbols/C.svg" alt="C" />
+              <span>Incolore</span>
+            </label>
+          </div>
+          <label class="sub-checkbox-label" title="Se spuntato, include solo carte i cui colori sono tutti tra quelli selezionati">
+            <input type="checkbox" id="chkEscludiAltriColori" />
+            <span>Escludi carte con colori non selezionati</span>
+          </label>
+        </div>
+
+        <div class="campo-form">
+          <div class="campo-form-header">
+            <label>Tipo di carta</label>
+            <button type="button" class="btn-toggle-link" id="btnToggleTuttiTipi">Tutti</button>
+          </div>
+          <div class="opzioni-selezione-grid" id="esportaTipiChips">
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Creature" checked />
+              <span>Creatura</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Istantanei" checked />
+              <span>Istantaneo</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Stregonerie" checked />
+              <span>Stregoneria</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Incantesimi" checked />
+              <span>Incantesimo</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Artefatti" checked />
+              <span>Artefatto</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Planeswalker" checked />
+              <span>Planeswalker</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Terre" checked />
+              <span>Terra</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Battaglie" checked />
+              <span>Battaglia</span>
+            </label>
+            <label class="opzione-pillola selected">
+              <input type="checkbox" name="esportaTipo" value="Altro" checked />
+              <span>Altro</span>
+            </label>
+          </div>
+        </div>
+
+        <button id="btnConfermaEsporta" class="btn-invia-carica" type="button">
+          Scarica file CSV
+        </button>
+
+        <p class="meta-token-info" id="esportaRiepilogoDettaglio">
+          Calcolo carte pronte per l'esportazione...
+        </p>
       </div>
     </div>
   </div>
@@ -3745,10 +4045,12 @@
       const d = document.getElementById("modalDettaglioOverlay");
       const c = document.getElementById("modalConfermaEliminaOverlay");
       const m = document.getElementById("modalConfermaEliminaMultiplaOverlay");
+      const e = document.getElementById("modalEsportaOverlay");
       const aperto = (q && q.style.display !== "none") ||
         (d && d.style.display !== "none") ||
         (c && c.style.display !== "none") ||
-        (m && m.style.display !== "none");
+        (m && m.style.display !== "none") ||
+        (e && e.style.display !== "none");
       if (aperto) {
         document.body.classList.add("modal-aperta");
       } else {
@@ -3775,6 +4077,306 @@
       if (e.target === modalOverlay) {
         modalOverlay.style.display = "none";
         aggiornaLockScrollBody();
+      }
+    });
+
+    // === GESTIONE POPUP MODALE ESPORTA CSV ===
+    const modalEsporta = document.getElementById("modalEsportaOverlay");
+    const btnApriEsporta = document.getElementById("btnApriEsporta");
+    const btnChiudiModalEsporta = document.getElementById("btnChiudiModalEsporta");
+    const btnAnnullaEsporta = document.getElementById("btnAnnullaEsporta");
+    const btnConfermaEsporta = document.getElementById("btnConfermaEsporta");
+    const chkEscludiAltriColori = document.getElementById("chkEscludiAltriColori");
+
+    function apriModalEsporta() {
+      // Inclusione automatica di eventuali possessori presenti nel database non ancora mostrati nei chip
+      const chipsContainer = document.getElementById("esportaPossessoriChips");
+      if (chipsContainer && Array.isArray(carte)) {
+        const possessoriNelDb = new Set(carte.map(c => c.possessore).filter(Boolean));
+        const possessoriEsistenti = new Set(
+          Array.from(chipsContainer.querySelectorAll('input[name="esportaPossessore"]')).map(el => el.value)
+        );
+        possessoriNelDb.forEach(poss => {
+          if (!possessoriEsistenti.has(poss)) {
+            const label = document.createElement("label");
+            label.className = "opzione-pillola selected";
+            label.setAttribute("data-possessore", poss);
+            label.innerHTML = `
+              <input type="checkbox" name="esportaPossessore" value="${poss}" checked />
+              <span>${poss}</span>
+            `;
+            label.querySelector("input").addEventListener("change", () => {
+              aggiornaStatoChipsEsporta();
+              calcolaERenderizzaEsporta();
+            });
+            chipsContainer.appendChild(label);
+          }
+        });
+      }
+
+      modalEsporta.style.display = "flex";
+      modalEsporta.scrollTop = 0;
+      aggiornaLockScrollBody();
+      aggiornaStatoChipsEsporta();
+      calcolaERenderizzaEsporta();
+    }
+
+    function chiudiModalEsporta() {
+      modalEsporta.style.display = "none";
+      aggiornaLockScrollBody();
+    }
+
+    if (btnApriEsporta) btnApriEsporta.addEventListener("click", apriModalEsporta);
+    if (btnChiudiModalEsporta) btnChiudiModalEsporta.addEventListener("click", chiudiModalEsporta);
+    if (btnAnnullaEsporta) btnAnnullaEsporta.addEventListener("click", chiudiModalEsporta);
+
+    modalEsporta.addEventListener("click", (e) => {
+      if (e.target === modalEsporta) {
+        chiudiModalEsporta();
+      }
+    });
+
+    // Aggiorna classi grafiche 'selected' sui label dei chip
+    function aggiornaStatoChipsEsporta() {
+      document.querySelectorAll(".opzione-pillola").forEach(label => {
+        const chk = label.querySelector('input[type="checkbox"]');
+        if (chk) {
+          if (chk.checked) {
+            label.classList.add("selected");
+          } else {
+            label.classList.remove("selected");
+          }
+        }
+      });
+      aggiornaTestoTastiToggle();
+    }
+
+    // Aggiorna etichetta dei tasti 'Tutti' / 'Deseleziona' per ogni sezione
+    function aggiornaTestoTastiToggle() {
+      function syncToggleBtn(btnId, selector) {
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        const all = document.querySelectorAll(selector);
+        const checked = document.querySelectorAll(selector + ':checked');
+        if (all.length > 0 && checked.length === all.length) {
+          btn.textContent = "Deseleziona";
+        } else {
+          btn.textContent = "Tutti";
+        }
+      }
+      syncToggleBtn("btnToggleTuttiPossessori", 'input[name="esportaPossessore"]');
+      syncToggleBtn("btnToggleTuttiColori", 'input[name="esportaColore"]');
+      syncToggleBtn("btnToggleTuttiTipi", 'input[name="esportaTipo"]');
+    }
+
+    // Toggle selettori "Tutti"
+    function toggleGruppoCheckbox(selector) {
+      const all = document.querySelectorAll(selector);
+      const checked = document.querySelectorAll(selector + ':checked');
+      const shouldCheckAll = (checked.length < all.length);
+      all.forEach(chk => { chk.checked = shouldCheckAll; });
+      aggiornaStatoChipsEsporta();
+      calcolaERenderizzaEsporta();
+    }
+
+    document.getElementById("btnToggleTuttiPossessori").addEventListener("click", () => {
+      toggleGruppoCheckbox('input[name="esportaPossessore"]');
+    });
+    document.getElementById("btnToggleTuttiColori").addEventListener("click", () => {
+      toggleGruppoCheckbox('input[name="esportaColore"]');
+    });
+    document.getElementById("btnToggleTuttiTipi").addEventListener("click", () => {
+      toggleGruppoCheckbox('input[name="esportaTipo"]');
+    });
+
+    // Listener su tutti i checkbox della modale esporta
+    document.querySelectorAll('#modalEsportaOverlay input[type="checkbox"]').forEach(chk => {
+      chk.addEventListener("change", () => {
+        aggiornaStatoChipsEsporta();
+        calcolaERenderizzaEsporta();
+      });
+    });
+
+    // Calcolo carte corrispondenti ai filtri di esportazione
+    function ottieniCarteEsportabili() {
+      const possessoriSel = new Set(
+        Array.from(document.querySelectorAll('input[name="esportaPossessore"]:checked')).map(el => el.value)
+      );
+      const coloriSel = new Set(
+        Array.from(document.querySelectorAll('input[name="esportaColore"]:checked')).map(el => el.value)
+      );
+      const tipiSel = new Set(
+        Array.from(document.querySelectorAll('input[name="esportaTipo"]:checked')).map(el => el.value)
+      );
+      const escludiAltriColori = chkEscludiAltriColori ? chkEscludiAltriColori.checked : false;
+
+      return carte.filter(c => {
+        // 1. Filtro Possessore (multi-selezione)
+        if (possessoriSel.size === 0) return false;
+        const p = c.possessore || "";
+        if (!possessoriSel.has(p)) return false;
+
+        // 2. Filtro Tipo Carta (multi-selezione con supporto sottotipi e carte ibride)
+        if (tipiSel.size === 0) return false;
+        const cat = categorizzaTipo(c);
+        const tipoStr = ((c.tipoIt || "") + " " + (c.tipo || "")).toLowerCase();
+        let tipoOk = tipiSel.has(cat);
+        if (!tipoOk) {
+          if (tipiSel.has("Creature") && (tipoStr.includes("creature") || tipoStr.includes("creatura"))) tipoOk = true;
+          else if (tipiSel.has("Artefatti") && (tipoStr.includes("artifact") || tipoStr.includes("artefatto"))) tipoOk = true;
+          else if (tipiSel.has("Incantesimi") && (tipoStr.includes("enchantment") || tipoStr.includes("incantesimo"))) tipoOk = true;
+          else if (tipiSel.has("Istantanei") && (tipoStr.includes("instant") || tipoStr.includes("istantaneo"))) tipoOk = true;
+          else if (tipiSel.has("Stregonerie") && (tipoStr.includes("sorcery") || tipoStr.includes("stregoneria"))) tipoOk = true;
+          else if (tipiSel.has("Planeswalker") && tipoStr.includes("planeswalker")) tipoOk = true;
+          else if (tipiSel.has("Terre") && (tipoStr.includes("land") || tipoStr.includes("terra"))) tipoOk = true;
+          else if (tipiSel.has("Battaglie") && (tipoStr.includes("battle") || tipoStr.includes("battaglia"))) tipoOk = true;
+          else if (tipiSel.has("Altro") && cat === "Altro") tipoOk = true;
+        }
+        if (!tipoOk) return false;
+
+        // 3. Filtro Colore e Incolore (multi-selezione)
+        if (coloriSel.size === 0) return false;
+        const colori = c.colori || [];
+        if (colori.length === 0) {
+          // Carta Incolore
+          if (!coloriSel.has("C")) return false;
+        } else {
+          // Carta colorata: verifica i colori
+          if (escludiAltriColori) {
+            // Tutti i colori della carta devono essere inclusi tra quelli selezionati
+            const tuttiPresenti = colori.every(col => coloriSel.has(col.toUpperCase()));
+            if (!tuttiPresenti) return false;
+          } else {
+            // Almeno uno dei colori della carta è tra quelli selezionati
+            const almenoUno = colori.some(col => coloriSel.has(col.toUpperCase()));
+            if (!almenoUno) return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // Aggiorna il contatore e l'interfaccia di riepilogo
+    function calcolaERenderizzaEsporta() {
+      const filtrate = ottieniCarteEsportabili();
+      const numCarte = filtrate.length;
+      const numCopie = filtrate.reduce((acc, c) => acc + (c.quantita || 1), 0);
+
+      const btnConferma = document.getElementById("btnConfermaEsporta");
+      const boxDettaglio = document.getElementById("esportaRiepilogoDettaglio");
+
+      if (numCarte === 0) {
+        if (btnConferma) {
+          btnConferma.disabled = true;
+          btnConferma.textContent = "Nessuna carta selezionata";
+        }
+        if (boxDettaglio) {
+          boxDettaglio.textContent = "Nessuna carta corrisponde ai filtri selezionati. Seleziona almeno una voce per categoria.";
+        }
+      } else {
+        if (btnConferma) {
+          btnConferma.disabled = false;
+          btnConferma.textContent = `Scarica file CSV (${numCarte} ${numCarte === 1 ? 'carta' : 'carte'})`;
+        }
+        if (boxDettaglio) {
+          boxDettaglio.textContent = `${numCarte} ${numCarte === 1 ? 'carta' : 'carte'} (${numCopie} ${numCopie === 1 ? 'copia totale' : 'copie totali'}) pronte per il download.`;
+        }
+      }
+    }
+
+    // Funzione di esportazione CSV (RFC 4180 con BOM UTF-8 per Excel e Calc)
+    function esportaCSV() {
+      const filtrate = ottieniCarteEsportabili();
+      if (!filtrate.length) {
+        alert("Seleziona almeno una combinazione di filtri valida prima di esportare.");
+        return;
+      }
+
+      const headers = [
+        "Nome",
+        "Nome Originale (EN)",
+        "Quantita",
+        "Possessore",
+        "Tipo",
+        "Costo Mana",
+        "CMC",
+        "Colori",
+        "Rarita",
+        "Set",
+        "Numero",
+        "Lingua",
+        "Foil",
+        "Prezzo Cardmarket (EUR)",
+        "Prezzo Cardtrader (EUR)",
+        "Scryfall ID"
+      ];
+
+      function escapeCsv(val) {
+        if (val == null) return '""';
+        let str = String(val);
+        if (str.includes('"') || str.includes(',') || str.includes('\n') || str.includes('\r') || str.includes(';')) {
+          return `"${str.replace(/"/g, '""')}"`;
+        }
+        return `"${str}"`;
+      }
+
+      const righe = [headers.map(escapeCsv).join(",")];
+
+      for (const c of filtrate) {
+        const nomeIt = ottieniNomeItaliano(c) || c.nome || "";
+        const nomeEn = c.nomeEn || c.nome || "";
+        const tipoIt = ottieniTipoItaliano(c) || c.tipo || "";
+        const coloriStr = (c.colori || []).join("/");
+        const prezzoCM = c.prezzoCardmarket != null ? Number(c.prezzoCardmarket).toFixed(2) : "";
+        const prezzoCT = c.prezzoCardtrader != null ? Number(c.prezzoCardtrader).toFixed(2) : "";
+
+        const riga = [
+          nomeIt,
+          nomeEn,
+          c.quantita ?? 1,
+          c.possessore || "",
+          tipoIt,
+          c.manaCost || "",
+          c.cmc ?? 0,
+          coloriStr,
+          (c.rarita || "").toUpperCase(),
+          (c.set || "").toUpperCase(),
+          c.numero || "",
+          c.lingua || "",
+          c.foil ? "Foil" : "Normal",
+          prezzoCM,
+          prezzoCT,
+          c.scryfallId || ""
+        ];
+
+        righe.push(riga.map(escapeCsv).join(","));
+      }
+
+      const csvContent = righe.join("\r\n");
+      const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const dataOggi = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `grimorio_carte_${dataOggi}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      chiudiModalEsporta();
+      mostraNotificaFlash(`✓ Esportate ${filtrate.length} carte con successo nel file CSV!`);
+    }
+
+    if (btnConfermaEsporta) btnConfermaEsporta.addEventListener("click", esportaCSV);
+
+    // Chiusura con tasto Escape per la modale di esportazione
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (modalEsporta && modalEsporta.style.display !== "none") {
+          chiudiModalEsporta();
+        }
       }
     });
 
