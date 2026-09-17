@@ -52,6 +52,7 @@
 
     html {
       scroll-behavior: smooth;
+      overflow-x: clip;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -67,6 +68,8 @@
       font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height: 100vh;
       line-height: 1.5;
+      overflow-x: clip;
+      width: 100%;
     }
 
     /* Flash Banner di notifica ricaricamento */
@@ -113,7 +116,8 @@
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid transparent;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      will-change: transform;
     }
 
     header.app-header.is-scrolled {
@@ -2215,67 +2219,90 @@
        ========================================================= */
     @media (max-width: 768px) {
 
+      /* Header a comparsa / scomparsa fluida allo scroll su mobile */
+      header.app-header {
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      }
+
+      header.app-header.header-hidden {
+        transform: translateY(-100%);
+        pointer-events: none;
+        box-shadow: none !important;
+      }
+
       main {
-        padding-left: 0.85rem;
-        padding-right: 0.85rem;
-        padding-top: 0.85rem;
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+        padding-top: 0.75rem;
+        width: 100%;
+        max-width: 100vw;
+        box-sizing: border-box;
       }
 
       .header-inner {
-        padding: 0.75rem 0.85rem 0.65rem 0.85rem;
+        padding: 0.65rem 0.75rem 0.55rem 0.75rem;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .header-top {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 0.65rem;
-        margin-bottom: 0.65rem;
+        gap: 0.5rem;
+        margin-bottom: 0.45rem;
+        flex-wrap: wrap;
       }
 
       .brand-stat-group {
         display: flex;
         align-items: center;
-        gap: 0.65rem;
+        gap: 0.5rem;
         flex-wrap: wrap;
+        min-width: 0;
       }
 
       h1.titolo-grimorio {
-        font-size: 1.75rem;
+        font-size: 1.6rem;
       }
 
       .stat-pill {
-        padding: 0.22rem 0.6rem;
+        padding: 0.2rem 0.55rem;
+        font-size: 0.76rem;
       }
 
       .stat-simbolo {
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
 
       .stat-cifra {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
       }
 
       .stat-sub {
-        font-size: 0.78rem;
+        font-size: 0.74rem;
       }
 
       .header-top-actions {
-        gap: 0.45rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-shrink: 0;
       }
 
       .btn-apri-carica,
       .btn-apri-esporta {
-        padding: 0.45rem 0.85rem;
-        font-size: 0.86rem;
+        padding: 0.38rem 0.7rem;
+        font-size: 0.82rem;
+        gap: 0.35rem;
       }
 
       /* Toolbar Mobile */
       .toolbar-main {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
-        padding: 0.65rem;
+        gap: 0.45rem;
+        padding: 0.5rem 0.55rem;
       }
 
       .ricerca-wrap {
@@ -2283,34 +2310,96 @@
         flex: none;
       }
 
+      .ricerca-wrap input {
+        font-size: 0.86rem;
+        padding: 0.46rem 2rem 0.46rem 2.2rem;
+      }
+
       .toolbar-actions-group {
         display: flex;
         width: 100%;
-        gap: 0.5rem;
+        gap: 0.35rem;
+        align-items: center;
       }
 
       .vista-switch {
-        flex: 1;
-        display: flex;
+        flex: 0 0 auto;
+        display: inline-flex;
+        padding: 2px;
+        gap: 2px;
       }
 
       .btn-vista {
-        flex: 1;
+        flex: 0 0 auto;
         justify-content: center;
-        padding: 0.45rem 0.5rem;
+        padding: 0.42rem 0.55rem;
+        font-size: 0.8rem;
+        gap: 0.3rem;
       }
 
       .btn-filtri {
-        flex: 1;
+        flex: 1 1 0;
+        min-width: 0;
         justify-content: center;
-        padding: 0.45rem 0.5rem;
+        padding: 0.42rem 0.45rem;
+        font-size: 0.8rem;
+        gap: 0.35rem;
+        white-space: nowrap;
       }
 
       .btn-seleziona {
-        flex: 1;
+        flex: 1.15 1 0;
+        min-width: 0;
         justify-content: center;
-        padding: 0.45rem 0.45rem;
-        font-size: 0.82rem;
+        padding: 0.42rem 0.45rem;
+        font-size: 0.8rem;
+        gap: 0.35rem;
+        white-space: nowrap;
+      }
+
+      .badge-selezionate-count {
+        font-size: 0.68rem;
+        padding: 0.05rem 0.35rem;
+      }
+
+      /* Schermi ultra-compatti (es. 360px - 390px) */
+      @media (max-width: 390px) {
+        .btn-vista span {
+          display: none;
+        }
+
+        .btn-vista {
+          padding: 0.42rem 0.55rem;
+        }
+
+        .btn-filtri,
+        .btn-seleziona {
+          padding: 0.42rem 0.35rem;
+          font-size: 0.78rem;
+          gap: 0.25rem;
+        }
+
+        .btn-apri-carica,
+        .btn-apri-esporta {
+          padding: 0.35rem 0.5rem;
+          font-size: 0.78rem;
+        }
+      }
+
+      /* Sezioni per Tipo su Mobile: header avvolgibile */
+      .sezione-tipo-header {
+        flex-wrap: wrap;
+        gap: 0.45rem 0.65rem;
+        margin-bottom: 0.65rem;
+      }
+
+      .sezione-tipo-titolo {
+        font-size: 1.15rem;
+      }
+
+      .btn-tipo-seleziona-tutte {
+        padding: 0.25rem 0.55rem;
+        font-size: 0.74rem;
       }
 
       .barra-selezione-flottante {
@@ -2434,28 +2523,35 @@
         justify-content: space-between !important;
         align-items: center !important;
         width: 100% !important;
+        min-width: 0 !important;
         padding: 0 !important;
         border: none !important;
       }
 
       .cella-nome {
         flex: 1;
+        min-width: 0;
         gap: 0.65rem;
       }
 
       .thumb-carta {
         width: 38px;
         height: 52px;
+        flex-shrink: 0;
       }
 
       .nome-info {
         display: flex;
         flex-direction: column;
         gap: 0.15rem;
+        min-width: 0;
+        flex: 1;
       }
 
       .nome-testo {
         font-size: 0.92rem;
+        word-break: break-word;
+        overflow-wrap: break-word;
       }
 
       .mobile-subinfo {
@@ -2464,6 +2560,13 @@
         gap: 0.35rem;
         font-size: 0.76rem;
         color: var(--ink-dim);
+        min-width: 0;
+        flex-wrap: wrap;
+      }
+
+      .mobile-subinfo .cella-tipo {
+        white-space: normal;
+        word-break: break-word;
       }
 
       .mobile-divider {
@@ -4118,6 +4221,9 @@
         drawer.style.display = "block";
         btn.setAttribute("aria-expanded", "true");
         btn.classList.add("active");
+        if (appHeader) {
+          appHeader.classList.remove("header-hidden");
+        }
       }
     });
 
@@ -4145,12 +4251,14 @@
     // === PULSANTE TORNA IN CIMA E HEADER STICKY SCROLL ===
     const btnTornaSu = document.getElementById("btnTornaSu");
     const appHeader = document.getElementById("appHeader");
+    let ultimoScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
     function gestisciScrollFinestra() {
-      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const currentScrollY = Math.max(0, window.pageYOffset || document.documentElement.scrollTop);
+      const deltaScroll = currentScrollY - ultimoScrollY;
 
       if (btnTornaSu) {
-        if (scrollY > 280) {
+        if (currentScrollY > 280) {
           btnTornaSu.classList.add("visibile");
         } else {
           btnTornaSu.classList.remove("visibile");
@@ -4158,16 +4266,38 @@
       }
 
       if (appHeader) {
-        if (scrollY > 15) {
+        if (currentScrollY > 15) {
           appHeader.classList.add("is-scrolled");
         } else {
           appHeader.classList.remove("is-scrolled");
         }
+
+        // Header intelligente su mobile:
+        // Sparisce con lo scroll verso il basso per liberare spazio,
+        // e ricompare subito appena si scrolla verso l'alto o si torna in cima
+        const filtriDrawer = document.getElementById("filtriDrawer");
+        const drawerAperto = filtriDrawer && (filtriDrawer.style.display !== "none");
+        const inputRicercaAttivo = document.activeElement && (document.activeElement.id === "ricerca");
+
+        if (currentScrollY <= 35 || drawerAperto || inputRicercaAttivo) {
+          appHeader.classList.remove("header-hidden");
+        } else if (deltaScroll > 8 && currentScrollY > 70) {
+          // Scroll verso il basso: nascondi header
+          appHeader.classList.add("header-hidden");
+        } else if (deltaScroll < -5) {
+          // Scroll verso l'alto: mostra header
+          appHeader.classList.remove("header-hidden");
+        }
       }
+
+      ultimoScrollY = currentScrollY;
     }
 
     if (btnTornaSu) {
       btnTornaSu.addEventListener("click", () => {
+        if (appHeader) {
+          appHeader.classList.remove("header-hidden");
+        }
         window.scrollTo({
           top: 0,
           behavior: "smooth"
