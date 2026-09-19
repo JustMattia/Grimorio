@@ -11039,7 +11039,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.42,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:31:17.117Z"
+    "aggiornatoIl": "2026-09-19T09:31:17.117Z",
+    "testoIt": "Fai tornare una magia o una creatura bersaglio in mano al suo proprietario."
   },
   {
     "scryfallId": "e7b44893-e6d1-48d0-ba69-06b9569e1e38",
@@ -11111,7 +11112,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.2,
     "prezzoCardtrader": 0.12,
-    "aggiornatoIl": "2026-09-19T09:31:16.853Z"
+    "aggiornatoIl": "2026-09-19T09:31:16.853Z",
+    "testoIt": "Lo Shock infligge 2 danni a un qualsiasi bersaglio."
   },
   {
     "scryfallId": "ab59ac4f-2a77-4566-85c0-32666447dcf2",
@@ -11791,7 +11793,7 @@
   {
     "scryfallId": "54c410dc-123c-4431-9ccb-3f17e6555d68",
     "nome": "Dawnhart Wardens",
-    "nomeIt": "Dawnhart Wardens",
+    "nomeIt": "Guardiane Albacorno",
     "nomeEn": "Dawnhart Wardens",
     "lingua": "en",
     "set": "mid",
@@ -11800,7 +11802,7 @@
     "manaCost": "{1}{G}{W}",
     "cmc": 3,
     "tipo": "Creature — Human Warlock",
-    "tipoIt": "Creatura — Umano Warlock",
+    "tipoIt": "Creatura — Warlock Umano",
     "colori": [
       "G",
       "W"
@@ -11811,7 +11813,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.07,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:20.705Z"
+    "aggiornatoIl": "2026-09-19T09:31:20.705Z",
+    "testoIt": "Cautela\nCongrega — All'inizio del combattimento nel tuo turno, se controlli tre o più creature con forza diversa, le creature che controlli prendono +1/+0 fino alla fine del turno."
   },
   {
     "scryfallId": "a622635e-482d-4621-8874-3945af74e9ca",
@@ -11888,7 +11891,7 @@
   {
     "scryfallId": "19b0e267-c361-4224-9b7a-2a3d1c5ac8b4",
     "nome": "Dawnhart Rejuvenator",
-    "nomeIt": "Dawnhart Rejuvenator",
+    "nomeIt": "Rinvigoritrice Albacorno",
     "nomeEn": "Dawnhart Rejuvenator",
     "lingua": "en",
     "set": "mid",
@@ -11897,7 +11900,7 @@
     "manaCost": "{3}{G}",
     "cmc": 4,
     "tipo": "Creature — Human Warlock",
-    "tipoIt": "Creatura — Umano Warlock",
+    "tipoIt": "Creatura — Warlock Umano",
     "colori": [
       "G"
     ],
@@ -11907,12 +11910,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:21.169Z"
+    "aggiornatoIl": "2026-09-19T09:31:21.169Z",
+    "testoIt": "Quando la Rinvigoritrice Albacorno entra nel campo di battaglia, guadagni 3 punti vita.\n{T}: Aggiungi un mana di un qualsiasi colore."
   },
   {
     "scryfallId": "ac558d9d-5c7d-4671-ae0b-94c099e1b111",
     "nome": "Dawnhart Mentor",
-    "nomeIt": "Dawnhart Mentor",
+    "nomeIt": "Mentore Albacorno",
     "nomeEn": "Dawnhart Mentor",
     "lingua": "en",
     "set": "mid",
@@ -11921,7 +11925,7 @@
     "manaCost": "{2}{G}",
     "cmc": 3,
     "tipo": "Creature — Human Warlock",
-    "tipoIt": "Creatura — Umano Warlock",
+    "tipoIt": "Creatura — Warlock Umano",
     "colori": [
       "G"
     ],
@@ -11931,7 +11935,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:20.893Z"
+    "aggiornatoIl": "2026-09-19T09:31:20.893Z",
+    "testoIt": "Quando la Mentore Albacorno entra nel campo di battaglia, crea una pedina creatura Umano 1/1 bianca.\nCongrega — {5}{G}: Una creatura bersaglio che controlli prende +3/+3 e ha travolgere fino alla fine del turno. Attiva solo se controlli tre o più creature con forza diversa."
   },
   {
     "scryfallId": "3ca0eb05-95d2-4eba-a3de-0e08739459a3",
@@ -12475,7 +12480,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:23.477Z"
+    "aggiornatoIl": "2026-09-19T09:31:23.477Z",
+    "testoIt": "{T}, Sacrifica il Mimic: Aggiungi un mana di un qualsiasi colore.\n{2}: Il Mimic diventa una creatura artefatto Polimorfo con forza e costituzione base 3/3 fino alla fine del turno."
   },
   {
     "scryfallId": "11b8a1e6-a649-4be1-8899-104fffdb2dff",
@@ -13245,7 +13251,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.08,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:26.744Z"
+    "aggiornatoIl": "2026-09-19T09:31:26.744Z",
+    "testoIt": "Ogniqualvolta un Samurai o un Guerriero che controlli attacca da solo, puoi scartare una carta. Se lo fai, pesca una carta."
   },
   {
     "scryfallId": "53d244d4-c2c4-4032-b249-794556d79429",
@@ -13682,7 +13689,7 @@
   {
     "scryfallId": "482c0eab-326b-41db-9be6-f98d15bbd0af",
     "nome": "Candlegrove Witch",
-    "nomeIt": "Candlegrove Witch",
+    "nomeIt": "Strega del Bosco delle Candele",
     "nomeEn": "Candlegrove Witch",
     "lingua": "en",
     "set": "mid",
@@ -13691,7 +13698,7 @@
     "manaCost": "{1}{W}",
     "cmc": 2,
     "tipo": "Creature — Human Warlock",
-    "tipoIt": "Creatura — Umano Warlock",
+    "tipoIt": "Creatura — Warlock Umano",
     "colori": [
       "W"
     ],
@@ -13701,7 +13708,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:28.883Z"
+    "aggiornatoIl": "2026-09-19T09:31:28.883Z",
+    "testoIt": "Congrega — All'inizio del combattimento nel tuo turno, se controlli tre o più creature con forza diversa, la Strega del Bosco delle Candele ha volare fino alla fine del turno."
   },
   {
     "scryfallId": "1090e40c-c04b-4ee2-aa12-1575f896d31a",
@@ -13778,7 +13786,7 @@
   {
     "scryfallId": "516e137a-d9d9-4ba7-89fb-e680ddb2c2d1",
     "nome": "Abundant Harvest",
-    "nomeIt": "Abundant Harvest",
+    "nomeIt": "Raccolto Rigoglioso",
     "nomeEn": "Abundant Harvest",
     "lingua": "en",
     "set": "cmm",
@@ -13797,7 +13805,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:29.597Z"
+    "aggiornatoIl": "2026-09-19T09:31:29.597Z",
+    "testoIt": "Scegli terra o non terra. Rivela carte dalla cima del tuo grimorio finché non riveli una carta del tipo scelto. Aggiungi quella carta alla tua mano e metti le altre in fondo al tuo grimorio in ordine casuale."
   },
   {
     "scryfallId": "b56d6402-a941-46cc-b1d6-352d5aa5cc3f",
@@ -13925,7 +13934,7 @@
   {
     "scryfallId": "9426c906-e665-40a4-823a-0245bc39fbda",
     "nome": "Chatterstorm",
-    "nomeIt": "Chatterstorm",
+    "nomeIt": "Tempesta Squittente",
     "nomeEn": "Chatterstorm",
     "lingua": "en",
     "set": "blc",
@@ -13944,7 +13953,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.2,
     "prezzoCardtrader": 0.15,
-    "aggiornatoIl": "2026-09-19T09:31:30.080Z"
+    "aggiornatoIl": "2026-09-19T09:31:30.080Z",
+    "testoIt": "Crea una pedina creatura Scoiattolo 1/1 verde.\nTempesta (Quando lanci questa magia, copiala per ogni magia lanciata prima in questo turno.)"
   },
   {
     "scryfallId": "6633cab9-23f9-474e-96f1-ca7c0c67691c",
@@ -13998,7 +14008,7 @@
   {
     "scryfallId": "079d5536-1b2e-4d5b-bae9-9fd14562087a",
     "nome": "Gargadon",
-    "nomeIt": "Gargadon",
+    "nomeIt": "Gargadonte",
     "nomeEn": "Gargadon",
     "lingua": "en",
     "set": "cmm",
@@ -14017,7 +14027,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:31:30.477Z"
+    "aggiornatoIl": "2026-09-19T09:31:30.477Z",
+    "testoIt": "Travolgere\nSospendere 4—{1}{R} (Invece di lanciare questa carta dalla tua mano, puoi pagare {1}{R} ed esiliarla con quattro segnalini tempo su di essa. All'inizio del tuo mantenimento, rimuovi un segnalino tempo. Quando l'ultimo viene rimosso, lancia la carta senza pagare il suo costo di mana. Ha rapidità.)"
   },
   {
     "scryfallId": "314e94ad-0e12-48bb-aae1-2c842943114a",
@@ -14192,7 +14203,7 @@
   {
     "scryfallId": "b4356e13-655b-40b8-ad08-4e28b7464a3c",
     "nome": "Squirrel Sovereign",
-    "nomeIt": "Squirrel Sovereign",
+    "nomeIt": "Scoiattolo Sovrano",
     "nomeEn": "Squirrel Sovereign",
     "lingua": "en",
     "set": "blc",
@@ -14201,7 +14212,7 @@
     "manaCost": "{1}{G}",
     "cmc": 2,
     "tipo": "Creature — Squirrel Noble",
-    "tipoIt": "Creatura — Squirrel Noble",
+    "tipoIt": "Creatura — Nobile Scoiattolo",
     "colori": [
       "G"
     ],
@@ -14211,7 +14222,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.19,
     "prezzoCardtrader": 0.15,
-    "aggiornatoIl": "2026-09-19T09:31:30.802Z"
+    "aggiornatoIl": "2026-09-19T09:31:30.802Z",
+    "testoIt": "Gli altri Scoiattoli che controlli prendono +1/+1."
   },
   {
     "scryfallId": "20c7b777-c002-45c7-b2bb-d21dab591445",
@@ -15292,7 +15304,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.03,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:44:12.074Z"
+    "aggiornatoIl": "2026-09-19T09:44:12.074Z",
+    "testoIt": "Una creatura bersaglio prende +2/+2 fino alla fine del turno. Metti un segnalino volare su di essa. Profetizza 1."
   },
   {
     "scryfallId": "b3ff56c1-4153-4e15-9ac6-06d93fa2ae50",
@@ -17274,7 +17287,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.13,
     "prezzoCardtrader": 0.13,
-    "aggiornatoIl": "2026-09-19T09:44:19.687Z"
+    "aggiornatoIl": "2026-09-19T09:44:19.687Z",
+    "testoIt": "Pesca tre carte."
   },
   {
     "scryfallId": "85003365-7c5f-4283-995d-e466deef444b",
@@ -17442,7 +17456,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:44:20.453Z"
+    "aggiornatoIl": "2026-09-19T09:44:20.453Z",
+    "testoIt": "Arma vivente (Quando questo Equipaggiamento entra nel campo di battaglia, crea una pedina creatura Microbo Phyrexiano 0/0 nera, poi assegnalo ad essa.)\nLa creatura equipaggiata prende +1/+1.\nOgniqualvolta la creatura equipaggiata attacca, ogni avversario perde 1 punto vita.\nEquipaggiare {2}"
   },
   {
     "scryfallId": "eed63226-bf02-4765-bb51-4673ad42b615",
@@ -21427,7 +21442,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.07,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:44:32.288Z"
+    "aggiornatoIl": "2026-09-19T09:44:32.288Z",
+    "testoIt": "Il Gargoyle Ostinato ha volare fintanto che è modificato. (Equipaggiamenti, Aure che controlli e segnalini sono modifiche.)\nPersistere (Quando questa creatura muore, se non aveva segnalini -1/-1, rimettila sul campo di battaglia sotto il controllo del suo proprietario con un segnalino -1/-1.)"
   },
   {
     "scryfallId": "446506c5-5e1d-4b42-aef3-ea247d7881ef",
@@ -24605,7 +24621,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.11,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:44:41.560Z"
+    "aggiornatoIl": "2026-09-19T09:44:41.560Z",
+    "testoIt": "Questa magia costa {1} in meno per essere lanciata per ogni incantesimo che controlli."
   },
   {
     "scryfallId": "099c65d5-9dd3-41d3-9102-3f6cb30c7b8e",
@@ -25387,33 +25404,6 @@
     "prezzoCardmarket": 36.6,
     "prezzoCardtrader": null,
     "aggiornatoIl": "2026-09-19T09:46:54.877Z"
-  },
-  {
-    "scryfallId": "dac080ef-8f40-43a2-8440-b457b6074b69",
-    "nome": "Atraxa, Voce dei Pretori",
-    "nomeIt": "Atraxa, Voce dei Pretori",
-    "nomeEn": "Atraxa, Praetors' Voice",
-    "lingua": "en",
-    "set": "2xm",
-    "numero": "353",
-    "immagine": "https://cards.scryfall.io/normal/front/d/a/dac080ef-8f40-43a2-8440-b457b6074b69.jpg?1783930071",
-    "manaCost": "{G}{W}{U}{B}",
-    "cmc": 4,
-    "tipo": "Legendary Creature — Phyrexian Angel Horror",
-    "tipoIt": "Creatura Leggendaria — Orrore Angelo Phyrexiano",
-    "colori": [
-      "B",
-      "G",
-      "U",
-      "W"
-    ],
-    "rarita": "mythic",
-    "foil": true,
-    "quantita": 1,
-    "possessore": "Matteo",
-    "prezzoCardmarket": 50.96,
-    "prezzoCardtrader": 11.96,
-    "aggiornatoIl": "2026-09-19T09:46:55.339Z"
   },
   {
     "scryfallId": "8d7c1f6c-af45-4449-8cf8-e13830b3df8a",
@@ -28573,7 +28563,7 @@
   {
     "scryfallId": "374cddb8-b360-4c7b-8911-a6a1b401ffdd",
     "nome": "Goliath Sphinx",
-    "nomeIt": "Goliath Sphinx",
+    "nomeIt": "Sfinge Golia",
     "nomeEn": "Goliath Sphinx",
     "lingua": "en",
     "set": "cmm",
@@ -28582,7 +28572,7 @@
     "manaCost": "{5}{U}{U}",
     "cmc": 7,
     "tipo": "Creature — Sphinx",
-    "tipoIt": "Creatura — Sphinx",
+    "tipoIt": "Creatura — Sfinge",
     "colori": [
       "U"
     ],
@@ -28592,12 +28582,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.09,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:05.461Z"
+    "aggiornatoIl": "2026-09-19T09:47:05.461Z",
+    "testoIt": "Volare"
   },
   {
     "scryfallId": "b465d09e-efad-48b6-a89a-f7da0c572991",
     "nome": "Angel's Tomb",
-    "nomeIt": "Angel's Tomb",
+    "nomeIt": "Sepolcro dell'Angelo",
     "nomeEn": "Angel's Tomb",
     "lingua": "en",
     "set": "inr",
@@ -28614,12 +28605,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.1,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:05.638Z"
+    "aggiornatoIl": "2026-09-19T09:47:05.638Z",
+    "testoIt": "Ogniqualvolta una creatura entra nel campo di battaglia sotto il tuo controllo, puoi far diventare il Sepolcro dell'Angelo una creatura artefatto Angelo 3/3 bianca con volare fino alla fine del turno."
   },
   {
     "scryfallId": "5eeecb9e-fbde-429b-b3da-18a4dbadf6de",
     "nome": "Warbeast of Gorgoroth",
-    "nomeIt": "Warbeast of Gorgoroth",
+    "nomeIt": "Bestia da Guerra di Gorgoroth",
     "nomeEn": "Warbeast of Gorgoroth",
     "lingua": "en",
     "set": "ltr",
@@ -28638,12 +28630,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:47:05.297Z"
+    "aggiornatoIl": "2026-09-19T09:47:05.297Z",
+    "testoIt": "Ogniqualvolta la Bestia da Guerra di Gorgoroth o un'altra creatura che controlli con forza pari o superiore a 4 muore, recluta Orchi 2. (Metti due segnalini +1/+1 su un Esercito che controlli. È anche un Orco. Se non controlli un Esercito, crea prima una pedina creatura Esercito Orco 0/0 nera.)"
   },
   {
     "scryfallId": "49a5e7de-43cc-488b-99a4-7d173b42d5dc",
     "nome": "Mirror-Shield Hoplite",
-    "nomeIt": "Mirror-Shield Hoplite",
+    "nomeIt": "Oplita dello Scudo Speculare",
     "nomeEn": "Mirror-Shield Hoplite",
     "lingua": "en",
     "set": "mom",
@@ -28652,7 +28645,7 @@
     "manaCost": "{R}{W}",
     "cmc": 2,
     "tipo": "Creature — Human Soldier",
-    "tipoIt": "Creatura — Umano Soldato",
+    "tipoIt": "Creatura — Soldato Umano",
     "colori": [
       "R",
       "W"
@@ -28663,12 +28656,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:05.835Z"
+    "aggiornatoIl": "2026-09-19T09:47:05.835Z",
+    "testoIt": "Cautela\nOgniqualvolta una creatura che controlli diventa bersaglio di un'abilità rinforzo, copia quell'abilità. Puoi scegliere nuovi bersagli per la copia. Questa abilità si innesca solo una volta per turno."
   },
   {
     "scryfallId": "75a1beec-bafe-4243-b91e-040a88fb0e95",
     "nome": "Prosthetic Injector",
-    "nomeIt": "Prosthetic Injector",
+    "nomeIt": "Iniettore Prostetico",
     "nomeEn": "Prosthetic Injector",
     "lingua": "en",
     "set": "one",
@@ -28685,7 +28679,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:05.884Z"
+    "aggiornatoIl": "2026-09-19T09:47:05.884Z",
+    "testoIt": "La creatura equipaggiata prende +0/+2 e ha tossico 1. (I giocatori a cui viene inflitto danno da combattimento dalla creatura equipaggiata ottengono anche un segnalino veleno.)\nEquipaggiare {1}"
   },
   {
     "scryfallId": "40ab763d-05ee-408d-aeba-eaf18c4f2e21",
@@ -28738,7 +28733,7 @@
   {
     "scryfallId": "f0f2bdfd-1cbc-456e-aba7-4e0b6485cf8a",
     "nome": "Petrifying Meddler",
-    "nomeIt": "Petrifying Meddler",
+    "nomeIt": "Ficcanaso Pietrificante",
     "nomeEn": "Petrifying Meddler",
     "lingua": "en",
     "set": "mh3",
@@ -28755,12 +28750,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.032Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.032Z",
+    "testoIt": "Vacuità (Questa carta non ha colore.)\nQuando lanci questa magia, TAPpa fino a una creatura bersaglio e metti un segnalino stordimento su di essa. (Se un permanente con un segnalino stordimento sta per essere STAPpato, rimuovi invece un segnalino stordimento da esso.)\nRaggiungere"
   },
   {
     "scryfallId": "70e68656-3204-4bb5-9f31-8036083fcba6",
     "nome": "Drossclaw",
-    "nomeIt": "Drossclaw",
+    "nomeIt": "Scartiglio",
     "nomeEn": "Drossclaw",
     "lingua": "en",
     "set": "mh3",
@@ -28779,12 +28775,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.06,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:05.939Z"
+    "aggiornatoIl": "2026-09-19T09:47:05.939Z",
+    "testoIt": "Arma vivente (Quando questo Equipaggiamento entra nel campo di battaglia, crea una pedina creatura Microbo Phyrexiano 0/0 nera, poi assegnalo ad essa.)\nLa creatura equipaggiata prende +1/+1.\nOgniqualvolta la creatura equipaggiata attacca, ogni avversario perde 1 punto vita.\nEquipaggiare {2}"
   },
   {
     "scryfallId": "40cf39f2-7382-405d-a14b-7eb8726cd38a",
     "nome": "Obstinate Gargoyle",
-    "nomeIt": "Obstinate Gargoyle",
+    "nomeIt": "Gargoyle Ostinato",
     "nomeEn": "Obstinate Gargoyle",
     "lingua": "en",
     "set": "mh3",
@@ -28804,12 +28801,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.07,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.040Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.040Z",
+    "testoIt": "Il Gargoyle Ostinato ha volare fintanto che è modificato. (Equipaggiamenti, Aure che controlli e segnalini sono modifiche.)\nPersistere (Quando questa creatura muore, se non aveva segnalini -1/-1, rimettila sul campo di battaglia sotto il controllo del suo proprietario con un segnalino -1/-1.)"
   },
   {
     "scryfallId": "40cf39f2-7382-405d-a14b-7eb8726cd38a",
     "nome": "Obstinate Gargoyle",
-    "nomeIt": "Obstinate Gargoyle",
+    "nomeIt": "Gargoyle Ostinato",
     "nomeEn": "Obstinate Gargoyle",
     "lingua": "en",
     "set": "mh3",
@@ -28829,7 +28827,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.07,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.063Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.063Z",
+    "testoIt": "Il Gargoyle Ostinato ha volare fintanto che è modificato. (Equipaggiamenti, Aure che controlli e segnalini sono modifiche.)\nPersistere (Quando questa creatura muore, se non aveva segnalini -1/-1, rimettila sul campo di battaglia sotto il controllo del suo proprietario con un segnalino -1/-1.)"
   },
   {
     "scryfallId": "cfa6ed13-7bba-40c0-8e0e-4ffd3cea6241",
@@ -28858,7 +28857,7 @@
   {
     "scryfallId": "5c9ad04d-c4d4-4d06-93bb-a881be733717",
     "nome": "Conduit Goblin",
-    "nomeIt": "Conduit Goblin",
+    "nomeIt": "Goblin dei Condotti Eruttivi",
     "nomeEn": "Conduit Goblin",
     "lingua": "en",
     "set": "mh3",
@@ -28867,7 +28866,7 @@
     "manaCost": "{R}{W}",
     "cmc": 2,
     "tipo": "Creature — Goblin Warrior",
-    "tipoIt": "Creatura — Goblin Guerriero",
+    "tipoIt": "Creatura — Guerriero Goblin",
     "colori": [
       "R",
       "W"
@@ -28878,12 +28877,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.403Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.403Z",
+    "testoIt": "Quando il Goblin dei Condotti Eruttivi entra nel campo di battaglia, ottieni {E}{E} (due segnalini energia).\nAll'inizio del combattimento nel tuo turno, puoi pagare {E}. Se lo fai, un'altra creatura bersaglio che controlli prende +1/+0 e ha rapidità fino alla fine del turno."
   },
   {
     "scryfallId": "012f5195-10ab-4b32-a5de-a79341cd536a",
     "nome": "Aether Spike",
-    "nomeIt": "Aether Spike",
+    "nomeIt": "Picco d'Etere",
     "nomeEn": "Aether Spike",
     "lingua": "en",
     "set": "mh3",
@@ -28902,12 +28902,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.07,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.381Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.381Z",
+    "testoIt": "Scegli una magia bersaglio. Ottieni {E}{E} (due segnalini energia), poi puoi pagare un qualsiasi ammontare di {E}. Neutralizza quella magia a meno che il suo controllore non paghi {1} per ogni {E} pagato in questo modo."
   },
   {
     "scryfallId": "e23abf47-22fa-4dca-bd42-fafa1c8b592f",
     "nome": "Wing It",
-    "nomeIt": "Wing It",
+    "nomeIt": "In un Batter d'Ali",
     "nomeEn": "Wing It",
     "lingua": "en",
     "set": "mh3",
@@ -28926,7 +28927,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.03,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.122Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.122Z",
+    "testoIt": "Una creatura bersaglio prende +2/+2 fino alla fine del turno. Metti un segnalino volare su di essa. Profetizza 1."
   },
   {
     "scryfallId": "cfa6ed13-7bba-40c0-8e0e-4ffd3cea6241",
@@ -28955,7 +28957,7 @@
   {
     "scryfallId": "69ce6839-92d1-497b-9760-6fdc7388614e",
     "nome": "Cyclops Superconductor",
-    "nomeIt": "Cyclops Superconductor",
+    "nomeIt": "Ciclope Superconduttore",
     "nomeEn": "Cyclops Superconductor",
     "lingua": "en",
     "set": "mh3",
@@ -28964,7 +28966,7 @@
     "manaCost": "{1}{U}{R}",
     "cmc": 3,
     "tipo": "Creature — Cyclops Wizard",
-    "tipoIt": "Creatura — Cyclops Mago",
+    "tipoIt": "Creatura — Mago Ciclope",
     "colori": [
       "R",
       "U"
@@ -28975,12 +28977,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.08,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.470Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.470Z",
+    "testoIt": "Prodezza (Ogniqualvolta lanci una magia non creatura, questa creatura prende +1/+1 fino alla fine del turno.)\nQuando il Ciclope Superconduttore entra nel campo di battaglia, ottieni {E}{E}{E} (tre segnalini energia).\nQuando il Ciclope Superconduttore muore, puoi pagare {E}{E}{E}. Quando lo fai, il Ciclope Superconduttore infligge danno pari alla sua forza a un qualsiasi bersaglio."
   },
   {
     "scryfallId": "f0f2bdfd-1cbc-456e-aba7-4e0b6485cf8a",
     "nome": "Petrifying Meddler",
-    "nomeIt": "Petrifying Meddler",
+    "nomeIt": "Ficcanaso Pietrificante",
     "nomeEn": "Petrifying Meddler",
     "lingua": "en",
     "set": "mh3",
@@ -28997,12 +29000,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.040Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.040Z",
+    "testoIt": "Vacuità (Questa carta non ha colore.)\nQuando lanci questa magia, TAPpa fino a una creatura bersaglio e metti un segnalino stordimento su di essa. (Se un permanente con un segnalino stordimento sta per essere STAPpato, rimuovi invece un segnalino stordimento da esso.)\nRaggiungere"
   },
   {
     "scryfallId": "6811a9dc-e521-4c9e-accb-1efb8346c1db",
     "nome": "Brine Giant",
-    "nomeIt": "Brine Giant",
+    "nomeIt": "Gigante del Mare",
     "nomeEn": "Brine Giant",
     "lingua": "en",
     "set": "thb",
@@ -29021,12 +29025,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.11,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.453Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.453Z",
+    "testoIt": "Questa magia costa {1} in meno per essere lanciata per ogni incantesimo che controlli."
   },
   {
     "scryfallId": "6811a9dc-e521-4c9e-accb-1efb8346c1db",
     "nome": "Brine Giant",
-    "nomeIt": "Brine Giant",
+    "nomeIt": "Gigante del Mare",
     "nomeEn": "Brine Giant",
     "lingua": "en",
     "set": "thb",
@@ -29045,12 +29050,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.11,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.575Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.575Z",
+    "testoIt": "Questa magia costa {1} in meno per essere lanciata per ogni incantesimo che controlli."
   },
   {
     "scryfallId": "9ad0c7d7-0e44-496f-a2fc-fafc604cb1f1",
     "nome": "Nyxborn Seaguard",
-    "nomeIt": "Nyxborn Seaguard",
+    "nomeIt": "Guardiamarina Nyxiana",
     "nomeEn": "Nyxborn Seaguard",
     "lingua": "en",
     "set": "thb",
@@ -29059,7 +29065,7 @@
     "manaCost": "{2}{U}{U}",
     "cmc": 4,
     "tipo": "Enchantment Creature — Merfolk Soldier",
-    "tipoIt": "Creatura Incantesimo — Tritone Soldato",
+    "tipoIt": "Creatura Incantesimo — Soldato Tritone",
     "colori": [
       "U"
     ],
@@ -29074,7 +29080,7 @@
   {
     "scryfallId": "9ad0c7d7-0e44-496f-a2fc-fafc604cb1f1",
     "nome": "Nyxborn Seaguard",
-    "nomeIt": "Nyxborn Seaguard",
+    "nomeIt": "Guardiamarina Nyxiana",
     "nomeEn": "Nyxborn Seaguard",
     "lingua": "en",
     "set": "thb",
@@ -29083,7 +29089,7 @@
     "manaCost": "{2}{U}{U}",
     "cmc": 4,
     "tipo": "Enchantment Creature — Merfolk Soldier",
-    "tipoIt": "Creatura Incantesimo — Tritone Soldato",
+    "tipoIt": "Creatura Incantesimo — Soldato Tritone",
     "colori": [
       "U"
     ],
@@ -29098,7 +29104,7 @@
   {
     "scryfallId": "9ad0c7d7-0e44-496f-a2fc-fafc604cb1f1",
     "nome": "Nyxborn Seaguard",
-    "nomeIt": "Nyxborn Seaguard",
+    "nomeIt": "Guardiamarina Nyxiana",
     "nomeEn": "Nyxborn Seaguard",
     "lingua": "en",
     "set": "thb",
@@ -29107,7 +29113,7 @@
     "manaCost": "{2}{U}{U}",
     "cmc": 4,
     "tipo": "Enchantment Creature — Merfolk Soldier",
-    "tipoIt": "Creatura Incantesimo — Tritone Soldato",
+    "tipoIt": "Creatura Incantesimo — Soldato Tritone",
     "colori": [
       "U"
     ],
@@ -29122,7 +29128,7 @@
   {
     "scryfallId": "9ad0c7d7-0e44-496f-a2fc-fafc604cb1f1",
     "nome": "Nyxborn Seaguard",
-    "nomeIt": "Nyxborn Seaguard",
+    "nomeIt": "Guardiamarina Nyxiana",
     "nomeEn": "Nyxborn Seaguard",
     "lingua": "en",
     "set": "thb",
@@ -29131,7 +29137,7 @@
     "manaCost": "{2}{U}{U}",
     "cmc": 4,
     "tipo": "Enchantment Creature — Merfolk Soldier",
-    "tipoIt": "Creatura Incantesimo — Tritone Soldato",
+    "tipoIt": "Creatura Incantesimo — Soldato Tritone",
     "colori": [
       "U"
     ],
@@ -29146,7 +29152,7 @@
   {
     "scryfallId": "a25ea81f-9786-4622-978d-b082fb72622c",
     "nome": "Savage Gorger",
-    "nomeIt": "Savage Gorger",
+    "nomeIt": "Divoratore Selvaggio",
     "nomeEn": "Savage Gorger",
     "lingua": "en",
     "set": "m20",
@@ -29165,12 +29171,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.7,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:47:06.707Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.707Z",
+    "testoIt": "Volare\nAll'inizio della tua sottofase finale, se un avversario ha perso punti vita in questo turno, metti un segnalino +1/+1 sul Divoratore Selvaggio. (Il danno provoca la perdita di punti vita.)"
   },
   {
     "scryfallId": "bcaebea6-9e3f-4ac7-abe1-5445912f5b44",
     "nome": "Majestic Metamorphosis",
-    "nomeIt": "Majestic Metamorphosis",
+    "nomeIt": "Metamorfosi Maestosa",
     "nomeEn": "Majestic Metamorphosis",
     "lingua": "en",
     "set": "snc",
@@ -29189,12 +29196,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.05,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:07.146Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.146Z",
+    "testoIt": "Fino alla fine del turno, un artefatto o una creatura bersaglio diventa una creatura artefatto Angelo 4/4 e ha volare.\nPesca una carta."
   },
   {
     "scryfallId": "a5f38436-9edf-42a1-83ba-0f5210b2cb86",
     "nome": "Plated Crusher",
-    "nomeIt": "Plated Crusher",
+    "nomeIt": "Distruttore Corazzato",
     "nomeEn": "Plated Crusher",
     "lingua": "en",
     "set": "bbd",
@@ -29213,12 +29221,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.2,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:06.951Z"
+    "aggiornatoIl": "2026-09-19T09:47:06.951Z",
+    "testoIt": "Travolgere, anti-malocchio"
   },
   {
     "scryfallId": "59fdc845-7165-40f3-a082-21a502b3f0f6",
     "nome": "Glarewielder",
-    "nomeIt": "Glarewielder",
+    "nomeIt": "Abbagliatore",
     "nomeEn": "Glarewielder",
     "lingua": "en",
     "set": "lrw",
@@ -29227,7 +29236,7 @@
     "manaCost": "{4}{R}",
     "cmc": 5,
     "tipo": "Creature — Elemental Shaman",
-    "tipoIt": "Creatura — Elementale Sciamano",
+    "tipoIt": "Creatura — Sciamano Elementale",
     "colori": [
       "R"
     ],
@@ -29237,12 +29246,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.08,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:07.093Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.093Z",
+    "testoIt": "Rapidità\nQuando l'Abbagliatore entra in gioco, fino a due creature bersaglio non possono bloccare in questo turno.\nApparire {1}{R} (Puoi giocare questa magia pagando il suo costo di apparire. Se lo fai, viene sacrificata quando entra in gioco.)"
   },
   {
     "scryfallId": "e9531098-63ea-4568-81e9-80e00a5f8995",
     "nome": "Thunderwave",
-    "nomeIt": "Thunderwave",
+    "nomeIt": "Onda Tonante",
     "nomeEn": "Thunderwave",
     "lingua": "en",
     "set": "clb",
@@ -29261,12 +29271,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.21,
     "prezzoCardtrader": 0.13,
-    "aggiornatoIl": "2026-09-19T09:47:07.312Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.312Z",
+    "testoIt": "Tira un d20.\n1—9 | L'Onda Tonante infligge 3 danni a ogni creatura.\n10—19 | Puoi scegliere una creatura. L'Onda Tonante infligge 3 danni a ogni creatura non scelta in questo modo.\n20 | L'Onda Tonante infligge 6 danni a ogni creatura controllata dai tuoi avversari."
   },
   {
     "scryfallId": "0e518f9e-d74d-4a6f-8fde-5e3ec5834e63",
     "nome": "Banisher Priest",
-    "nomeIt": "Banisher Priest",
+    "nomeIt": "Sacerdotessa Esiliatrice",
     "nomeEn": "Banisher Priest",
     "lingua": "en",
     "set": "moc",
@@ -29275,7 +29286,7 @@
     "manaCost": "{1}{W}{W}",
     "cmc": 3,
     "tipo": "Creature — Human Cleric",
-    "tipoIt": "Creatura — Umano Chierico",
+    "tipoIt": "Creatura — Chierico Umano",
     "colori": [
       "W"
     ],
@@ -29285,7 +29296,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.19,
     "prezzoCardtrader": 0.16,
-    "aggiornatoIl": "2026-09-19T09:47:07.148Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.148Z",
+    "testoIt": "Quando la Sacerdotessa Esiliatrice entra nel campo di battaglia, esilia una creatura bersaglio controllata da un avversario finché la Sacerdotessa Esiliatrice non lascia il campo di battaglia."
   },
   {
     "scryfallId": "8a1d595b-23d7-4236-8737-49ea78ff8907",
@@ -29312,7 +29324,7 @@
   {
     "scryfallId": "8f0b3308-9c0b-4461-9094-38deec20e1bc",
     "nome": "Vanish into Eternity",
-    "nomeIt": "Vanish into Eternity",
+    "nomeIt": "Svanire nell'Eternità",
     "nomeEn": "Vanish into Eternity",
     "lingua": "en",
     "set": "one",
@@ -29331,12 +29343,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.03,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:07.469Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.469Z",
+    "testoIt": "Questa magia costa {3} in più per essere lanciata se bersaglia una creatura.\nEsilia un permanente non terra bersaglio."
   },
   {
     "scryfallId": "6037ba46-74ef-4928-9145-180b400d075c",
     "nome": "Pyrewild Shaman",
-    "nomeIt": "Pyrewild Shaman",
+    "nomeIt": "Sciamano della Pira",
     "nomeEn": "Pyrewild Shaman",
     "lingua": "en",
     "set": "clu",
@@ -29345,7 +29358,7 @@
     "manaCost": "{2}{R}",
     "cmc": 3,
     "tipo": "Creature — Goblin Shaman",
-    "tipoIt": "Creatura — Goblin Sciamano",
+    "tipoIt": "Creatura — Sciamano Goblin",
     "colori": [
       "R"
     ],
@@ -29355,12 +29368,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.12,
     "prezzoCardtrader": 0.12,
-    "aggiornatoIl": "2026-09-19T09:47:07.133Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.133Z",
+    "testoIt": "Impeto sanguinario — {1}{R}, Scarta lo Sciamano della Pira: Una creatura attaccante bersaglio prende +3/+1 fino alla fine del turno.\nOgniqualvolta una o più creature che controlli infliggono danno da combattimento a un giocatore, se lo Sciamano della Pira è nel tuo cimitero, puoi pagare {3}. Se lo fai, riprendi in mano lo Sciamano della Pira."
   },
   {
     "scryfallId": "661338ff-a192-4007-a144-63d00f2e9ecb",
     "nome": "Knights of Dol Amroth",
-    "nomeIt": "Knights of Dol Amroth",
+    "nomeIt": "Cavalieri di Dol Amroth",
     "nomeEn": "Knights of Dol Amroth",
     "lingua": "en",
     "set": "ltr",
@@ -29369,7 +29383,7 @@
     "manaCost": "{3}{U}",
     "cmc": 4,
     "tipo": "Creature — Human Knight",
-    "tipoIt": "Creatura — Umano Cavaliere",
+    "tipoIt": "Creatura — Cavaliere Umano",
     "colori": [
       "U"
     ],
@@ -29379,7 +29393,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.04,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:47:07.110Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.110Z",
+    "testoIt": "Ogniqualvolta peschi la tua seconda carta in ogni turno, metti un segnalino +1/+1 sui Cavalieri di Dol Amroth."
   },
   {
     "scryfallId": "0862bf07-8a76-4e80-bba2-20d22f8eee30",
@@ -29408,7 +29423,7 @@
   {
     "scryfallId": "4391b0af-2f26-4a45-9e2a-5bd8e9838107",
     "nome": "Pyroclasm",
-    "nomeIt": "Pyroclasm",
+    "nomeIt": "Piroclasma",
     "nomeEn": "Pyroclasm",
     "lingua": "en",
     "set": "dsk",
@@ -29427,12 +29442,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.19,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:47:07.386Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.386Z",
+    "testoIt": "Il Piroclasma infligge 2 danni a ogni creatura."
   },
   {
     "scryfallId": "5f6677e9-cd9a-4690-8f1c-6c5910c5605a",
     "nome": "Disdainful Stroke",
-    "nomeIt": "Disdainful Stroke",
+    "nomeIt": "Fendente Sdegnoso",
     "nomeEn": "Disdainful Stroke",
     "lingua": "en",
     "set": "cm2",
@@ -29451,12 +29467,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.32,
     "prezzoCardtrader": 0.17,
-    "aggiornatoIl": "2026-09-19T09:47:07.309Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.309Z",
+    "testoIt": "Neutralizza una magia bersaglio con valore di mana pari o superiore a 4."
   },
   {
     "scryfallId": "1c9af3f1-711e-42ae-803a-1100eba3fb13",
     "nome": "Dispelling Exhale",
-    "nomeIt": "Dispelling Exhale",
+    "nomeIt": "Soffio Dissipante",
     "nomeEn": "Dispelling Exhale",
     "lingua": "en",
     "set": "tdm",
@@ -29475,12 +29492,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.12,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:07.629Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.629Z",
+    "testoIt": "Come costo addizionale per lanciare questa magia, puoi ammirare un Drago. (Puoi scegliere un Drago che controlli o rivelare una carta Drago dalla tua mano.)\nNeutralizza una magia bersaglio a meno che il suo controllore non paghi {2}. Se è stato ammirato un Drago, neutralizza quella magia a meno che il suo controllore invece non paghi {4}."
   },
   {
     "scryfallId": "2ce8a205-99d6-4a9c-83a7-18b7220177d3",
     "nome": "Frontline Rush",
-    "nomeIt": "Frontline Rush",
+    "nomeIt": "Corsa in Prima Linea",
     "nomeEn": "Frontline Rush",
     "lingua": "en",
     "set": "tdm",
@@ -29500,7 +29518,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.23,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:07.441Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.441Z",
+    "testoIt": "Scegli uno —\n• Crea due pedine creatura Goblin 1/1 rosse.\n• Una creatura bersaglio prende +X/+X fino alla fine del turno, dove X è il numero di creature che controlli."
   },
   {
     "scryfallId": "12df1295-8b08-4c8e-bac9-55b4f514c0be",
@@ -29524,12 +29543,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.13,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:47:07.438Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.438Z",
+    "testoIt": "Raggiungere\nTerraferma — Ogniqualvolta una terra che controlli entra, questa creatura infligge 1 danno a ogni avversario."
   },
   {
     "scryfallId": "64ed3bfa-3294-45dd-825e-3afc2580f0d4",
     "nome": "Galvanize",
-    "nomeIt": "Galvanize",
+    "nomeIt": "Galvanizzare",
     "nomeEn": "Galvanize",
     "lingua": "en",
     "set": "mkm",
@@ -29548,12 +29568,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.05,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:47:07.443Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.443Z",
+    "testoIt": "Galvanizzare infligge 3 danni a una creatura bersaglio. Se hai pescato due o più carte in questo turno, Galvanizzare infligge invece 5 danni a quella creatura."
   },
   {
     "scryfallId": "93dd512f-9f77-4f54-9081-f14ae0aa8c7a",
     "nome": "Lagomos, Hand of Hatred",
-    "nomeIt": "Lagomos, Hand of Hatred",
+    "nomeIt": "Lagomos, Mano dell'Odio",
     "nomeEn": "Lagomos, Hand of Hatred",
     "lingua": "en",
     "set": "dmu",
@@ -29562,7 +29583,7 @@
     "manaCost": "{1}{B}{R}",
     "cmc": 3,
     "tipo": "Legendary Creature — Human Shaman",
-    "tipoIt": "Creatura Leggendaria — Umano Sciamano",
+    "tipoIt": "Creatura Leggendaria — Sciamano Umano",
     "colori": [
       "B",
       "R"
@@ -29573,12 +29594,13 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.18,
     "prezzoCardtrader": 0.11,
-    "aggiornatoIl": "2026-09-19T09:47:07.929Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.929Z",
+    "testoIt": "All'inizio del combattimento nel tuo turno, crea una pedina creatura Elementale 2/1 rossa con travolgere e rapidità. Sacrificala all'inizio della prossima sottofase finale.\n{T}: Passa in rassegna il tuo grimorio per una carta e aggiungila alla tua mano, poi rimescola. Attiva solo se sono morte cinque o più creature in questo turno."
   },
   {
     "scryfallId": "626c46a3-72b8-4e04-adf2-c9c7aaf94f04",
     "nome": "Vivisection Evangelist",
-    "nomeIt": "Vivisection Evangelist",
+    "nomeIt": "Evangelista della Vivisezione",
     "nomeEn": "Vivisection Evangelist",
     "lingua": "en",
     "set": "one",
@@ -29587,7 +29609,7 @@
     "manaCost": "{3}{W}{B}",
     "cmc": 5,
     "tipo": "Creature — Phyrexian Cleric",
-    "tipoIt": "Creatura — Phyrexiano Chierico",
+    "tipoIt": "Creatura — Chierico Phyrexiano",
     "colori": [
       "B",
       "W"
@@ -29598,7 +29620,8 @@
     "possessore": "Matteo",
     "prezzoCardmarket": 0.05,
     "prezzoCardtrader": null,
-    "aggiornatoIl": "2026-09-19T09:47:07.567Z"
+    "aggiornatoIl": "2026-09-19T09:47:07.567Z",
+    "testoIt": "Cautela\nCorrotto — Quando l'Evangelista della Vivisezione entra nel campo di battaglia, se un avversario ha tre o più segnalini veleno, distruggi una creatura o un planeswalker bersaglio controllati da un avversario."
   },
   {
     "scryfallId": "dd73fa5a-be0f-49a4-a921-afefbc8fa9c5",
