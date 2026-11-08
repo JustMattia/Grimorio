@@ -11912,11 +11912,16 @@
       vistaAttiva = "home";
       try {
         localStorage.setItem("grimorio_vista_attiva", "home");
-        if (updateHistory && typeof window !== "undefined" && window.history) {
+        if (typeof window !== "undefined" && window.history) {
           const url = new URL(window.location.href);
           if (url.searchParams.has("g")) {
             url.searchParams.delete("g");
-            window.history.pushState({ vista: "home" }, "", url.toString());
+            const newUrl = url.pathname + (url.searchParams.toString() ? '?' + url.searchParams.toString() : '') + url.hash;
+            if (updateHistory) {
+              window.history.pushState({ vista: "home" }, "", newUrl);
+            } else {
+              window.history.replaceState({ vista: "home" }, "", newUrl);
+            }
           }
         }
       } catch (eHist) { }
@@ -11955,11 +11960,16 @@
         localStorage.setItem("grimorio_vista_attiva", "collezione");
         if (targetColId) {
           setCollezioneIdSalvata(targetColId);
-          if (updateHistory && typeof window !== "undefined" && window.history) {
+          if (typeof window !== "undefined" && window.history) {
             const url = new URL(window.location.href);
             if (url.searchParams.get("g") !== String(targetColId)) {
               url.searchParams.set("g", targetColId);
-              window.history.pushState({ vista: "collezione", colId: targetColId }, "", url.toString());
+              const newUrl = url.pathname + '?' + url.searchParams.toString() + url.hash;
+              if (updateHistory) {
+                window.history.pushState({ vista: "collezione", colId: targetColId }, "", newUrl);
+              } else {
+                window.history.replaceState({ vista: "collezione", colId: targetColId }, "", newUrl);
+              }
             }
           }
         }
@@ -12391,14 +12401,12 @@
 
         collezioniUtente = collezioniUtente.filter(c => c.id !== colId);
         if (collezioneCorrenteId === colId) {
-          collezioneCorrenteId = collezioniUtente.length > 0 ? collezioniUtente[0].id : null;
-          collezioneCorrenteDati = collezioniUtente.length > 0 ? collezioniUtente[0] : null;
+          collezioneCorrenteId = null;
+          collezioneCorrenteDati = null;
           localStorage.removeItem("grimorio_collezione_id");
-          if (collezioneCorrenteId) {
-            localStorage.setItem("grimorio_collezione_id", collezioneCorrenteId);
-          }
           carte = [];
           applicaCarte([]);
+          await mostraVistaHomeCollezioni();
         }
 
         chiudiModalConfermaEliminaGrimorio();
@@ -13607,8 +13615,9 @@
       if (dropdownEmail) dropdownEmail.textContent = user.email || "";
 
       // Precaricamento ISTANTANEO da cache locale della collezione attiva (Stale-While-Revalidate)
+      // SOLO se presente esplicitamente nel parametro URL (?g=ID)
       const urlParamsInit = new URLSearchParams(window.location.search);
-      const colIdPrecarico = urlParamsInit.get("g") || getCollezioneIdSalvata();
+      const colIdPrecarico = urlParamsInit.get("g");
       let precaricato = false;
 
       if (colIdPrecarico) {
@@ -13627,7 +13636,7 @@
         } catch (ePre) { }
       }
 
-      if (!precaricato) {
+      if (!precaricato && colIdPrecarico) {
         collezioniUtente = [];
         collezioneCorrenteId = null;
         collezioneCorrenteDati = null;
@@ -13671,15 +13680,16 @@
         }
         renderGrigliaCollezioni();
 
-        // Controllo ripristino Grimorio attivo al reload / riavvio
+        // Routing univoco tramite URL:
+        // Se l'URL contiene ?g=ID (ricarica della pagina o link diretto al Grimorio), apri quel Grimorio.
+        // Se l'URL non ha ?g (apertura del sito da zero / Home pulita), mostra la Home "I tuoi Grimori".
         const urlParams = new URLSearchParams(window.location.search);
         const colIdDaUrl = urlParams.get("g");
-        const vistaSalvata = localStorage.getItem("grimorio_vista_attiva");
-        const colIdSalvata = getCollezioneIdSalvata();
 
-        const colTarget = colIdDaUrl || (vistaSalvata === "collezione" ? colIdSalvata : null);
-        if (colTarget && collezioniUtente.some(c => c.id === colTarget)) {
-          await mostraVistaCollezione(colTarget, false);
+        if (colIdDaUrl && collezioniUtente.some(c => c.id === colIdDaUrl)) {
+          await mostraVistaCollezione(colIdDaUrl, false);
+        } else {
+          await mostraVistaHomeCollezioni(false);
         }
       } finally {
         clearTimeout(timerSblocco);
@@ -14572,14 +14582,16 @@
           }
         }
 
-        // Se l'utente ha una collezione salvata nel localStorage non ancora in cols, recuperiamola
-        const savedColId = getCollezioneIdSalvata();
-        if (savedColId && !savedColId.startsWith("col_locale") && !(cols || []).some(c => c.id === savedColId)) {
+        // Se l'utente ha una collezione specificata nell'URL (?g=) o salvata nel localStorage non ancora in cols, recuperiamola
+        const urlParamsQuery = new URLSearchParams(window.location.search);
+        const colIdDaUrlCheck = urlParamsQuery.get("g");
+        const extraColId = colIdDaUrlCheck || getCollezioneIdSalvata();
+        if (extraColId && !extraColId.startsWith("col_locale") && !(cols || []).some(c => c.id === extraColId)) {
           try {
             const { data: colSalvata } = await supabaseClient
               .from("collections")
               .select("*")
-              .eq("id", savedColId)
+              .eq("id", extraColId)
               .maybeSingle();
             if (colSalvata) {
               cols = (cols || []).concat(colSalvata);
@@ -14661,20 +14673,24 @@
         collezioniUtente = mieCollezioni;
         const urlParams = new URLSearchParams(window.location.search);
         const colIdDaUrl = urlParams.get("g");
-        const salvata = colIdDaUrl || getCollezioneIdSalvata();
-        const trovata = mieCollezioni.find(c => c.id === salvata);
-        const attiva = trovata || mieCollezioni[0];
-        collezioneCorrenteId = attiva.id;
-        collezioneCorrenteDati = attiva;
-        setCollezioneIdSalvata(attiva.id);
 
-        const lbl = document.getElementById("nomeCollezioneAttiva");
-        if (lbl) lbl.textContent = attiva.nome;
+        if (colIdDaUrl && mieCollezioni.some(c => c.id === colIdDaUrl)) {
+          const attiva = mieCollezioni.find(c => c.id === colIdDaUrl);
+          collezioneCorrenteId = attiva.id;
+          collezioneCorrenteDati = attiva;
+          setCollezioneIdSalvata(attiva.id);
 
-        await caricaProprietariCollezione(collezioneCorrenteId);
-        await caricaCarteDaSupabase(collezioneCorrenteId);
-        await determinaRuoloUtente(collezioneCorrenteId);
-        applicaPermessiRuolo(ruoloCorrente);
+          const lbl = document.getElementById("nomeCollezioneAttiva");
+          if (lbl) lbl.textContent = attiva.nome;
+
+          await caricaProprietariCollezione(collezioneCorrenteId);
+          await caricaCarteDaSupabase(collezioneCorrenteId);
+          await determinaRuoloUtente(collezioneCorrenteId);
+          applicaPermessiRuolo(ruoloCorrente);
+        } else {
+          collezioneCorrenteId = null;
+          collezioneCorrenteDati = null;
+        }
         renderGrigliaCollezioni();
       } catch (err) {
         console.error("Errore in caricaCollezioniUtente:", err);
@@ -14786,6 +14802,17 @@
       collezioneCorrenteId = colId;
       setCollezioneIdSalvata(colId);
       collezioneCorrenteDati = collezioniUtente.find(c => c.id === colId) || null;
+
+      // Aggiorna l'URL con l'estensione univoca del Grimorio (?g=ID)
+      if (typeof window !== "undefined" && window.history) {
+        try {
+          const url = new URL(window.location.href);
+          if (url.searchParams.get("g") !== String(colId)) {
+            url.searchParams.set("g", colId);
+            window.history.pushState({ vista: "collezione", colId: colId }, "", url.pathname + '?' + url.searchParams.toString() + url.hash);
+          }
+        } catch (eHist) { }
+      }
 
       // Se non ancora presente in collezioniUtente, recuperalo direttamente da Supabase e memorizzalo
       if (!collezioneCorrenteDati && supabaseClient && !String(colId).startsWith("col_locale")) {
