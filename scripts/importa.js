@@ -138,7 +138,7 @@ async function scryfallCollection(scryfallIds) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "User-Agent": "la-dispensa/1.0",
+      "User-Agent": "Grimorio/1.0",
     },
     body: JSON.stringify({ identifiers }),
   });
@@ -373,6 +373,10 @@ for (const nomeFile of fileDaImportare) {
       foil: isFoil,
       quantita: parseInt(row["Quantity"] || "1", 10),
       possessore,
+      artista:
+        card.artist ||
+        card.card_faces?.map((f) => f.artist).filter(Boolean).join(" / ") ||
+        "",
       prezzoCardmarket,
       prezzoCardtrader,
       aggiornatoIl: new Date().toISOString(),

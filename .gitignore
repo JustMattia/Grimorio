@@ -1,0 +1,23 @@
+# Dipendenze
+node_modules/
+package-lock.json
+
+# Ambiente e segreti
+.env
+.env.local
+.env.*.local
+*.env
+
+# Directory temporanee di test e scratch
+scratch/
+dist/
+.wrangler/
+
+# Log
+*.log
+npm-debug.log*
+
+# File di sistema
+.DS_Store
+Thumbs.db
+desktop.ini

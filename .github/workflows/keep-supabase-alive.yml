@@ -1,0 +1,24 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Esegue automaticamente ogni 3 giorni alle 06:00 UTC per evitare la pausa automatica (inattività di 7 giorni)
+    - cron: '0 6 */3 * *'
+  workflow_dispatch: # Permette anche l'esecuzione manuale dalla scheda Actions di GitHub
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Healthcheck
+        run: |
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im52ZWNiYnVsaXFwa2pxZGZveWx1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NDU4MjYsImV4cCI6MjEwNTIyMTgyNn0.cuQWAEgPlzm4FZ_oYhGdVjY1rqGklyEm-Ygb8g5fZBs" \
+            "https://nvecbbuliqpkjqdfoylu.supabase.co/rest/v1/collections?select=id&limit=1")
+          echo "Supabase risponde con HTTP status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -ge 200 ] && [ "$HTTP_STATUS" -lt 500 ]; then
+            echo "✓ Supabase è attivo e il timer di inattività è stato azzerato."
+          else
+            echo "Attenzione: codice inatteso $HTTP_STATUS"
+          fi
+
