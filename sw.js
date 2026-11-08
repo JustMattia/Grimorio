@@ -1,5 +1,5 @@
 // Grimorio PWA Service Worker
-const CACHE_NAME = "grimorio-cache-v3";
+const CACHE_NAME = "grimorio-cache-v4";
 const STATIC_ASSETS = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const STATIC_ASSETS = [
   "./icon-512.png",
   "./icon-maskable-512.png",
   "./favicon.png",
+  "./fav.png",
   "./favicon.ico"
 ];
 
