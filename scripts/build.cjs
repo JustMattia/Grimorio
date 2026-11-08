@@ -28,3 +28,4 @@ for (const file of filesToCopy) {
 }
 
 console.log(`✓ Cartella dist pronta! Copiati ${copied} file (inclusi manifest, Service Worker e icone PWA).`);
+
