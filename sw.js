@@ -1,5 +1,5 @@
 // Grimorio PWA Service Worker
-const CACHE_NAME = "grimorio-cache-v1";
+const CACHE_NAME = "grimorio-cache-v2";
 const STATIC_ASSETS = [
   "./",
   "./index.html",
@@ -43,11 +43,9 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
 
-  // Bypass per API esterne (Supabase, Scryfall, CDNs) e richieste non GET
-  if (event.request.method !== "GET" || 
-      url.hostname.includes("supabase.co") || 
-      url.hostname.includes("scryfall.com") ||
-      url.hostname.includes("cardmarket.com")) {
+  // Bypass per tutte le richieste non-GET e QUALSIASI risorsa esterna (immagini Scryfall su scryfall.io, API Supabase, CDN)
+  // Il Service Worker gestisce ESCLUSIVAMENTE la shell locale dell'app per massimizzare la velocità e non intasare Safari
+  if (event.request.method !== "GET" || url.origin !== self.location.origin) {
     return;
   }
 
@@ -84,3 +82,4 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
+

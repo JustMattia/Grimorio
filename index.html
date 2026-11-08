@@ -7968,6 +7968,12 @@
     }
 
     async function caricaNomiEspansioniScryfall() {
+      // Se abbiamo già scaricato l'elenco dei set da meno di 7 giorni, evitiamo download pesanti su mobile
+      const tsSets = localStorage.getItem("grimorio_set_ts");
+      const adesso = Date.now();
+      if (tsSets && (adesso - Number(tsSets) < 7 * 24 * 3600 * 1000)) {
+        return;
+      }
       try {
         const res = await fetch("https://api.scryfall.com/sets", {
           headers: { "User-Agent": "Grimorio/1.0" }
@@ -7985,6 +7991,7 @@
                 }
               }
             });
+            localStorage.setItem("grimorio_set_ts", String(adesso));
             if (nuove > 0) {
               try {
                 localStorage.setItem("grimorio_set_names_cache", JSON.stringify(cacheSetNomi));
@@ -11419,8 +11426,10 @@
         disegna();
       }
 
-      // 2. Trova le carte che hanno ancora solo il nome in inglese
+      // 2. Trova le carte che hanno ancora solo il nome in inglese (escludendo quelle già verificate senza stampa IT)
       const daRisolvere = lista.filter(c => {
+        const keySet = `${c.set || ''}_${c.numero || ''}`.toLowerCase();
+        if (cacheNomiItaliani[keySet]?.nonIt) return false;
         const it = (c.nomeIt || "").trim().toLowerCase();
         const en = (c.nomeEn || c.nome || "").trim().toLowerCase();
         return (!it || it === en);
@@ -11431,11 +11440,12 @@
         return;
       }
 
-      // 3. Risolvi in blocchi di 4 chiamate concorrenti con pausa di 80ms (rispetta il rate limit Scryfall)
+      // 3. Risolvi in blocchi di 4 chiamate concorrenti con pausa di 150ms
       const batchSize = 4;
+      let qualcosaAggiornato = false;
+
       for (let i = 0; i < daRisolvere.length; i += batchSize) {
         const batch = daRisolvere.slice(i, i + batchSize);
-        let batchAggiornato = false;
 
         await Promise.all(batch.map(async (c) => {
           const keySet = `${c.set || ''}_${c.numero || ''}`.toLowerCase();
@@ -11465,7 +11475,7 @@
 
               cacheNomiItaliani[keySet] = { nome: nomeTrovato, tipo: itData.printed_type_line || c.tipoIt };
               cacheNomiItaliani[keyEn] = { nome: nomeTrovato, tipo: itData.printed_type_line || c.tipoIt };
-              batchAggiornato = true;
+              qualcosaAggiornato = true;
 
               // Persisti su Supabase in background se collegato
               if (supabaseClient && c.supabaseId) {
@@ -11474,18 +11484,21 @@
                   tipo_linea: c.tipoIt
                 }).eq("id", c.supabaseId).then(() => { }).catch(() => { });
               }
+            } else {
+              // Segna che per questa carta non esiste stampa italiana per non ripetere chiamate a vuoto
+              cacheNomiItaliani[keySet] = { nome: c.nomeEn || c.nome, tipo: c.tipo, nonIt: true };
             }
           } catch (errF) { }
         }));
 
-        if (batchAggiornato) {
-          try {
-            localStorage.setItem("grimorio_it_cache", JSON.stringify(cacheNomiItaliani));
-          } catch (eStore) { }
-          disegna();
-        }
+        await new Promise(r => setTimeout(r, 150));
+      }
 
-        await new Promise(r => setTimeout(r, 80));
+      if (qualcosaAggiornato) {
+        try {
+          localStorage.setItem("grimorio_it_cache", JSON.stringify(cacheNomiItaliani));
+        } catch (eStore) { }
+        disegna();
       }
 
       risoluzioneItInCorso = false;
@@ -11575,8 +11588,19 @@
       aggiornaStatoBottoneArtista();
       aggiornaStatoBottoneEspansione();
       disegna();
-      risolviNomiItalianiMancanti(carte);
-      risolviArtistiMancanti(carte);
+
+      // Risoluzioni differite in idle per non rallentare l'apertura e il primo rendering della vista
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(() => {
+          risolviNomiItalianiMancanti(carte);
+          risolviArtistiMancanti(carte);
+        }, { timeout: 4000 });
+      } else {
+        setTimeout(() => {
+          risolviNomiItalianiMancanti(carte);
+          risolviArtistiMancanti(carte);
+        }, 2500);
+      }
     }
 
     const FALLBACK_CARTE = [
@@ -11958,8 +11982,9 @@
       if (btnTornaHome) btnTornaHome.style.display = "inline-flex";
 
       if (colId && colId !== collezioneCorrenteId) {
+        const haCache = !!localStorage.getItem(`grimorio_col_cache_${colId}`);
         const contenitore = document.getElementById("contenitoreCarte");
-        if (contenitore) {
+        if (!haCache && contenitore) {
           contenitore.innerHTML = `
             <div style="text-align: center; padding: 4rem 1.5rem; color: var(--ink-dim);">
               <div class="spinner-caricamento" style="margin: 0 auto 1rem auto; width: 32px; height: 32px;"></div>
@@ -13580,24 +13605,46 @@
       }
       if (dropdownEmail) dropdownEmail.textContent = user.email || "";
 
-      // Svuota immediatamente TUTTI i dati precedenti per garantire isolamento totale dell'account
-      collezioniUtente = [];
-      collezioneCorrenteId = null;
-      collezioneCorrenteDati = null;
-      proprietariCollezione = [];
-      carte = [];
-      filtrateCorrenti = [];
-      carteSelezionateIds.clear();
-      applicaCarte([]);
+      // Precaricamento ISTANTANEO da cache locale della collezione attiva (Stale-While-Revalidate)
+      const urlParamsInit = new URLSearchParams(window.location.search);
+      const colIdPrecarico = urlParamsInit.get("g") || getCollezioneIdSalvata();
+      let precaricato = false;
 
-      const contenitore = document.getElementById("contenitoreCarte");
-      if (contenitore) {
-        contenitore.innerHTML = `
-          <div style="text-align: center; padding: 4rem 1.5rem; color: var(--ink-dim);">
-            <div class="spinner-caricamento" style="margin: 0 auto 1rem auto; width: 28px; height: 28px;"></div>
-            <div style="font-size: 0.95rem; font-weight: 600;">Caricamento della tua collezione...</div>
-          </div>
-        `;
+      if (colIdPrecarico) {
+        try {
+          const rawPre = localStorage.getItem(`grimorio_col_cache_${colIdPrecarico}`);
+          if (rawPre) {
+            const parsedPre = JSON.parse(rawPre);
+            if (Array.isArray(parsedPre) && parsedPre.length > 0) {
+              collezioneCorrenteId = colIdPrecarico;
+              carte = parsedPre;
+              filtrateCorrenti = parsedPre;
+              applicaCarte(parsedPre);
+              precaricato = true;
+            }
+          }
+        } catch (ePre) { }
+      }
+
+      if (!precaricato) {
+        collezioniUtente = [];
+        collezioneCorrenteId = null;
+        collezioneCorrenteDati = null;
+        proprietariCollezione = [];
+        carte = [];
+        filtrateCorrenti = [];
+        carteSelezionateIds.clear();
+        applicaCarte([]);
+
+        const contenitore = document.getElementById("contenitoreCarte");
+        if (contenitore) {
+          contenitore.innerHTML = `
+            <div style="text-align: center; padding: 4rem 1.5rem; color: var(--ink-dim);">
+              <div class="spinner-caricamento" style="margin: 0 auto 1rem auto; width: 28px; height: 28px;"></div>
+              <div style="font-size: 0.95rem; font-weight: 600;">Caricamento della tua collezione...</div>
+            </div>
+          `;
+        }
       }
 
       // Safety timeout: se per motivi di rete o permessi lo spinner resta attivo oltre 6s, sblocca la visualizzazione
@@ -14763,11 +14810,25 @@
       aggiornaMenuDropdownCollezioni();
       aggiornaListaModaleCollezioni();
 
-      // Svuota carte prima di caricare la nuova collezione
-      carte = [];
-      filtrateCorrenti = [];
-      carteSelezionateIds.clear();
-      applicaCarte([]);
+      // Caricamento ISTANTANEO da Cache Locale (Stale-While-Revalidate)
+      let haCache = false;
+      try {
+        const rawCache = localStorage.getItem(`grimorio_col_cache_${colId}`);
+        if (rawCache) {
+          const parsedCache = JSON.parse(rawCache);
+          if (Array.isArray(parsedCache) && parsedCache.length > 0) {
+            haCache = true;
+            applicaCarte(parsedCache);
+          }
+        }
+      } catch (eCache) { }
+
+      if (!haCache) {
+        carte = [];
+        filtrateCorrenti = [];
+        carteSelezionateIds.clear();
+        applicaCarte([]);
+      }
 
       await caricaProprietariCollezione(colId);
       await caricaCarteDaSupabase(colId);
@@ -15320,6 +15381,9 @@
         }
 
         const carteSupabase = tutteLeRighe.map(normalizzaCartaDaSupabase);
+        try {
+          localStorage.setItem(`grimorio_col_cache_${colId}`, JSON.stringify(carteSupabase));
+        } catch (eStoreCol) { }
         applicaCarte(carteSupabase);
 
         // Se la collezione è vuota, mostra messaggio guidato pulito
@@ -15683,7 +15747,10 @@
     }
     const linguaSalvata = localStorage.getItem("grimorio_lang") || "it";
     impostaLingua(linguaSalvata);
-    caricaNomiEspansioniScryfall();
+    // Caricamento differito nomi espansioni: non rallenta il rendering iniziale
+    setTimeout(() => {
+      caricaNomiEspansioniScryfall();
+    }, 6000);
 
     if (supabaseClient) {
       inizializzaAuthSupabase();
